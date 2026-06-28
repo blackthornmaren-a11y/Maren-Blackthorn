@@ -334,9 +334,10 @@
     <div class="eyebrow" style="color:var(--accent)">About the Author</div>
     <h2 style="font-family:var(--serif);font-weight:500;font-size:clamp(2rem,5vw,2.8rem);margin:14px 0 22px">Maren Blackthorn</h2>
     <p style="color:var(--muted);font-size:1.12rem;font-family:var(--serif);font-style:italic">
-      Maren Blackthorn writes gothic romantacy at the seam of dark academia — novels set inside
-      old magical institutions, and the outsiders who stay long enough to change them. She writes
-      slowly, publishes in sequence, and answers her readers by post.
+      Maren Blackthorn writes dark academia romantasy and thrillers—stories set in candlelit
+      libraries and crumbling halls, where ambition, desire, and danger are never far apart. Her
+      novels blend slow-burn romance with magic, secrets, and the kind of tension that keeps the
+      pages turning past midnight.
     </p>
   </div>
 </section>
@@ -384,6 +385,29 @@
 
 <script>
   document.getElementById('yr').textContent=new Date().getFullYear();
+
+  // Send Amazon links to the visitor's local store (same ASIN works across marketplaces).
+  (function(){
+    var MAP={US:'amazon.com',GB:'amazon.co.uk',CA:'amazon.ca',AU:'amazon.com.au',
+      DE:'amazon.de',FR:'amazon.fr',IT:'amazon.it',ES:'amazon.es',NL:'amazon.nl',
+      SE:'amazon.se',PL:'amazon.pl',IE:'amazon.co.uk',JP:'amazon.co.jp',IN:'amazon.in',
+      BR:'amazon.com.br',MX:'amazon.com.mx',SG:'amazon.sg',AE:'amazon.ae',SA:'amazon.sa',
+      TR:'amazon.com.tr',BE:'amazon.com.be',NZ:'amazon.com.au',AT:'amazon.de',CH:'amazon.de'};
+    function rewrite(domain){
+      if(!domain||domain==='amazon.com')return;
+      document.querySelectorAll('a[href*="amazon.com/"]').forEach(function(a){
+        a.href=a.href.replace('://www.amazon.com/','://www.'+domain+'/')
+                     .replace('://amazon.com/','://www.'+domain+'/');
+      });
+    }
+    var ctrl=new AbortController();
+    setTimeout(function(){ctrl.abort();},2500); // never hold up the page
+    fetch('https://api.country.is/',{signal:ctrl.signal})
+      .then(function(r){return r.json();})
+      .then(function(d){rewrite(MAP[(d.country||'').toUpperCase()]);})
+      .catch(function(){/* stay on amazon.com */});
+  })();
+
   // Show inline thank-you after MailerLite submit (form posts into hidden iframe)
   (function(){
     var f=document.getElementById('ml-form');
