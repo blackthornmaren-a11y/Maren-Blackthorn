@@ -132,8 +132,7 @@
     <div class="links">
       <a href="#books">Books</a>
       <a href="#signup">Mailing List</a>
-      <!-- Replace # with your Amazon author page URL -->
-      <a href="#" target="_blank" rel="noopener">Amazon</a>
+      <a href="https://www.amazon.com/stores/Maren-Blackthorn/author/B0GWW4KSJZ" class="no-geo" target="_blank" rel="noopener">Amazon</a>
     </div>
   </div>
 </nav>
@@ -330,8 +329,7 @@
     </div>
 
     <div style="text-align:center;margin-top:8px">
-      <!-- Replace # with your Amazon author page URL -->
-      <a href="#" target="_blank" rel="noopener" class="btn btn-ghost">See Everything on Amazon →</a>
+      <a href="https://www.amazon.com/stores/Maren-Blackthorn/author/B0GWW4KSJZ" class="btn btn-ghost no-geo" target="_blank" rel="noopener">See Everything on Amazon →</a>
     </div>
 
   </div>
@@ -385,8 +383,7 @@
     <div class="social">
       <a href="#books">Books</a>
       <a href="#signup">Mailing List</a>
-      <!-- Replace # with your Amazon author page URL -->
-      <a href="#" target="_blank" rel="noopener">Amazon Author Page</a>
+      <a href="https://www.amazon.com/stores/Maren-Blackthorn/author/B0GWW4KSJZ" class="no-geo" target="_blank" rel="noopener">Amazon Author Page</a>
     </div>
     <div class="fine">© <span id="yr"></span> Maren Blackthorn. All rights reserved.</div>
   </div>
@@ -418,7 +415,7 @@
       TR:'amazon.com.tr',BE:'amazon.com.be',NZ:'amazon.com.au',AT:'amazon.de',CH:'amazon.de'};
     function rewrite(domain){
       if(!domain||domain==='amazon.com')return;
-      document.querySelectorAll('a[href*="amazon.com/"]').forEach(function(a){
+      document.querySelectorAll('a[href*="amazon.com/"]:not(.no-geo)').forEach(function(a){
         a.href=a.href.replace('://www.amazon.com/','://www.'+domain+'/')
                      .replace('://amazon.com/','://www.'+domain+'/');
       });
