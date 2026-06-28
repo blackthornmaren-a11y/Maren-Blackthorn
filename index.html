@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maren Blackthorn — Dark Academia Gothic Romantacy &amp; Thrillers</title>
+<meta name="description" content="Maren Blackthorn writes gothic romantacy at the seam of dark academia — The Velmoor Chronicles, The Duskhollow Chronicles, and the Quinn Adler Thrillers.">
+
+<meta property="og:title" content="Maren Blackthorn — Gothic Romantacy &amp; Thrillers">
+<meta property="og:description" content="Old magical institutions. The outsiders who stay long enough to change them.">
+<meta property="og:type" content="website">
+
+<style>
+  :root{
+    --bg:#0d0b12;
+    --bg-2:#141019;
+    --panel:#1a1522;
+    --ink:#ece7f2;
+    --muted:#a99fbb;
+    --accent:#b8860b;
+    --accent-2:#7a5cff;
+    --line:rgba(184,134,11,.25);
+    --serif:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --sans:'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  }
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+  /* Nav */
+  nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);background:rgba(13,11,18,.72);border-bottom:1px solid rgba(255,255,255,.05)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
+  nav .brand{font-family:var(--serif);font-size:1.25rem;letter-spacing:.04em}
+  nav .links{display:flex;gap:26px;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase}
+  nav .links a:hover{color:var(--accent)}
+  @media(max-width:640px){nav .links{display:none}}
+
+  /* Hero */
+  header.hero{position:relative;min-height:90vh;display:flex;align-items:center;
+    background:radial-gradient(1200px 600px at 70% -10%, rgba(122,92,255,.18), transparent 60%),
+      radial-gradient(900px 500px at 10% 110%, rgba(184,134,11,.12), transparent 55%),
+      linear-gradient(180deg, var(--bg-2), var(--bg));
+    border-bottom:1px solid var(--line);overflow:hidden}
+  header.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 120% at 50% 30%, transparent 55%, rgba(0,0,0,.55));pointer-events:none}
+  .hero-inner{position:relative;z-index:2;max-width:800px;padding:90px 0}
+  .eyebrow{letter-spacing:.32em;text-transform:uppercase;font-size:.72rem;color:var(--accent);font-weight:500;margin-bottom:22px}
+  h1{font-family:var(--serif);font-weight:500;font-size:clamp(3.2rem,9vw,6.2rem);line-height:.98;margin-bottom:24px}
+  .tagline{font-family:var(--serif);font-style:italic;font-size:clamp(1.3rem,3.4vw,1.9rem);color:var(--muted);max-width:48ch;margin-bottom:38px}
+  .cta-row{display:flex;flex-wrap:wrap;gap:14px}
+  .btn{display:inline-block;font-size:.95rem;font-weight:500;letter-spacing:.02em;padding:15px 30px;border-radius:2px;transition:transform .15s ease, box-shadow .25s ease}
+  .btn-primary{background:linear-gradient(180deg,#caa028,#9a7008);color:#1a1206;border:1px solid #caa028}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(184,134,11,.28)}
+  .btn-ghost{border:1px solid var(--line);color:var(--ink);background:transparent}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+
+  section{padding:90px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+  .sec-head{text-align:center;max-width:640px;margin:0 auto 54px}
+  .sec-head .eyebrow{margin-bottom:14px}
+  .sec-head h2{font-family:var(--serif);font-weight:500;font-size:clamp(2rem,5vw,3rem);line-height:1.05;margin-bottom:16px}
+  .sec-head p{color:var(--muted);font-size:1.05rem}
+
+  /* Featured */
+  .featured{display:grid;grid-template-columns:300px 1fr;gap:48px;align-items:center;
+    background:linear-gradient(180deg,var(--panel),rgba(26,21,34,.4));border:1px solid var(--line);border-radius:6px;padding:40px}
+  .featured .cover{aspect-ratio:2/3}
+  .featured h3{font-family:var(--serif);font-size:2.2rem;font-weight:500;margin-bottom:8px}
+  .featured .series{color:var(--accent);letter-spacing:.18em;text-transform:uppercase;font-size:.72rem;margin-bottom:18px}
+  .featured p{color:var(--muted);margin-bottom:26px;font-size:1.05rem}
+
+  .series-block{margin-bottom:64px}
+  .series-block:last-child{margin-bottom:0}
+  .series-title{font-family:var(--serif);font-size:1.8rem;font-weight:500;margin-bottom:6px}
+  .series-sub{color:var(--muted);margin-bottom:30px;font-size:.98rem;max-width:70ch}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:28px}
+  .book{display:flex;flex-direction:column}
+  .cover{position:relative;aspect-ratio:2/3;border-radius:4px;overflow:hidden;
+    background:linear-gradient(145deg,#241b30,#14101b);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;padding:22px;text-align:center;
+    box-shadow:0 18px 40px rgba(0,0,0,.45);transition:transform .2s ease, box-shadow .2s ease}
+  .book:hover .cover{transform:translateY(-4px);box-shadow:0 26px 55px rgba(0,0,0,.6)}
+  .cover .placeholder-title{font-family:var(--serif);font-style:italic;font-size:1.1rem;color:var(--ink)}
+  .cover .placeholder-mark{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:32px;height:32px;border:1px solid var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--accent);font-family:var(--serif)}
+  .cover.has-img{padding:0}
+  .cover.has-img img{width:100%;height:100%;object-fit:cover}
+  .book h4{font-family:var(--serif);font-weight:500;font-size:1.18rem;margin:16px 0 4px;line-height:1.2}
+  .book .meta{color:var(--muted);font-size:.82rem;margin-bottom:14px}
+  .book .buy{margin-top:auto;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border-top:1px solid var(--line);padding-top:12px;display:inline-flex;align-items:center;gap:6px;transition:gap .15s ease,color .15s ease}
+  .book .buy:hover{gap:12px;color:#e0b84a}
+  .book .buy.soon{color:var(--muted);pointer-events:none}
+
+  .signup{text-align:center;background:radial-gradient(800px 400px at 50% -20%, rgba(122,92,255,.16), transparent 60%),var(--bg-2)}
+  .signup-card{max-width:560px;margin:0 auto;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:48px 40px}
+  .signup-card h2{font-family:var(--serif);font-weight:500;font-size:2.2rem;margin-bottom:12px}
+  .signup-card p{color:var(--muted);margin-bottom:30px}
+  .fallback-form{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  .fallback-form input{flex:1;min-width:220px;padding:15px 18px;border-radius:2px;background:#0e0a14;border:1px solid var(--line);color:var(--ink);font-size:1rem}
+  .fallback-form input:focus{outline:none;border-color:var(--accent)}
+  .fallback-form button{cursor:pointer}
+  .note{margin-top:18px;font-size:.78rem;color:var(--muted)}
+
+  footer{padding:56px 0;text-align:center;color:var(--muted)}
+  footer .name{font-family:var(--serif);font-size:1.4rem;color:var(--ink);margin-bottom:10px}
+  footer .social{display:flex;gap:22px;justify-content:center;margin:18px 0;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;flex-wrap:wrap}
+  footer .social a:hover{color:var(--accent)}
+  footer .fine{font-size:.78rem;margin-top:18px;opacity:.7}
+
+  @media(max-width:680px){
+    .featured{grid-template-columns:1fr;text-align:center}
+    .featured .cover{max-width:240px;margin:0 auto}
+    .hero-inner{padding:70px 0}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">Maren Blackthorn</div>
+    <div class="links">
+      <a href="#books">Books</a>
+      <a href="#signup">Mailing List</a>
+      <!-- Replace # with your Amazon author page URL -->
+      <a href="#" target="_blank" rel="noopener">Amazon</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap hero-inner">
+    <div class="eyebrow">Dark Academia · Gothic Romantacy · Thrillers</div>
+    <h1>Maren<br>Blackthorn</h1>
+    <p class="tagline">Old magical institutions, and the outsiders who stay long enough to change them.</p>
+    <div class="cta-row">
+      <a href="#books" class="btn btn-primary">Explore the Books</a>
+      <a href="#signup" class="btn btn-ghost">Join the Mailing List</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ FEATURED (new release) ============ -->
+<section>
+  <div class="wrap">
+    <div class="featured">
+      <a class="cover has-img" href="https://www.amazon.com/dp/B0H5GBYZPB" target="_blank" rel="noopener">
+        <img src="covers/marginalia.jpg" alt="Marginalia cover">
+      </a>
+      <div>
+        <div class="series">New Release · Quinn Adler Thrillers</div>
+        <h3>Marginalia</h3>
+        <p>Book one of a brand-new five-book thriller series — out now.</p>
+        <a href="https://www.amazon.com/dp/B0H5GBYZPB" target="_blank" rel="noopener" class="btn btn-primary">Read Now on Amazon</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BOOKS ============ -->
+<section id="books">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">The Library</div>
+      <h2>The Books</h2>
+      <p>Two five-book gothic romantacy arcs, a standalone, and a new thriller series.</p>
+    </div>
+
+    <!-- VELMOOR -->
+    <div class="series-block">
+      <div class="series-title">The Velmoor Chronicles</div>
+      <div class="series-sub">A scholarship student enters an academy that has been quietly draining its own for two centuries.</div>
+      <div class="grid">
+
+        <article class="book">
+          <a class="cover has-img" href="https://www.amazon.com/dp/B0DLT3JYT1" target="_blank" rel="noopener">
+            <img src="covers/gatekeepers.jpg" alt="The Gatekeepers: Ash and Ink cover">
+          </a>
+          <h4>The Gatekeepers: Ash and Ink</h4>
+          <div class="meta">Velmoor Chronicles · Book 1</div>
+          <a class="buy" href="https://www.amazon.com/dp/B0DLT3JYT1" target="_blank" rel="noopener">Buy on Amazon →</a>
+        </article>
+
+        <article class="book">
+          <a class="cover has-img" href="https://www.amazon.com/dp/B0GX2ZTFY6" target="_blank" rel="noopener">
+            <img src="covers/weight-of-the-yield.jpg" alt="The Weight of the Yield cover">
+          </a>
+          <h4>The Weight of the Yield</h4>
+          <div class="meta">Velmoor Chronicles · Book 2</div>
+          <a class="buy" href="https://www.amazon.com/dp/B0GX2ZTFY6" target="_blank" rel="noopener">Buy on Amazon →</a>
+        </article>
+
+        <article class="book">
+          <a class="cover has-img" href="https://www.amazon.com/dp/B0GX2WQGHR" target="_blank" rel="noopener">
+            <img src="covers/architecture-of-rot.jpg" alt="Architecture of Rot cover">
+          </a>
+          <h4>Architecture of Rot</h4>
+          <div class="meta">Velmoor Chronicles · Book 3</div>
+          <a class="buy" href="https://www.amazon.com/dp/B0GX2WQGHR" target="_blank" rel="noopener">Buy on Amazon →</a>
+        </article>
+
+        <article class="book">
+          <a class="cover has-img" href="https://www.amazon.com/dp/B0GX2ZWN3G" target="_blank" rel="noopener">
+            <img src="covers/founding-name.jpg" alt="The Founding Name cover">
+          </a>
+          <h4>The Founding Name</h4>
+          <div class="meta">Velmoor Chronicles · Book 4</div>
+          <a class="buy" href="https://www.amazon.com/dp/B0GX2ZWN3G" target="_blank" rel="noopener">Buy on Amazon →</a>
+        </article>
+
+        <article class="book">
+          <a class="cover has-img" href="https://www.amazon.com/dp/B0H2TVPSNH" target="_blank" rel="noopener">
+            <img src="covers/what-velmoor-chooses.jpg" alt="What Velmoor Chooses cover">
+          </a>
+          <h4>What Velmoor Chooses</h4>
+          <div class="meta">Velmoor Chronicles · Book 5</div>
+          <a class="buy" href="https://www.amazon.com/dp/B0H2TVPSNH" target="_blank" rel="noopener">Buy on Amazon →</a>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- DUSKHOLLOW -->
+    <div class="series-block">
+      <div class="series-title">The Duskhollow Chronicles</div>
+      <div class="series-sub">Another outsider, into a school keeping a record that was never meant to be read — expanding from one institution to a network of seven.</div>
+      <div class="grid">
+
+        <article class="book">
+          <a class="cover has-img" href="https://www.amazon.com/dp/B0GWZWVHN1" target="_blank" rel="noopener">
+            <img src="covers/the-other-student.jpg" alt="The Other Student cover">
+          </a>
+          <h4>The Other Student</h4>
+          <div class="meta">Duskhollow Chronicles · Book 1</div>
+          <a class="buy" href="https://www.amazon.com/dp/B0GWZWVHN1" target="_blank" rel="noopener">Buy on Amazon →</a>
+        </article>
+
+        <article class="book">
+          <a class="cover has-img" href="https://www.amazon.com/dp/B0GX3BCSYN" target="_blank" rel="noopener">
+            <img src="covers/marginalia-war.jpg" alt="The Marginalia War cover">
+          </a>
+          <h4>The Marginalia War</h4>
+          <div class="meta">Duskhollow Chronicles · Book 2</div>
+          <a class="buy" href="https://www.amazon.com/dp/B0GX3BCSYN" target="_blank" rel="noopener">Buy on Amazon →</a>
+        </article>
+
+        <article class="book">
+          <a class="cover has-img" href="https://www.amazon.com/dp/B0GX2SSSLM" target="_blank" rel="noopener">
+            <img src="covers/open-channel.jpg" alt="Open Channel cover">
+          </a>
+          <h4>Open Channel</h4>
+          <div class="meta">Duskhollow Chronicles · Book 3</div>
+          <a class="buy" href="https://www.amazon.com/dp/B0GX2SSSLM" target="_blank" rel="noopener">Buy on Amazon →</a>
+        </article>
+
+        <!-- CONFIRM: is B0H1V5XGYM "What the Seal Kept" (Book 4)? -->
+        <article class="book">
+          <a class="cover has-img" href="https://www.amazon.com/dp/B0H1V5XGYM" target="_blank" rel="noopener">
+            <img src="covers/what-the-seal-kept.jpg" alt="What the Seal Kept cover">
+          </a>
+          <h4>What the Seal Kept</h4>
+          <div class="meta">Duskhollow Chronicles · Book 4</div>
+          <a class="buy" href="https://www.amazon.com/dp/B0H1V5XGYM" target="_blank" rel="noopener">Buy on Amazon →</a>
+        </article>
+
+        <article class="book">
+          <a class="cover has-img" href="https://www.amazon.com/dp/B0H23WMQ7V" target="_blank" rel="noopener">
+            <img src="covers/the-last-archivist.jpg" alt="The Last Archivist cover">
+          </a>
+          <h4>The Last Archivist</h4>
+          <div class="meta">Duskhollow Chronicles · Book 5</div>
+          <a class="buy" href="https://www.amazon.com/dp/B0H23WMQ7V" target="_blank" rel="noopener">Buy on Amazon →</a>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- QUINN ADLER -->
+    <div class="series-block">
+      <div class="series-title">The Quinn Adler Thrillers</div>
+      <div class="series-sub">A brand-new five-book thriller series. Book one is out now.</div>
+      <div class="grid">
+
+        <article class="book">
+          <a class="cover has-img" href="https://www.amazon.com/dp/B0H5GBYZPB" target="_blank" rel="noopener">
+            <img src="covers/marginalia.jpg" alt="Marginalia cover">
+          </a>
+          <h4>Marginalia</h4>
+          <div class="meta">Quinn Adler Thrillers · Book 1</div>
+          <a class="buy" href="https://www.amazon.com/dp/B0H5GBYZPB" target="_blank" rel="noopener">Buy on Amazon →</a>
+        </article>
+
+        <article class="book">
+          <div class="cover"><span class="placeholder-mark">II</span><span class="placeholder-title">Coming<br>Soon</span></div>
+          <h4>Book Two</h4>
+          <div class="meta">Quinn Adler Thrillers · Book 2</div>
+          <a class="buy soon">Coming Soon</a>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- STANDALONE -->
+    <div class="series-block">
+      <div class="series-title">Standalone</div>
+      <div class="series-sub">A self-contained gothic romantacy — for readers who want the ache to last.</div>
+      <div class="grid">
+
+        <article class="book">
+          <a class="cover has-img" href="https://www.amazon.com/dp/B0FGB9LVQK" target="_blank" rel="noopener">
+            <img src="covers/pyrrhic-triumph.jpg" alt="The Pyrrhic Triumph cover">
+          </a>
+          <h4>The Pyrrhic Triumph</h4>
+          <div class="meta">A Dark Romantasy Novel</div>
+          <a class="buy" href="https://www.amazon.com/dp/B0FGB9LVQK" target="_blank" rel="noopener">Buy on Amazon →</a>
+        </article>
+
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:8px">
+      <!-- Replace # with your Amazon author page URL -->
+      <a href="#" target="_blank" rel="noopener" class="btn btn-ghost">See Everything on Amazon →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section>
+  <div class="wrap" style="max-width:720px;text-align:center">
+    <div class="eyebrow" style="color:var(--accent)">About the Author</div>
+    <h2 style="font-family:var(--serif);font-weight:500;font-size:clamp(2rem,5vw,2.8rem);margin:14px 0 22px">Maren Blackthorn</h2>
+    <p style="color:var(--muted);font-size:1.12rem;font-family:var(--serif);font-style:italic">
+      Maren Blackthorn writes gothic romantacy at the seam of dark academia — novels set inside
+      old magical institutions, and the outsiders who stay long enough to change them. She writes
+      slowly, publishes in sequence, and answers her readers by post.
+    </p>
+  </div>
+</section>
+
+<!-- ============ EMAIL SIGNUP ============ -->
+<section id="signup" class="signup">
+  <div class="wrap">
+    <div class="signup-card">
+      <div class="eyebrow" style="color:var(--accent)">The Inner Circle</div>
+      <h2>Join the Mailing List</h2>
+      <p>New releases, early chapters, and the occasional secret from the archives. No spam — only what's worth keeping.</p>
+
+      <!-- MailerLite — posts to your list (account 2476050, form 191524104783791458) -->
+      <form class="fallback-form" id="ml-form"
+            action="https://assets.mailerlite.com/jsonp/2476050/forms/191524104783791458/subscribe"
+            method="post" target="ml_iframe">
+        <input type="email" name="fields[email]" placeholder="your@email.com" autocomplete="email" required>
+        <input type="hidden" name="ml-submit" value="1">
+        <input type="hidden" name="anticsrf" value="true">
+        <button type="submit" class="btn btn-primary">Subscribe</button>
+      </form>
+      <div id="ml-success" style="display:none;font-family:var(--serif);font-style:italic;font-size:1.25rem;color:var(--accent)">
+        Welcome to the archives. Check your inbox to confirm.
+      </div>
+      <iframe name="ml_iframe" style="display:none" title="signup"></iframe>
+
+      <div class="note" id="ml-note">Your email stays private. Unsubscribe anytime.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="name">Maren Blackthorn</div>
+    <div class="social">
+      <a href="#books">Books</a>
+      <a href="#signup">Mailing List</a>
+      <!-- Replace # with your Amazon author page URL -->
+      <a href="#" target="_blank" rel="noopener">Amazon Author Page</a>
+    </div>
+    <div class="fine">© <span id="yr"></span> Maren Blackthorn. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent=new Date().getFullYear();
+  // Show inline thank-you after MailerLite submit (form posts into hidden iframe)
+  (function(){
+    var f=document.getElementById('ml-form');
+    if(!f)return;
+    f.addEventListener('submit',function(){
+      var email=f.querySelector('input[type=email]');
+      if(!email.checkValidity())return; // let browser show validation
+      setTimeout(function(){
+        f.style.display='none';
+        document.getElementById('ml-note').style.display='none';
+        document.getElementById('ml-success').style.display='block';
+      },600);
+    });
+  })();
+</script>
+</body>
+</html>
