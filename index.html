@@ -10,6 +10,15 @@
 <meta property="og:description" content="Old magical institutions. The outsiders who stay long enough to change them.">
 <meta property="og:type" content="website">
 
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FLDVN4QRPW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FLDVN4QRPW');
+</script>
+
 <style>
   :root{
     --bg:#0d0b12;
@@ -385,6 +394,20 @@
 
 <script>
   document.getElementById('yr').textContent=new Date().getFullYear();
+
+  // Track Amazon click-throughs in GA4, labeled by book title.
+  (function(){
+    document.querySelectorAll('a[href*="amazon."]').forEach(function(a){
+      a.addEventListener('click',function(){
+        var card=a.closest('.book')||a.closest('.featured');
+        var title=(card&&card.querySelector('h4,h3')?card.querySelector('h4,h3').textContent:'').trim()
+                  ||(a.querySelector('img')?a.querySelector('img').alt:'Amazon link');
+        if(typeof gtag==='function'){
+          gtag('event','amazon_click',{book_title:title,link_url:a.href});
+        }
+      });
+    });
+  })();
 
   // Send Amazon links to the visitor's local store (same ASIN works across marketplaces).
   (function(){
