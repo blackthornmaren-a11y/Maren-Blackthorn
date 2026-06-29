@@ -87,6 +87,10 @@
   h1{font-family:var(--serif);font-weight:500;font-size:clamp(3.2rem,9vw,6.2rem);line-height:.98;margin-bottom:24px}
   .tagline{font-family:var(--serif);font-style:italic;font-size:clamp(1.3rem,3.4vw,1.9rem);color:var(--muted);max-width:48ch;margin-bottom:38px}
   .cta-row{display:flex;flex-wrap:wrap;gap:14px}
+  .hero-signup{margin-top:34px;max-width:480px}
+  .hero-offer{font-family:var(--serif);font-style:italic;font-size:1.18rem;color:var(--ink);margin-bottom:14px}
+  .hero-proof{margin-top:12px;font-size:.8rem;letter-spacing:.04em;color:var(--muted)}
+  .ml-success{display:none;font-family:var(--serif);font-style:italic;font-size:1.15rem;color:var(--accent)}
   .btn{display:inline-block;font-size:.95rem;font-weight:500;letter-spacing:.02em;padding:15px 30px;border-radius:2px;transition:transform .15s ease, box-shadow .25s ease}
   .btn-primary{background:linear-gradient(180deg,#caa028,#9a7008);color:#1a1206;border:1px solid #caa028}
   .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(184,134,11,.28)}
@@ -137,6 +141,7 @@
   .fallback-form input:focus{outline:none;border-color:var(--accent)}
   .fallback-form button{cursor:pointer}
   .note{margin-top:18px;font-size:.78rem;color:var(--muted)}
+  .signup-proof{margin-top:20px;font-family:var(--serif);font-style:italic;font-size:1rem;color:var(--accent)}
 
   footer{padding:56px 0;text-align:center;color:var(--muted)}
   footer .name{font-family:var(--serif);font-size:1.4rem;color:var(--ink);margin-bottom:10px}
@@ -171,8 +176,20 @@
     <h1>Maren<br>Blackthorn</h1>
     <p class="tagline">Old magical institutions, and the outsiders who stay long enough to change them.</p>
     <div class="cta-row">
-      <a href="#books" class="btn btn-primary">Explore the Books</a>
-      <a href="#signup" class="btn btn-ghost">Join the Mailing List</a>
+      <a href="#books" class="btn btn-ghost">Explore the Books</a>
+    </div>
+
+    <!-- Hero email capture (reader magnet) -->
+    <div class="hero-signup">
+      <p class="hero-offer">Get <em>Episode Zero</em>, a free Adler Files prequel — join the list and I'll send it straight to your inbox.</p>
+      <form class="fallback-form ml-form" action="https://assets.mailerlite.com/jsonp/2476050/forms/191524104783791458/subscribe" method="post" target="ml_iframe">
+        <input type="email" name="fields[email]" placeholder="your@email.com" autocomplete="email" required>
+        <input type="hidden" name="ml-submit" value="1">
+        <input type="hidden" name="anticsrf" value="true">
+        <button type="submit" class="btn btn-primary">Send My Free Story</button>
+      </form>
+      <div class="ml-success">Welcome to the archives. Check your inbox to confirm and get your story.</div>
+      <p class="hero-proof">Be one of the first readers · no spam, unsubscribe anytime.</p>
     </div>
   </div>
 </header>
@@ -381,24 +398,25 @@
   <div class="wrap">
     <div class="signup-card">
       <div class="eyebrow" style="color:var(--accent)">The Inner Circle</div>
-      <h2>Join the Mailing List</h2>
-      <p>New releases, early chapters, and the occasional secret from the archives. No spam — only what's worth keeping.</p>
+      <h2>Get a Free Story</h2>
+      <p>Sign up and I'll send you <em>Episode Zero: The Case That Started It All</em>—a free Adler Files prequel—plus new releases, early chapters, and the occasional secret from the archives. No spam, only what's worth keeping.</p>
 
       <!-- MailerLite — posts to your list (account 2476050, form 191524104783791458) -->
-      <form class="fallback-form" id="ml-form"
+      <form class="fallback-form ml-form"
             action="https://assets.mailerlite.com/jsonp/2476050/forms/191524104783791458/subscribe"
             method="post" target="ml_iframe">
         <input type="email" name="fields[email]" placeholder="your@email.com" autocomplete="email" required>
         <input type="hidden" name="ml-submit" value="1">
         <input type="hidden" name="anticsrf" value="true">
-        <button type="submit" class="btn btn-primary">Subscribe</button>
+        <button type="submit" class="btn btn-primary">Send My Free Story</button>
       </form>
-      <div id="ml-success" style="display:none;font-family:var(--serif);font-style:italic;font-size:1.25rem;color:var(--accent)">
-        Welcome to the archives. Check your inbox to confirm.
+      <div class="ml-success" style="font-size:1.25rem">
+        Welcome to the archives. Check your inbox to confirm and get your story.
       </div>
       <iframe name="ml_iframe" style="display:none" title="signup"></iframe>
 
-      <div class="note" id="ml-note">Your email stays private. Unsubscribe anytime.</div>
+      <p class="signup-proof">Be among the first to join the archives.</p>
+      <div class="note">Your email stays private. Unsubscribe anytime.</div>
     </div>
   </div>
 </section>
@@ -457,16 +475,19 @@
 
   // Show inline thank-you after MailerLite submit (form posts into hidden iframe)
   (function(){
-    var f=document.getElementById('ml-form');
-    if(!f)return;
-    f.addEventListener('submit',function(){
-      var email=f.querySelector('input[type=email]');
-      if(!email.checkValidity())return; // let browser show validation
-      setTimeout(function(){
-        f.style.display='none';
-        document.getElementById('ml-note').style.display='none';
-        document.getElementById('ml-success').style.display='block';
-      },600);
+    document.querySelectorAll('form.ml-form').forEach(function(f){
+      f.addEventListener('submit',function(){
+        var email=f.querySelector('input[type=email]');
+        if(!email||!email.checkValidity())return; // let browser show validation
+        setTimeout(function(){
+          f.style.display='none';
+          var p=f.parentNode;
+          var s=p.querySelector('.ml-success'); if(s)s.style.display='block';
+          ['.note','.hero-proof','.signup-proof','.hero-offer'].forEach(function(sel){
+            var el=p.querySelector(sel); if(el)el.style.display='none';
+          });
+        },600);
+      });
     });
   })();
 </script>
