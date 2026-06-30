@@ -111,6 +111,8 @@
         f.parentNode.querySelector('.ml-success').style.display='block';
         var n=f.parentNode.querySelector('.note'); if(n)n.style.display='none';
       },600);
+      // Send them to the main site after a brief thank-you
+      setTimeout(function(){ window.location.href='/'; }, 2800);
     });
   })();
 </script>
