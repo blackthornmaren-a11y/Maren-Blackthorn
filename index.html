@@ -149,6 +149,11 @@
   .fallback-form button{cursor:pointer}
   .note{margin-top:18px;font-size:.78rem;color:var(--muted)}
   .signup-proof{margin-top:20px;font-family:var(--serif);font-style:italic;font-size:1rem;color:var(--accent)}
+  .dl-row{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0 14px}
+  .dl-note{font-size:.9rem;color:var(--muted)}
+  .dl-note a{color:var(--accent);text-decoration:none}
+  .dl-note a:hover{text-decoration:underline}
+  .signup-card.plain{display:block;max-width:560px;text-align:center}
 
   footer{padding:56px 0;text-align:center;color:var(--muted)}
   footer .name{font-family:var(--serif);font-size:1.4rem;color:var(--ink);margin-bottom:10px}
@@ -215,16 +220,13 @@
       </div>
       <div>
         <div class="series">Free Prequel · Quinn Adler Thrillers</div>
-        <h3>Get <em>Episode Zero</em> Free</h3>
-        <p class="hero-offer">A free 7,500-word Adler Files prequel — a one-sitting read. Join the mailing list and I'll send it straight to your inbox.</p>
-        <form class="fallback-form ml-form" action="https://assets.mailerlite.com/jsonp/2476050/forms/191524104783791458/subscribe" method="post" target="ml_iframe">
-          <input type="email" name="fields[email]" placeholder="your@email.com" autocomplete="email" required>
-          <input type="hidden" name="ml-submit" value="1">
-          <input type="hidden" name="anticsrf" value="true">
-          <button type="submit" class="btn btn-primary">Send My Free Story</button>
-        </form>
-        <div class="ml-success">Welcome to the archives. Check your inbox to confirm and get your story.</div>
-        <p class="hero-proof">Be one of the first readers · no spam, unsubscribe anytime.</p>
+        <h3>Download <em>Episode Zero</em> — Free</h3>
+        <p>A free 7,500-word Adler Files prequel — the case that started it all, long before Quinn Adler made her name. No signup required; grab your copy and start reading.</p>
+        <div class="dl-row">
+          <a href="downloads/episode-zero.pdf" class="btn btn-primary" download>Download PDF</a>
+          <a href="downloads/episode-zero.epub" class="btn btn-ghost" download>Download EPUB</a>
+        </div>
+        <p class="dl-note">Want to know when the next Quinn Adler book drops? <a href="#signup">Join the mailing list →</a></p>
       </div>
     </div>
   </div>
@@ -365,13 +367,13 @@
       <div class="grid">
 
         <article class="book">
-          <a class="cover has-img" href="#signup">
+          <a class="cover has-img" href="#freebook">
             <img src="covers/episode-zero.jpg" alt="Episode Zero: The Case That Started It All cover">
           </a>
           <h4>Episode Zero</h4>
           <div class="meta">Quinn Adler Thrillers · Free prequel short story</div>
           <p class="hook">The case that started it all — long before Quinn Adler made her name.</p>
-          <a class="buy" href="#signup">Get it Free →</a>
+          <a class="buy" href="#freebook">Download Free →</a>
         </article>
 
         <article class="book">
@@ -437,30 +439,26 @@
 <!-- ============ EMAIL SIGNUP ============ -->
 <section id="signup" class="signup">
   <div class="wrap">
-    <div class="signup-card">
-      <img class="signup-cover" src="covers/episode-zero.jpg" alt="Episode Zero: The Case That Started It All — a free Adler Files prequel by Maren Blackthorn">
-      <div class="signup-content">
-        <div class="eyebrow" style="color:var(--accent)">Free Prequel</div>
-        <h2>Get <em>Episode Zero</em> Free</h2>
-        <p>Join the mailing list and I'll send you <em>Episode Zero: The Case That Started It All</em>—a free 7,500-word Adler Files prequel you can read in one sitting—plus new releases, early chapters, and the occasional secret from the archives. No spam, only what's worth keeping.</p>
+    <div class="signup-card plain">
+      <div class="eyebrow" style="color:var(--accent)">The Inner Circle</div>
+      <h2>Join the Mailing List</h2>
+      <p>New releases, early chapters, and the occasional secret from the archives — sent now and then, never spam. (Optional — the prequel above is free either way.)</p>
 
-        <!-- MailerLite — posts to your list (account 2476050, form 191524104783791458) -->
-        <form class="fallback-form ml-form"
-              action="https://assets.mailerlite.com/jsonp/2476050/forms/191524104783791458/subscribe"
-              method="post" target="ml_iframe">
-          <input type="email" name="fields[email]" placeholder="your@email.com" autocomplete="email" required>
-          <input type="hidden" name="ml-submit" value="1">
-          <input type="hidden" name="anticsrf" value="true">
-          <button type="submit" class="btn btn-primary">Send My Free Story</button>
-        </form>
-        <div class="ml-success" style="font-size:1.25rem">
-          Welcome to the archives. Check your inbox to confirm and get your story.
-        </div>
-        <iframe name="ml_iframe" style="display:none" title="signup"></iframe>
-
-        <p class="signup-proof">Be among the first to join the archives.</p>
-        <div class="note">Your email stays private. Unsubscribe anytime.</div>
+      <!-- MailerLite — posts to your list (account 2476050, form 191524104783791458) -->
+      <form class="fallback-form ml-form"
+            action="https://assets.mailerlite.com/jsonp/2476050/forms/191524104783791458/subscribe"
+            method="post" target="ml_iframe">
+        <input type="email" name="fields[email]" placeholder="your@email.com" autocomplete="email" required>
+        <input type="hidden" name="ml-submit" value="1">
+        <input type="hidden" name="anticsrf" value="true">
+        <button type="submit" class="btn btn-primary">Subscribe</button>
+      </form>
+      <div class="ml-success" style="font-size:1.25rem">
+        You're in — welcome to the archives.
       </div>
+      <iframe name="ml_iframe" style="display:none" title="signup"></iframe>
+
+      <div class="note">Your email stays private. Unsubscribe anytime.</div>
     </div>
   </div>
 </section>
@@ -491,6 +489,16 @@
         if(typeof gtag==='function'){
           gtag('event','amazon_click',{book_title:title,link_url:a.href});
         }
+      });
+    });
+  })();
+
+  // Track free-book downloads in GA4.
+  (function(){
+    document.querySelectorAll('a[href*="downloads/episode-zero"]').forEach(function(a){
+      a.addEventListener('click',function(){
+        var fmt = a.href.indexOf('.epub')>-1 ? 'epub' : 'pdf';
+        if(typeof gtag==='function'){ gtag('event','download',{book:'episode_zero',format:fmt}); }
       });
     });
   })();

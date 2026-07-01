@@ -64,6 +64,14 @@
   .note{margin-top:18px;font-size:.78rem;color:var(--muted)}
   .backlink{margin-top:30px;font-size:.82rem;color:var(--muted);text-decoration:none;letter-spacing:.04em}
   .backlink:hover{color:var(--gold)}
+  .dl-row{display:flex;gap:12px;flex-wrap:wrap;margin:4px 0 16px}
+  .dl-row a{display:inline-block;padding:15px 30px;border-radius:3px;font-weight:600;font-size:.98rem;text-decoration:none;transition:transform .15s ease, box-shadow .25s ease}
+  .dl-row a.primary{background:linear-gradient(180deg,#caa028,#9a7008);color:#1a1206;border:1px solid #caa028}
+  .dl-row a.ghost{border:1px solid var(--line);color:var(--ink)}
+  .dl-row a:hover{transform:translateY(-2px)}
+  .opt{font-size:.9rem;color:var(--muted);margin:0}
+  .opt a{color:var(--gold);text-decoration:none}
+  .opt a:hover{text-decoration:underline}
   iframe{display:none}
   @media(max-width:680px){
     .card{flex-direction:column;text-align:center;padding:36px 26px;gap:30px}
@@ -81,40 +89,19 @@
     <div class="content">
       <div class="eyebrow">Free Adler Files Prequel</div>
       <h1>Read <em>Episode Zero</em> — free</h1>
-      <p class="sub">The case that started it all. A free 7,500-word Quinn Adler prequel — drop your email and I'll send it straight to your inbox.</p>
-
-      <!-- MailerLite — posts to your list (account 2476050, form 191524104783791458) -->
-      <form class="ml-form" action="https://assets.mailerlite.com/jsonp/2476050/forms/191524104783791458/subscribe" method="post" target="ml_iframe">
-        <input type="email" name="fields[email]" placeholder="your@email.com" autocomplete="email" required>
-        <input type="hidden" name="ml-submit" value="1">
-        <input type="hidden" name="anticsrf" value="true">
-        <button type="submit">Send My Free Story</button>
-      </form>
-      <div class="ml-success">Welcome to the archives. Check your inbox to confirm and get your story.</div>
-      <iframe name="ml_iframe" title="signup"></iframe>
-      <p class="note">No spam — just your story, new releases, and the occasional secret. Unsubscribe anytime.</p>
+      <p class="sub">The case that started it all. A free 7,500-word Quinn Adler prequel — no signup, just download and read.</p>
+      <div class="dl-row">
+        <a class="primary" href="../downloads/episode-zero.pdf" download onclick="track('pdf')">Download PDF</a>
+        <a class="ghost" href="../downloads/episode-zero.epub" download onclick="track('epub')">Download EPUB</a>
+      </div>
+      <p class="opt">Want to hear when the next book drops? <a href="/#signup">Join the mailing list →</a></p>
     </div>
   </div>
 
   <a class="backlink" href="/">← Explore all of Maren Blackthorn's books</a>
 
 <script>
-  (function(){
-    var f=document.querySelector('form.ml-form');
-    if(!f)return;
-    f.addEventListener('submit',function(){
-      var email=f.querySelector('input[type=email]');
-      if(!email||!email.checkValidity())return;
-      if(typeof gtag==='function'){gtag('event','signup_submit',{location:'free_landing'});}
-      setTimeout(function(){
-        f.style.display='none';
-        f.parentNode.querySelector('.ml-success').style.display='block';
-        var n=f.parentNode.querySelector('.note'); if(n)n.style.display='none';
-      },600);
-      // Send them to the main site after a brief thank-you
-      setTimeout(function(){ window.location.href='/'; }, 2800);
-    });
-  })();
+  function track(fmt){ if(typeof gtag==='function'){ gtag('event','download',{book:'episode_zero',format:fmt,location:'free_landing'}); } }
 </script>
 </body>
 </html>
