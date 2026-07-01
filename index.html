@@ -226,6 +226,7 @@
           <a href="downloads/episode-zero.pdf" class="btn btn-primary" download>Download PDF</a>
           <a href="downloads/episode-zero.epub" class="btn btn-ghost" download>Download EPUB</a>
         </div>
+        <p class="dl-note iab-hint" style="display:none;color:#e0b84a">On Instagram or Facebook? Their in-app browser can't save EPUB files — tap the <strong>⋯</strong> menu (top corner) and choose <strong>"Open in external browser,"</strong> then download.</p>
         <p class="dl-note">Want to know when the next Quinn Adler book drops? <a href="#signup">Join the mailing list →</a></p>
       </div>
     </div>
@@ -491,6 +492,13 @@
         }
       });
     });
+  })();
+
+  // Nudge in-app-browser users (Instagram/Facebook/etc.) to open in a real browser for EPUB downloads.
+  (function(){
+    if(/Instagram|FBAN|FBAV|FB_IAB|Snapchat|Line\/|Pinterest/i.test(navigator.userAgent||'')){
+      document.querySelectorAll('.iab-hint').forEach(function(e){ e.style.display=''; });
+    }
   })();
 
   // Track free-book downloads in GA4.

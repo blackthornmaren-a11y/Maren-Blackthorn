@@ -94,6 +94,7 @@
         <a class="primary" href="../downloads/episode-zero.pdf" download onclick="track('pdf')">Download PDF</a>
         <a class="ghost" href="../downloads/episode-zero.epub" download onclick="track('epub')">Download EPUB</a>
       </div>
+      <p class="opt iab-hint" style="display:none;color:var(--gold)">On Instagram or Facebook? Their in-app browser can't save EPUB files — tap the <strong>⋯</strong> menu (top corner) and choose <strong>"Open in external browser,"</strong> then download.</p>
       <p class="opt">Want to hear when the next book drops? <a href="/#signup">Join the mailing list →</a></p>
     </div>
   </div>
@@ -102,6 +103,9 @@
 
 <script>
   function track(fmt){ if(typeof gtag==='function'){ gtag('event','download',{book:'episode_zero',format:fmt,location:'free_landing'}); } }
+  if(/Instagram|FBAN|FBAV|FB_IAB|Snapchat|Line\/|Pinterest/i.test(navigator.userAgent||'')){
+    document.querySelectorAll('.iab-hint').forEach(function(e){ e.style.display=''; });
+  }
 </script>
 </body>
 </html>
