@@ -220,13 +220,12 @@
       </div>
       <div>
         <div class="series">Free Prequel · Quinn Adler Thrillers</div>
-        <h3>Download <em>Episode Zero</em> — Free</h3>
-        <p>A free 7,500-word Adler Files prequel — the case that started it all, long before Quinn Adler made her name. No signup required; grab your copy and start reading.</p>
+        <h3>Get <em>Episode Zero</em> — Free</h3>
+        <p>A free 7,500-word Adler Files prequel — the case that started it all, long before Quinn Adler made her name. No signup required; read it on any device.</p>
         <div class="dl-row">
-          <a href="downloads/episode-zero.pdf" class="btn btn-primary" download>Download PDF</a>
-          <a href="downloads/episode-zero.epub" class="btn btn-ghost" download>Download EPUB</a>
+          <a href="https://dl.bookfunnel.com/pwyi86wypg" class="btn btn-primary bf-link" target="_blank" rel="noopener">Get Episode Zero — Free</a>
         </div>
-        <p class="dl-note iab-hint" style="display:none;color:#e0b84a">On Instagram or Facebook? Their in-app browser can't save EPUB files — tap the <strong>⋯</strong> menu (top corner) and choose <strong>"Open in external browser,"</strong> then download.</p>
+        <p class="dl-note">Delivered by BookFunnel — send it to Kindle, Apple Books, Kobo, your phone, or grab the PDF/EPUB.</p>
         <p class="dl-note">Want to know when the next Quinn Adler book drops? <a href="#signup">Join the mailing list →</a></p>
       </div>
     </div>
@@ -374,7 +373,7 @@
           <h4>Episode Zero</h4>
           <div class="meta">Quinn Adler Thrillers · Free prequel short story</div>
           <p class="hook">The case that started it all — long before Quinn Adler made her name.</p>
-          <a class="buy" href="#freebook">Download Free →</a>
+          <a class="buy" href="#freebook">Get it Free →</a>
         </article>
 
         <article class="book">
@@ -501,12 +500,11 @@
     }
   })();
 
-  // Track free-book downloads in GA4.
+  // Track free-book (BookFunnel) clicks in GA4.
   (function(){
-    document.querySelectorAll('a[href*="downloads/episode-zero"]').forEach(function(a){
+    document.querySelectorAll('a[href*="bookfunnel.com"]').forEach(function(a){
       a.addEventListener('click',function(){
-        var fmt = a.href.indexOf('.epub')>-1 ? 'epub' : 'pdf';
-        if(typeof gtag==='function'){ gtag('event','download',{book:'episode_zero',format:fmt}); }
+        if(typeof gtag==='function'){ gtag('event','get_free_book',{book:'episode_zero',via:'bookfunnel'}); }
       });
     });
   })();
