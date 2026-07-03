@@ -685,15 +685,21 @@
     function build(){
       var keep=cur;
       pages.forEach(function(p){ p.remove(); }); pages=[];
-      var TARGET = (window.innerWidth<=640 ? 400 : 460);
+      var TARGET = (window.innerWidth<=640 ? 430 : 500);
+      var MIN = TARGET * 0.45;   // a page must hold at least this before we allow a break
       var els=Array.prototype.slice.call(source.children);
       var page=newPage();
       els.forEach(function(el){
         var clone=el.cloneNode(true);
+        var before=page.offsetHeight;
         page.appendChild(clone);
-        if(page.offsetHeight > TARGET){
-          if(page.childElementCount>1){ page.removeChild(clone); page=newPage(); page.appendChild(clone); }
-          else { page=newPage(); }
+        // Break to a new page only if this page already carries enough text.
+        // Otherwise keep the element here (even if it overflows a little) so a
+        // short paragraph is never stranded alone before a tall one.
+        if(page.offsetHeight > TARGET && before >= MIN){
+          page.removeChild(clone);
+          page=newPage();
+          page.appendChild(clone);
         }
       });
       if(pages.length>1 && pages[pages.length-1].childElementCount===0){ pages.pop().remove(); }
