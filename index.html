@@ -230,6 +230,11 @@
   .atmo-scrim{ position:absolute; inset:0; z-index:1; pointer-events:none;
     background:linear-gradient(180deg, rgba(13,11,18,.84), rgba(13,11,18,.90)); }
   .has-atmo > .wrap{ position:relative; z-index:2; }
+  .atmo-fallback{ display:none; }
+  @media (max-width:900px){
+    .hero-video, .atmo-video{ display:none !important; }
+    .atmo-fallback{ display:block; }
+  }
   .quiz-card{ backdrop-filter:blur(2px); }
   /* ============ Quiz ============ */
   .quiz-wrap{ max-width:680px; margin:0 auto; }
@@ -267,9 +272,10 @@
 
 <!-- ============ HERO ============ -->
 <header class="hero">
-  <video class="hero-video" autoplay muted loop playsinline poster="atmosphere/hero-rain.jpg">
+  <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="metadata" poster="atmosphere/hero-rain.jpg">
     <source src="atmosphere/hero-rain.mp4" type="video/mp4">
   </video>
+  <div class="atmo-still atmo-fallback" style="background-image:url('atmosphere/hero-rain.jpg')"></div>
   <div class="hero-scrim"></div>
   <div class="wrap hero-inner">
     <div class="eyebrow">Dark Academia · Gothic Romantasy · Thrillers</div>
@@ -304,9 +310,10 @@
 
 <!-- ============ FREE PREQUEL ============ -->
 <section id="freebook" class="has-atmo">
-  <video class="atmo-video" autoplay muted loop playsinline poster="atmosphere/freebook-macro.jpg">
+  <video class="atmo-video" autoplay muted loop playsinline webkit-playsinline preload="metadata" poster="atmosphere/freebook-macro.jpg">
     <source src="atmosphere/freebook-macro.mp4" type="video/mp4">
   </video>
+  <div class="atmo-still atmo-fallback" style="background-image:url('atmosphere/freebook-macro.jpg')"></div>
   <div class="atmo-scrim"></div>
   <div class="wrap">
     <div class="featured">
@@ -379,9 +386,10 @@
 
 <!-- ============ QUIZ ============ -->
 <section id="quiz" class="has-atmo">
-  <video class="atmo-video" autoplay muted loop playsinline poster="atmosphere/quiz-shelves.jpg">
+  <video class="atmo-video" autoplay muted loop playsinline webkit-playsinline preload="metadata" poster="atmosphere/quiz-shelves.jpg">
     <source src="atmosphere/quiz-shelves.mp4" type="video/mp4">
   </video>
+  <div class="atmo-still atmo-fallback" style="background-image:url('atmosphere/quiz-shelves.jpg')"></div>
   <div class="atmo-scrim"></div>
   <div class="wrap">
     <div class="eye-divider" aria-hidden="true">
@@ -666,7 +674,7 @@
       var io=new IntersectionObserver(function(entries){
         entries.forEach(function(e){
           var v=e.target;
-          if(e.isIntersecting){ if(v.paused){ v.play().catch(function(){}); } }
+          if(e.isIntersecting){ if(v.offsetParent!==null && v.paused){ v.play().catch(function(){}); } }
           else if(!v.paused){ v.pause(); }
         });
       },{threshold:0.1});
