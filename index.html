@@ -81,7 +81,11 @@
       radial-gradient(900px 500px at 10% 110%, rgba(184,134,11,.12), transparent 55%),
       linear-gradient(180deg, var(--bg-2), var(--bg));
     border-bottom:1px solid var(--line);overflow:hidden}
-  header.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 120% at 50% 30%, transparent 55%, rgba(0,0,0,.55));pointer-events:none}
+  header.hero::after{content:"";position:absolute;inset:0;z-index:1;background:radial-gradient(120% 120% at 50% 30%, transparent 55%, rgba(0,0,0,.55));pointer-events:none}
+  .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+  .hero-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:linear-gradient(180deg, rgba(13,11,18,.72), rgba(13,11,18,.82)),
+      radial-gradient(1100px 620px at 28% 42%, rgba(13,11,18,.30), rgba(13,11,18,.72))}
   .hero-inner{position:relative;z-index:2;max-width:800px;padding:90px 0}
   .eyebrow{letter-spacing:.32em;text-transform:uppercase;font-size:.72rem;color:var(--accent);font-weight:500;margin-bottom:22px}
   h1{font-family:var(--serif);font-weight:500;font-size:clamp(3.2rem,9vw,6.2rem);line-height:.98;margin-bottom:24px}
@@ -113,11 +117,24 @@
   .featured .series{color:var(--accent);letter-spacing:.18em;text-transform:uppercase;font-size:.72rem;margin-bottom:18px}
   .featured p{color:var(--muted);margin-bottom:26px;font-size:1.05rem}
 
-  .series-block{margin-bottom:64px}
+  .series-block{position:relative;margin-bottom:40px;padding:38px 30px 34px;border-radius:14px;overflow:hidden;
+    border:1px solid var(--line);background-size:cover;background-position:center;background-color:#100c17}
+  .series-block::before{content:"";position:absolute;inset:0;z-index:0;
+    background:linear-gradient(180deg, rgba(13,11,18,.80), rgba(13,11,18,.90))}
+  .series-block > *{position:relative;z-index:1}
   .series-block:last-child{margin-bottom:0}
+  .sb-velmoor{background-image:url('atmosphere/velmoor.jpg')}
+  .sb-duskhollow{background-image:url('atmosphere/duskhollow.jpg')}
+  .sb-quinn{background-image:url('atmosphere/quinn.jpg');background-position:center 72%}
+  .sb-pyrrhic{background-image:url('atmosphere/pyrrhic.jpg')}
+  section.about{position:relative;overflow:hidden;background:#100c17 url('atmosphere/about.jpg') center/cover}
+  section.about::before{content:"";position:absolute;inset:0;z-index:0;
+    background:linear-gradient(180deg, rgba(13,11,18,.86), rgba(13,11,18,.90))}
+  section.about .wrap{position:relative;z-index:1}
   .series-title{font-family:var(--serif);font-size:1.8rem;font-weight:500;margin-bottom:6px}
   .series-sub{color:var(--muted);margin-bottom:30px;font-size:.98rem;max-width:70ch}
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:28px}
+  .sb-velmoor .grid,.sb-duskhollow .grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:20px}
   .book{display:flex;flex-direction:column}
   .cover{position:relative;aspect-ratio:2/3;border-radius:4px;overflow:hidden;
     background:linear-gradient(145deg,#241b30,#14101b);border:1px solid var(--line);
@@ -128,10 +145,10 @@
   .cover .placeholder-mark{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:32px;height:32px;border:1px solid var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--accent);font-family:var(--serif)}
   .cover.has-img{padding:0}
   .cover.has-img img{width:100%;height:100%;object-fit:cover}
-  .book h4{font-family:var(--serif);font-weight:500;font-size:1.18rem;margin:16px 0 4px;line-height:1.2}
-  .book .meta{color:var(--muted);font-size:.82rem;margin-bottom:8px}
-  .book .hook{color:var(--ink);opacity:.82;font-family:var(--serif);font-style:italic;font-size:.98rem;line-height:1.4;margin:0 0 14px 0}
-  .book .buy{margin-top:auto;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border-top:1px solid var(--line);padding-top:12px;display:inline-flex;align-items:center;gap:6px;transition:gap .15s ease,color .15s ease}
+  .book h4{font-family:var(--serif);font-weight:500;font-size:1.18rem;margin:12px 0 2px;line-height:1.2}
+  .book .meta{color:var(--muted);font-size:.82rem;margin-bottom:5px}
+  .book .hook{color:var(--ink);opacity:.82;font-family:var(--serif);font-style:italic;font-size:.85rem;line-height:1.3;margin:0 0 9px 0}
+  .book .buy{margin-top:auto;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border-top:1px solid var(--line);padding-top:9px;display:inline-flex;align-items:center;gap:6px;transition:gap .15s ease,color .15s ease}
   .book .buy:hover{gap:12px;color:#e0b84a}
   .book .buy.soon{color:var(--muted);pointer-events:none}
 
@@ -166,6 +183,73 @@
     .featured .cover{max-width:240px;margin:0 auto}
     .hero-inner{padding:70px 0}
   }
+  @media(max-width:900px){ .sb-velmoor .grid,.sb-duskhollow .grid{grid-template-columns:repeat(3,1fr)} }
+  @media(max-width:560px){ .sb-velmoor .grid,.sb-duskhollow .grid{grid-template-columns:repeat(2,1fr)} }
+
+  /* ============ Dark-academia atmosphere ============ */
+  body::before{ content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+    background:
+      radial-gradient(120% 90% at 50% -5%, transparent 55%, rgba(0,0,0,.5) 100%),
+      radial-gradient(55% 45% at 80% 6%, rgba(201,162,39,.06), transparent 60%); }
+  nav, header, section, footer{ position:relative; z-index:1; }
+  .book:hover .cover{ box-shadow:0 26px 55px rgba(0,0,0,.6), 0 0 0 1px rgba(201,162,39,.4), 0 0 34px rgba(201,162,39,.18); }
+  .cover.has-img img{ transition:transform .3s ease; }
+  .book:hover .cover.has-img img{ transform:scale(1.03); }
+
+  .eye-divider{ display:flex; align-items:center; justify-content:center; gap:18px; margin:0 auto 46px; max-width:360px; color:var(--accent); opacity:.85; }
+  .eye-divider::before, .eye-divider::after{ content:""; height:1px; flex:1; background:linear-gradient(90deg, transparent, rgba(201,162,39,.5), transparent); }
+  .eye-divider svg{ width:36px; height:20px; flex:none; }
+  .dropcap::first-letter{ font-family:var(--serif); float:left; font-size:3.4em; line-height:.72; padding:.06em .12em 0 0; color:var(--accent); font-weight:600; }
+
+  /* ============ Read the opening (paginated) ============ */
+  .reader-wrap{ max-width:720px; margin:0 auto; }
+  .book{ background:linear-gradient(180deg,#17131f,#110d17); border:1px solid var(--line); border-bottom:none; border-radius:8px 8px 0 0; padding:40px 52px 18px; }
+  .book-head{ text-align:center; margin-bottom:20px; }
+  .book-head .chap{ font-family:var(--sans); color:var(--accent); letter-spacing:.24em; text-transform:uppercase; font-size:.72rem; }
+  .book-head .chap-title{ font-family:var(--serif); font-style:italic; font-size:1.5rem; color:var(--ink); margin-top:4px; }
+  .book-viewport{ position:relative; min-height:470px; }
+  .book-page{ display:none; }
+  .book-page.on{ display:block; animation:pageturn .35s ease; }
+  @keyframes pageturn{ from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none} }
+  .book-page p{ font-family:var(--serif); font-size:1.1rem; line-height:1.75; color:#cfc7dc; margin:0 0 16px; }
+  .book-page .dropcap::first-letter{ font-family:var(--serif); float:left; font-size:3.3em; line-height:.72; padding:.06em .12em 0 0; color:var(--accent); font-weight:600; }
+  .book-page .sym{ text-align:center; color:var(--accent); margin:10px 0 18px; letter-spacing:.4em; }
+  .book-page .transcript{ font-family:'Courier New',monospace; font-size:.9rem; color:#c2b06a; background:rgba(201,162,39,.05); border-left:2px solid rgba(201,162,39,.45); padding:14px 18px; margin:0 0 18px; line-height:1.65; }
+  .book-controls{ display:flex; align-items:center; justify-content:space-between; background:#0f0b15; border:1px solid var(--line); border-radius:0 0 8px 8px; padding:13px 20px; }
+  .book-nav{ background:none; border:1px solid var(--line); color:var(--ink); width:42px; height:42px; border-radius:50%; cursor:pointer; font-size:1.35rem; line-height:1; transition:.15s; }
+  .book-nav:hover:not(:disabled){ border-color:var(--accent); color:var(--accent); }
+  .book-nav:disabled{ opacity:.28; cursor:default; }
+  .book-count{ font-family:var(--sans); font-size:.82rem; letter-spacing:.08em; color:var(--muted); }
+  .reader-cta{ text-align:center; margin-top:26px; }
+  @media(max-width:640px){ .book{ padding:32px 26px 14px; } .book-viewport{ min-height:420px; } .book-page p{ font-size:1.02rem; } }
+
+  /* ============ Atmospheric section backdrops ============ */
+  .has-atmo{ overflow:hidden; }
+  .atmo-video,.atmo-still{ position:absolute; inset:0; width:100%; height:100%; z-index:0; object-fit:cover; }
+  .atmo-still{ background-size:cover; background-position:center; }
+  .atmo-scrim{ position:absolute; inset:0; z-index:1; pointer-events:none;
+    background:linear-gradient(180deg, rgba(13,11,18,.84), rgba(13,11,18,.90)); }
+  .has-atmo > .wrap{ position:relative; z-index:2; }
+  .quiz-card{ backdrop-filter:blur(2px); }
+  /* ============ Quiz ============ */
+  .quiz-wrap{ max-width:680px; margin:0 auto; }
+  .quiz-card{ background:linear-gradient(180deg,var(--panel),rgba(26,21,34,.5)); border:1px solid var(--line); border-radius:10px; padding:40px 44px; }
+  .quiz-progress{ height:3px; background:rgba(255,255,255,.08); border-radius:2px; margin-bottom:26px; overflow:hidden; }
+  .quiz-progress span{ display:block; height:100%; width:0; background:linear-gradient(90deg,#9a7008,#caa028); transition:width .35s ease; }
+  .quiz-step{ display:none; } .quiz-step.active{ display:block; animation:qfade .4s ease; }
+  @keyframes qfade{ from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+  .quiz-count{ font-family:var(--sans); letter-spacing:.18em; text-transform:uppercase; font-size:.7rem; color:var(--accent); margin-bottom:14px; }
+  .quiz-q{ font-family:var(--serif); font-size:1.55rem; line-height:1.25; color:var(--ink); margin-bottom:24px; }
+  .quiz-opt{ display:block; width:100%; text-align:left; background:#0f0b15; border:1px solid var(--line); color:var(--ink); font-family:var(--serif); font-size:1.08rem; padding:15px 18px; border-radius:4px; margin-bottom:12px; cursor:pointer; transition:border-color .15s ease, background .15s ease, transform .1s ease; }
+  .quiz-opt:hover{ border-color:var(--accent); background:#151020; transform:translateX(3px); }
+  .quiz-result{ display:none; text-align:center; }
+  .quiz-result.show{ display:block; animation:qfade .5s ease; }
+  .quiz-result img{ width:180px; border-radius:6px; box-shadow:0 20px 44px rgba(0,0,0,.55); margin:0 auto 22px; display:block; }
+  .quiz-result .verdict{ font-family:var(--sans); letter-spacing:.2em; text-transform:uppercase; font-size:.72rem; color:var(--accent); margin-bottom:10px; }
+  .quiz-result h3{ font-family:var(--serif); font-weight:500; font-size:2rem; margin-bottom:10px; }
+  .quiz-result p{ color:var(--muted); max-width:48ch; margin:0 auto 24px; font-size:1.05rem; }
+  .quiz-restart{ background:none; border:none; color:var(--muted); font-size:.82rem; text-decoration:underline; cursor:pointer; margin-top:18px; letter-spacing:.04em; }
+  .quiz-restart:hover{ color:var(--accent); }
 </style>
 </head>
 <body>
@@ -183,6 +267,10 @@
 
 <!-- ============ HERO ============ -->
 <header class="hero">
+  <video class="hero-video" autoplay muted loop playsinline poster="atmosphere/hero-rain.jpg">
+    <source src="atmosphere/hero-rain.mp4" type="video/mp4">
+  </video>
+  <div class="hero-scrim"></div>
   <div class="wrap hero-inner">
     <div class="eyebrow">Dark Academia · Gothic Romantasy · Thrillers</div>
     <h1>Maren<br>Blackthorn</h1>
@@ -190,12 +278,15 @@
     <div class="cta-row">
       <a href="#books" class="btn btn-primary">Explore the Books</a>
       <a href="#freebook" class="btn btn-ghost">Get the Free Prequel</a>
+      <a href="#quiz" class="btn btn-ghost">Which World Are You?</a>
     </div>
   </div>
 </header>
 
 <!-- ============ FEATURED (new release) ============ -->
-<section>
+<section class="has-atmo">
+  <div class="atmo-still" style="background-image:url('atmosphere/featured-spines.jpg')"></div>
+  <div class="atmo-scrim"></div>
   <div class="wrap">
     <div class="featured">
       <a class="cover has-img" href="https://www.amazon.com/dp/B0H5GBYZPB" target="_blank" rel="noopener">
@@ -212,7 +303,11 @@
 </section>
 
 <!-- ============ FREE PREQUEL ============ -->
-<section id="freebook">
+<section id="freebook" class="has-atmo">
+  <video class="atmo-video" autoplay muted loop playsinline poster="atmosphere/freebook-macro.jpg">
+    <source src="atmosphere/freebook-macro.mp4" type="video/mp4">
+  </video>
+  <div class="atmo-scrim"></div>
   <div class="wrap">
     <div class="featured">
       <div class="cover has-img">
@@ -232,6 +327,88 @@
   </div>
 </section>
 
+<!-- ============ READ THE OPENING (sample) ============ -->
+<section id="sample" class="has-atmo">
+  <div class="atmo-still" style="background-image:url('atmosphere/sample-desk.jpg')"></div>
+  <div class="atmo-scrim"></div>
+  <div class="wrap">
+    <div class="eye-divider" aria-hidden="true">
+      <svg viewBox="0 0 40 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 8 Q20 20 36 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M9 13 l-2 4 M20 15 l0 4.5 M31 13 l2 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+    </div>
+    <div class="sec-head">
+      <div class="eyebrow">Read the Opening</div>
+      <h2>Start Reading <em>Episode Zero</em></h2>
+      <p>The first pages of the free prequel — meet Quinn Adler before the world knew her name.</p>
+    </div>
+    <div class="reader-wrap">
+      <div class="book">
+        <div class="book-head">
+          <div class="chap">Chapter One</div>
+          <div class="chap-title">The Girl Who Left</div>
+        </div>
+        <div class="book-viewport" id="bookViewport"></div>
+      </div>
+      <div class="book-controls">
+        <button class="book-nav" id="bookPrev" aria-label="Previous page">&lsaquo;</button>
+        <span class="book-count" id="bookCount">Page 1</span>
+        <button class="book-nav" id="bookNext" aria-label="Next page">&rsaquo;</button>
+      </div>
+      <div class="reader-cta">
+        <a href="https://dl.bookfunnel.com/pwyi86wypg" class="btn btn-primary bf-link" target="_blank" rel="noopener">Get Episode Zero — Free</a>
+      </div>
+
+      <!-- Full Chapter One — paginated by JS into book-pages -->
+      <div id="bookSource" hidden>
+        <div class="transcript">[Recording — take eleven]<br><br>"Here's what nobody tells you about disappearing.<br><br>You think it takes something dramatic. A struggle. A stranger. A van with no plates and a story that ends up on a podcast like this one. But the most efficient way to erase a person isn't violence. It's a word. The right word, typed into the right field on the right form, by someone with somewhere else to be.<br><br>In Bree Sandlin's case, the word was voluntary.<br><br>Twenty years old. Gone eight years. And for eight of those years the official answer to the question — what happened to her — has been a checkbox. She left. People leave. The file was effectively closed before anyone bothered to open it.<br><br>I want to talk about who gets to be looked for. And who gets a checkbox instead.<br><br>My name is Quinn Adler. This is — well. We hadn't named it yet."</div>
+        <p class="sym">⁂</p>
+        <p class="dropcap">I stopped there because that was as far as I'd gotten.</p>
+        <p>It was the first thing I ever recorded — the whole of it, a minute and a half of me talking into a headset microphone I'd unplugged from a gaming setup I no longer owned, in a bedroom that doubled as my entire apartment, at an hour when reasonable people were asleep. There was no Focusrite yet. No evidence board, no red thread, no two million downloads, none of the apparatus I'd eventually wrap around this thing until it became the load-bearing wall of my life. There was just me, twenty-one years old, six weeks into a criminology master's I'd talked my way into mostly so I could keep standing close to the kinds of questions nobody else seemed interested in asking.</p>
+        <p>Let me back up. Six weeks earlier.</p>
+        <p>I'd come to Chicago for the program and stayed for the library, which is the most honest sentence I can offer about that fall. The coursework was fine. The seminars were fine. But the university sat on top of forty years of court records and case files and microfiche nobody had digitized, and I had discovered within my first week that a graduate ID got you into rooms an undergraduate could only stand outside of. I spent my evenings in those rooms the way other people spent theirs scrolling — reading cold cases until my eyes burned, one after another, the way you eat chips you don't even like because the bag is open and your hands are bored and somewhere underneath it all is a hunger you've decided not to name.</p>
+        <p>I knew what the hunger was. I just wasn't going to say it out loud, least of all to myself at one in the morning.</p>
+        <p>My sister had been dead a few years by then. Long enough that people had stopped lowering their voices when she came up, not long enough that I had. I won't do the whole thing here — that's not what this chapter is. I'll only say that when you've watched a file close on someone you love before anyone thought to ask the obvious questions, you develop a sensitivity. An allergy, almost. You start to flinch at the administrative shrug. The closed box. The word that gets used to make a person stop being a problem.</p>
+        <p>Which is how I found Bree Sandlin. By accident, the way you find most of the things that change your life.</p>
+        <p>I'd been chasing something else entirely — a 2011 case out of Rogers Park, a name I'd pulled from a footnote — and the database had coughed up a cluster of adjacent records the way those old systems did, throwing six things at you when you'd asked for one. Most of it was noise. One of them wasn't.</p>
+        <p>A missing-persons entry, eight years stale. A girl, twenty, last seen leaving her shift at a café on the North Side. And beside her name, in the field where the system recorded what had become of the people it was supposed to keep track of, a single classification, entered by a detective whose name I would come to know better than I wanted to.</p>
+        <p>Voluntary.</p>
+        <p>I read it three times. Then I started reading everything.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section id="quiz" class="has-atmo">
+  <video class="atmo-video" autoplay muted loop playsinline poster="atmosphere/quiz-shelves.jpg">
+    <source src="atmosphere/quiz-shelves.mp4" type="video/mp4">
+  </video>
+  <div class="atmo-scrim"></div>
+  <div class="wrap">
+    <div class="eye-divider" aria-hidden="true">
+      <svg viewBox="0 0 40 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 8 Q20 20 36 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M9 13 l-2 4 M20 15 l0 4.5 M31 13 l2 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+    </div>
+    <div class="sec-head">
+      <div class="eyebrow">The Sorting</div>
+      <h2>Which of Maren's Worlds Claims You?</h2>
+      <p>Five questions, one verdict — and the perfect place to begin.</p>
+    </div>
+    <div class="quiz-wrap">
+      <div class="quiz-card">
+        <div class="quiz-progress"><span id="quizBar"></span></div>
+        <div id="quizSteps"></div>
+        <div class="quiz-result" id="quizResult">
+          <div class="verdict" id="qVerdict"></div>
+          <img id="qCover" src="" alt="">
+          <h3 id="qTitle"></h3>
+          <p id="qDesc"></p>
+          <div class="dl-row" id="qCta" style="justify-content:center"></div>
+          <button class="quiz-restart" onclick="quizRestart()">Take it again →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ BOOKS ============ -->
 <section id="books">
   <div class="wrap">
@@ -242,7 +419,7 @@
     </div>
 
     <!-- VELMOOR -->
-    <div class="series-block">
+    <div class="series-block sb-velmoor">
       <div class="series-title">The Velmoor Chronicles</div>
       <div class="series-sub">A scholarship student enters an academy that has been quietly draining its own for two centuries.</div>
       <div class="grid">
@@ -301,7 +478,7 @@
     </div>
 
     <!-- DUSKHOLLOW -->
-    <div class="series-block">
+    <div class="series-block sb-duskhollow">
       <div class="series-title">The Duskhollow Chronicles</div>
       <div class="series-sub">Another outsider, into a school keeping a record that was never meant to be read — expanding from one institution to a network of seven.</div>
       <div class="grid">
@@ -361,7 +538,7 @@
     </div>
 
     <!-- QUINN ADLER -->
-    <div class="series-block">
+    <div class="series-block sb-quinn">
       <div class="series-title">The Quinn Adler Thrillers</div>
       <div class="series-sub">A true-crime podcaster hunts a hidden network that leaves its murder confessions in the margins of library books. Book one is available now — and the prequel short story is free.</div>
       <div class="grid">
@@ -397,7 +574,7 @@
     </div>
 
     <!-- STANDALONE -->
-    <div class="series-block">
+    <div class="series-block sb-pyrrhic">
       <div class="series-title">Standalone</div>
       <div class="series-sub">A self-contained gothic romantasy — for readers who want the ache to last.</div>
       <div class="grid">
@@ -423,15 +600,15 @@
 </section>
 
 <!-- ============ ABOUT ============ -->
-<section>
+<section class="about">
   <div class="wrap" style="max-width:720px;text-align:center">
     <div class="eyebrow" style="color:var(--accent)">About the Author</div>
-    <h2 style="font-family:var(--serif);font-weight:500;font-size:clamp(2rem,5vw,2.8rem);margin:14px 0 22px">Maren Blackthorn</h2>
-    <p style="color:var(--muted);font-size:1.12rem;font-family:var(--serif);font-style:italic">
-      Maren Blackthorn writes dark academia romantasy and thrillers—stories set in candlelit
-      libraries and crumbling halls, where ambition, desire, and danger are never far apart. Her
-      novels blend slow-burn romance with magic, secrets, and the kind of tension that keeps the
-      pages turning past midnight.
+    <h2 style="font-family:var(--serif);font-weight:500;font-size:clamp(2rem,5vw,2.8rem);margin:14px 0 22px">Hi, I'm Maren</h2>
+    <p style="color:var(--muted);font-size:1.12rem;font-family:var(--serif);font-style:italic;line-height:1.75">
+      I write dark academia — gothic romantasy set in old institutions, and the outsiders who
+      end up changing them. So far that's two five-book series and a standalone. Now I'm writing
+      my first thriller, the Quinn Adler series, and I couldn't be more excited about it — the
+      same shadowy, bookish world, with a sharper edge. Thanks for being here.
     </p>
   </div>
 </section>
@@ -478,6 +655,141 @@
 
 <script>
   document.getElementById('yr').textContent=new Date().getFullYear();
+
+  // ============ Hero video: respect reduced-motion ============
+  (function(){
+    var vids=document.querySelectorAll('.hero-video, .atmo-video');
+    var reduce=false;
+    try{ reduce=window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
+    if(reduce){ vids.forEach(function(v){ v.removeAttribute('autoplay'); v.pause(); }); return; }
+    if('IntersectionObserver' in window){
+      var io=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          var v=e.target;
+          if(e.isIntersecting){ if(v.paused){ v.play().catch(function(){}); } }
+          else if(!v.paused){ v.pause(); }
+        });
+      },{threshold:0.1});
+      vids.forEach(function(v){ io.observe(v); });
+    }
+  })();
+
+  // ============ Paginated "Read the opening" reader ============
+  (function(){
+    var viewport=document.getElementById('bookViewport');
+    var source=document.getElementById('bookSource');
+    if(!viewport||!source) return;
+    var prevBtn=document.getElementById('bookPrev'), nextBtn=document.getElementById('bookNext'), countEl=document.getElementById('bookCount');
+    var pages=[], cur=0;
+    function newPage(){ var p=document.createElement('div'); p.className='book-page on'; viewport.appendChild(p); pages.push(p); return p; }
+    function build(){
+      var keep=cur;
+      pages.forEach(function(p){ p.remove(); }); pages=[];
+      var TARGET = (window.innerWidth<=640 ? 400 : 460);
+      var els=Array.prototype.slice.call(source.children);
+      var page=newPage();
+      els.forEach(function(el){
+        var clone=el.cloneNode(true);
+        page.appendChild(clone);
+        if(page.offsetHeight > TARGET){
+          if(page.childElementCount>1){ page.removeChild(clone); page=newPage(); page.appendChild(clone); }
+          else { page=newPage(); }
+        }
+      });
+      if(pages.length>1 && pages[pages.length-1].childElementCount===0){ pages.pop().remove(); }
+      show(Math.min(keep, pages.length-1));
+    }
+    function show(i){
+      cur=Math.max(0, Math.min(i, pages.length-1));
+      pages.forEach(function(p,idx){ p.classList.toggle('on', idx===cur); });
+      countEl.textContent='Page '+(cur+1)+' of '+pages.length;
+      prevBtn.disabled=(cur===0); nextBtn.disabled=(cur===pages.length-1);
+    }
+    prevBtn.addEventListener('click', function(){ show(cur-1); });
+    nextBtn.addEventListener('click', function(){ show(cur+1); });
+    build();
+    if(document.fonts && document.fonts.ready){ document.fonts.ready.then(build); }
+    var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt=setTimeout(build,200); });
+  })();
+
+  // ============ "Which world claims you?" quiz ============
+  (function(){
+    var stepsEl=document.getElementById('quizSteps');
+    if(!stepsEl) return;
+    var bar=document.getElementById('quizBar');
+    var QUIZ=[
+      {q:"It's midnight in the library. What pulls you deeper into the stacks?", o:[
+        {t:"A threshold you're not supposed to cross", w:"velmoor"},
+        {t:"A truth someone tried to bury", w:"duskhollow"},
+        {t:"The sense that someone left a trail only you would follow", w:"quinn"},
+        {t:"A tenderness hidden where no one would think to look", w:"pyrrhic"}]},
+      {q:"What cost would you pay for the thing you want most?", o:[
+        {t:"An old debt that comes due whether you agreed to it or not", w:"velmoor"},
+        {t:"Belonging to something you can never walk away from", w:"duskhollow"},
+        {t:"A certainty you can feel but could never prove", w:"quinn"},
+        {t:"A triumph that hollows out everything around it", w:"pyrrhic"}]},
+      {q:"Pick your atmosphere:", o:[
+        {t:"Candlelit halls and rules older than anyone living", w:"velmoor"},
+        {t:"A web of places with no true center", w:"duskhollow"},
+        {t:"A voice in your ear and a clock running down", w:"quinn"},
+        {t:"One beautiful ending you never quite recover from", w:"pyrrhic"}]},
+      {q:"Your ideal protagonist is…", o:[
+        {t:"An outsider who won't stop asking the dangerous question", w:"velmoor"},
+        {t:"A quiet one who changes things from the inside", w:"duskhollow"},
+        {t:"Someone who chooses the truth over her own safety", w:"quinn"},
+        {t:"Someone who keeps choosing love against every odds", w:"pyrrhic"}]},
+      {q:"How do you want it to end?", o:[
+        {t:"With the place still standing because people refused to leave", w:"velmoor"},
+        {t:"With a door you finally understand — and can't close", w:"duskhollow"},
+        {t:"With the answer found and the danger still out there", w:"quinn"},
+        {t:"With an ache that outlasts the final page", w:"pyrrhic"}]}
+    ];
+    var WORLDS={
+      velmoor:{title:"The Velmoor Chronicles", verdict:"Velmoor claims you",
+        cover:"covers/gatekeepers.jpg",
+        desc:"You're drawn to old bargains and quiet costs. Begin where a scholarship student uncovers what the academy has been feeding on for two centuries.",
+        cta:'<a class="btn btn-primary" href="https://www.amazon.com/dp/B0DLT3JYT1" target="_blank" rel="noopener">Start with The Gatekeepers →</a>'},
+      duskhollow:{title:"The Duskhollow Chronicles", verdict:"Duskhollow is keeping your record",
+        cover:"covers/the-other-student.jpg",
+        desc:"Secrets, networks, and records never meant to be read. Begin with the outsider who first finds the margins moving.",
+        cta:'<a class="btn btn-primary" href="https://www.amazon.com/dp/B0GWZWVHN1" target="_blank" rel="noopener">Start with The Other Student →</a>'},
+      quinn:{title:"The Quinn Adler Thrillers", verdict:"The Quinn Adler Thrillers are yours",
+        cover:"covers/marginalia.jpg",
+        desc:"A true-crime obsessive, a ticking clock, and confessions hiding in the margins. Start with Marginalia — or read the free prequel first.",
+        cta:'<a class="btn btn-primary" href="https://www.amazon.com/dp/B0H5GBYZPB" target="_blank" rel="noopener">Buy Marginalia →</a><a class="btn btn-ghost bf-link" href="https://dl.bookfunnel.com/pwyi86wypg" target="_blank" rel="noopener">Free prequel</a>'},
+      pyrrhic:{title:"The Pyrrhic Triumph", verdict:"You're built for The Pyrrhic Triumph",
+        cover:"covers/pyrrhic-triumph.jpg",
+        desc:"You want the ache to last. A self-contained gothic romantasy about a victory that costs everything.",
+        cta:'<a class="btn btn-primary" href="https://www.amazon.com/dp/B0FGB9LVQK" target="_blank" rel="noopener">Read The Pyrrhic Triumph →</a>'}
+    };
+    var scores, idx;
+    function render(){
+      if(idx>=QUIZ.length){ showResult(); return; }
+      var q=QUIZ[idx], h='<div class="quiz-step active"><div class="quiz-count">Question '+(idx+1)+' of '+QUIZ.length+'</div><div class="quiz-q">'+q.q+'</div>';
+      q.o.forEach(function(o){ h+='<button class="quiz-opt" data-w="'+o.w+'">'+o.t+'</button>'; });
+      h+='</div>';
+      stepsEl.innerHTML=h;
+      bar.style.width=(idx/QUIZ.length*100)+'%';
+      stepsEl.querySelectorAll('.quiz-opt').forEach(function(b){
+        b.addEventListener('click',function(){ scores[b.getAttribute('data-w')]++; idx++; render(); });
+      });
+    }
+    function showResult(){
+      bar.style.width='100%'; stepsEl.style.display='none';
+      var win='velmoor', max=-1;
+      for(var k in scores){ if(scores[k]>max){ max=scores[k]; win=k; } }
+      var w=WORLDS[win];
+      document.getElementById('qVerdict').textContent=w.verdict;
+      var c=document.getElementById('qCover'); c.src=w.cover; c.alt=w.title+' cover';
+      document.getElementById('qTitle').textContent=w.title;
+      document.getElementById('qDesc').textContent=w.desc;
+      document.getElementById('qCta').innerHTML=w.cta;
+      document.getElementById('quizResult').classList.add('show');
+      if(typeof gtag==='function'){ gtag('event','quiz_complete',{result:win}); }
+    }
+    window.quizRestart=function(){ scores={velmoor:0,duskhollow:0,quinn:0,pyrrhic:0}; idx=0; document.getElementById('quizResult').classList.remove('show'); stepsEl.style.display=''; render(); };
+    quizRestart();
+  })();
 
   // Track Amazon click-throughs in GA4, labeled by book title.
   (function(){
