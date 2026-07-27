@@ -245,7 +245,11 @@
     var DELAY=2000;          // ms the reader sees the page before forwarding
     var LOOKUP_CAP=2000;          // never wait longer than this on geo lookup
 
-    var dest=DEST, cancelled=false, fired=false, geoDone=!GEO, elapsed=0, store='Amazon US';
+    // 'store' starts unresolved rather than defaulting to Amazon US — book_page_view
+    // fires before the country lookup returns, and labelling those hits "Amazon US"
+    // would make the GA4 store dimension read as almost entirely US traffic.
+    var dest=DEST, cancelled=false, fired=false, geoDone=!GEO, elapsed=0;
+    var store=GEO?'(resolving)':'(not applicable)';
     var countEl=document.getElementById('rdCount');
     var barEl=document.getElementById('rdBar');
     var noteEl=document.getElementById('redirectNote');
@@ -289,7 +293,8 @@
 
     function setStore(code){
       var e=MAP[(code||'').toUpperCase()];
-      if(!e)return;
+      // No Kindle store in this country — amazon.com is the working fallback.
+      if(!e){store='Amazon US (fallback)';return;}
       var domain=e[0];store=e[1];
       var nameEl=document.getElementById('storeName');
       if(nameEl)nameEl.textContent=store;
@@ -362,8 +367,11 @@
     }
 
     // Visible countdown so nothing happens without warning.
+    // Timed off the wall clock, not off tick count: browsers throttle timers to
+    // ~1/second in background tabs, which would otherwise stretch a 2s wait to 20s.
+    var startedAt=Date.now();
     var tick=setInterval(function(){
-      elapsed+=100;
+      elapsed=Date.now()-startedAt;
       if(cancelled){clearInterval(tick);return;}
       var pct=Math.min(100,(elapsed/DELAY)*100);
       if(barEl)barEl.style.width=pct+'%';
