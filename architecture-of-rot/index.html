@@ -93,7 +93,10 @@
     background:linear-gradient(180deg, rgba(13,11,18,.82), rgba(13,11,18,.93))}
   header.bookhero .wrap{position:relative;z-index:1}
   .bh{display:grid;grid-template-columns:300px 1fr;gap:52px;align-items:center}
-  .bh-cover{width:100%;border-radius:6px;border:1px solid var(--line);box-shadow:0 26px 60px rgba(0,0,0,.6);display:block}
+  /* height:auto is load-bearing — without it the width/height attributes
+     stretch the cover to a fixed pixel height. */
+  .bh-cover{width:100%;height:auto;border-radius:6px;border:1px solid var(--line);
+    box-shadow:0 26px 60px rgba(0,0,0,.6);display:block}
   .crumb{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
   .crumb a:hover{color:var(--accent)}
   .bh h1{font-family:var(--serif);font-weight:500;font-size:clamp(2.4rem,6vw,3.9rem);line-height:1.03;margin-bottom:10px}
@@ -180,7 +183,7 @@
 <header class="bookhero" style="background-image:url('/atmosphere/velmoor.jpg');background-position:center">
   <div class="wrap">
     <div class="bh">
-      <img class="bh-cover" src="/covers/architecture-of-rot.jpg" alt="Architecture of Rot — book cover" width="600" height="900">
+      <img class="bh-cover" src="/covers/architecture-of-rot.jpg" alt="Architecture of Rot — book cover" width="500" height="803" fetchpriority="high">
       <div>
         <div class="crumb"><a href="/">Maren Blackthorn</a> &nbsp;/&nbsp; <a href="/#books">Books</a></div>
         <div class="series">The Velmoor Chronicles · Book 3</div>
