@@ -27,7 +27,8 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-FLDVN4QRPW');
+  // Add ?debug=1 to any book URL to make the hit show up in GA4 DebugView.
+  gtag('config', 'G-FLDVN4QRPW', {debug_mode: /[?&]debug=1/.test(location.search)});
 </script>
 
 <script type="application/ld+json">
@@ -192,7 +193,7 @@
         <p class="hook">A new outsider finds Duskhollow keeping a record that was never meant to be read.</p>
         <p class="blurb">Where the Duskhollow Chronicles begin. A second school, a second outsider, and an archive that has been quietly noting down more than anyone realised.</p>
         <div class="buy-row"><a href="https://www.amazon.com/dp/B0GWZWVHN1" class="btn btn-primary">Buy on Amazon</a><a href="/#books" class="btn btn-ghost">See all books</a></div>
-        <div class="redirect-note" id="redirectNote">Taking you to <b id="storeName">Amazon US</b> in <span id="rdCount">3</span>…<button class="rd-stay" id="rdStay" type="button">Stay here</button><div class="rd-bar"><span id="rdBar"></span></div></div><div class="store-note">We send you to your local Amazon store automatically. Not right? <a href="https://www.amazon.com/stores/Maren-Blackthorn/author/B0GWW4KSJZ" class="no-geo" target="_blank" rel="noopener">Browse the author page</a>.</div>
+        <div class="redirect-note" id="redirectNote">Taking you to <b id="storeName">Amazon US</b> in <span id="rdCount">2</span>…<button class="rd-stay" id="rdStay" type="button">Stay here</button><div class="rd-bar"><span id="rdBar"></span></div></div><div class="store-note">We send you to your local Amazon store automatically. Not right? <a href="https://www.amazon.com/stores/Maren-Blackthorn/author/B0GWW4KSJZ" class="no-geo" target="_blank" rel="noopener">Browse the author page</a>.</div>
       </div>
     </div>
   </div>
@@ -278,10 +279,10 @@
   // Same ASIN resolves on every Amazon marketplace, so we only swap the domain.
   // The page shows the book for a beat, then forwards to the right store.
   (function(){
-    var MAP={"US":["amazon.com","Amazon US"],"GB":["amazon.co.uk","Amazon UK"],"CA":["amazon.ca","Amazon Canada"],"AU":["amazon.com.au","Amazon Australia"],"DE":["amazon.de","Amazon Germany"],"FR":["amazon.fr","Amazon France"],"IT":["amazon.it","Amazon Italy"],"ES":["amazon.es","Amazon Spain"],"NL":["amazon.nl","Amazon Netherlands"],"SE":["amazon.se","Amazon Sweden"],"PL":["amazon.pl","Amazon Poland"],"IE":["amazon.co.uk","Amazon UK"],"JP":["amazon.co.jp","Amazon Japan"],"IN":["amazon.in","Amazon India"],"BR":["amazon.com.br","Amazon Brazil"],"MX":["amazon.com.mx","Amazon Mexico"],"SG":["amazon.sg","Amazon Singapore"],"AE":["amazon.ae","Amazon UAE"],"SA":["amazon.sa","Amazon Saudi Arabia"],"TR":["amazon.com.tr","Amazon Turkey"],"BE":["amazon.com.be","Amazon Belgium"],"NZ":["amazon.com.au","Amazon Australia"],"AT":["amazon.de","Amazon Germany"],"CH":["amazon.de","Amazon Germany"],"EG":["amazon.eg","Amazon Egypt"],"ZA":["amazon.co.za","Amazon South Africa"],"LU":["amazon.fr","Amazon France"],"PT":["amazon.es","Amazon Spain"],"DK":["amazon.de","Amazon Germany"],"NO":["amazon.co.uk","Amazon UK"],"FI":["amazon.se","Amazon Sweden"],"CZ":["amazon.de","Amazon Germany"],"HK":["amazon.sg","Amazon Singapore"],"MY":["amazon.sg","Amazon Singapore"]};
+    var MAP={"US":["amazon.com","Amazon US"],"GB":["amazon.co.uk","Amazon UK"],"IE":["amazon.co.uk","Amazon UK"],"CA":["amazon.ca","Amazon Canada"],"AU":["amazon.com.au","Amazon Australia"],"NZ":["amazon.com.au","Amazon Australia"],"DE":["amazon.de","Amazon Germany"],"AT":["amazon.de","Amazon Germany"],"CH":["amazon.de","Amazon Germany"],"FR":["amazon.fr","Amazon France"],"BE":["amazon.fr","Amazon France"],"LU":["amazon.fr","Amazon France"],"IT":["amazon.it","Amazon Italy"],"ES":["amazon.es","Amazon Spain"],"PT":["amazon.es","Amazon Spain"],"NL":["amazon.nl","Amazon Netherlands"],"JP":["amazon.co.jp","Amazon Japan"],"IN":["amazon.in","Amazon India"],"BR":["amazon.com.br","Amazon Brazil"],"MX":["amazon.com.mx","Amazon Mexico"]};
     var DEST="https://www.amazon.com/dp/B0GWZWVHN1";            // amazon.com URL, or BookFunnel for the freebie
     var GEO=true;              // false for non-Amazon destinations
-    var DELAY=3000;          // ms the reader sees the page before forwarding
+    var DELAY=2000;          // ms the reader sees the page before forwarding
     var LOOKUP_CAP=2000;          // never wait longer than this on geo lookup
 
     var dest=DEST, cancelled=false, fired=false, geoDone=!GEO, elapsed=0, store='Amazon US';
@@ -348,24 +349,24 @@
     }
     window.mbCancelRedirect=cancel;
 
+    // Sent partway through the countdown rather than at the moment we navigate.
+    // A hit fired during unload is routinely dropped, which undercounts the
+    // forward; sending it early gives GA4 the rest of the countdown to deliver.
+    // The few readers who then cancel are recorded by redirect_cancelled.
+    var clickSent=false;
+    function sendClick(){
+      if(clickSent||cancelled)return;
+      clickSent=true;
+      send('amazon_click',{link_url:dest,source:'auto_redirect'});
+    }
+
     function go(){
       if(cancelled||fired)return;
       fired=true;
-      var navigated=false;
+      sendClick();
       // replace() keeps this page out of history, so Back from Amazon
       // doesn't bounce the reader straight back into the redirect.
-      function nav(){if(navigated)return;navigated=true;location.replace(dest);}
-      if(typeof gtag==='function'){
-        // event_callback holds the redirect until GA4 confirms the hit — without
-        // it the navigation kills the request and the click goes unrecorded.
-        gtag('event','amazon_click',(function(){
-          var p=attribution();
-          p.link_url=dest;p.source='auto_redirect';
-          p.event_callback=nav;p.event_timeout=1000;
-          return p;
-        })());
-        setTimeout(nav,1200); // hard backstop if GA is blocked and never calls back
-      }else{nav();}
+      location.replace(dest);
     }
 
     // Escape hatches: ?stay=1 to preview, Esc key, or the Stay link.
@@ -407,6 +408,11 @@
       var pct=Math.min(100,(elapsed/DELAY)*100);
       if(barEl)barEl.style.width=pct+'%';
       if(countEl)countEl.textContent=Math.max(1,Math.ceil((DELAY-elapsed)/1000));
+      // Log the forward while the page is still alive. Normally we wait for the
+      // store to be known so it's recorded accurately; if the lookup is dragging,
+      // send anyway rather than risk losing the event to the unload.
+      if(geoDone&&elapsed>=DELAY*0.4)sendClick();
+      else if(elapsed>=DELAY*0.7)sendClick();
       // Wait for geo, but never past the lookup cap.
       if(elapsed>=DELAY&&(geoDone||elapsed>=LOOKUP_CAP+DELAY)){clearInterval(tick);go();}
     },100);
