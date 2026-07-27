@@ -19,10 +19,17 @@
 <meta name="twitter:image" content="https://marenblackthorn.com/covers/open-channel.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Analytics has ~2s to load before the page forwards, so warm the connections early. -->
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+<link rel="dns-prefetch" href="https://api.country.is">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <!-- Google Analytics 4 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FLDVN4QRPW"></script>
+<!-- onerror lets the redirect skip its wait-for-analytics grace period when a
+     content blocker has killed this request — no point waiting for a hit that
+     can never be sent. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FLDVN4QRPW" onerror="window.__gaBlocked=1"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -283,13 +290,17 @@
     var DEST="https://www.amazon.com/dp/B0GX2SSSLM";            // amazon.com URL, or BookFunnel for the freebie
     var GEO=true;              // false for non-Amazon destinations
     var DELAY=2000;          // ms the reader sees the page before forwarding
-    var LOOKUP_CAP=2000;          // never wait longer than this on geo lookup
+    // Deliberately shorter than DELAY: the country lookup must finish (or give up)
+    // before the forward is due, otherwise slow-lookup readers wait twice as long.
+    var LOOKUP_CAP=Math.min(1200,Math.round(DELAY*0.6));
+    var GA_GRACE=500;             // extra ms we'll wait for analytics to finish loading
 
     // 'store' starts unresolved rather than defaulting to Amazon US — book_page_view
     // fires before the country lookup returns, and labelling those hits "Amazon US"
     // would make the GA4 store dimension read as almost entirely US traffic.
     var dest=DEST, cancelled=false, fired=false, geoDone=!GEO, elapsed=0;
     var store=GEO?'(resolving)':'(not applicable)';
+    var startedAt=Date.now();
     var countEl=document.getElementById('rdCount');
     var barEl=document.getElementById('rdBar');
     var noteEl=document.getElementById('redirectNote');
@@ -324,8 +335,12 @@
       if(typeof gtag!=='function')return;
       var p=attribution();
       for(var k in extra)p[k]=extra[k];
+      // sendBeacon survives the page being torn down mid-request.
+      p.transport_type='beacon';
       gtag('event',name,p);
     }
+    // gtag.js has actually executed (rather than merely being queued in dataLayer).
+    function gaReady(){return !!(window.google_tag_manager||window.__gaBlocked);}
 
     // Landing recorded up front — compare against amazon_click to see
     // how many people bail before the forward completes.
@@ -386,6 +401,15 @@
     // Returning via the Back button (bfcache) must not re-trigger the forward.
     window.addEventListener('pageshow',function(e){if(e.persisted)cancel('back_button');});
 
+    // Reader closed the tab or swiped back before the forward ran. This is what
+    // separates "left too early" from "we forwarded but lost the event", so the
+    // three outcomes below should add up to the book_page_view count:
+    //   amazon_click + redirect_cancelled + redirect_abandoned = book_page_view
+    window.addEventListener('pagehide',function(){
+      if(fired||cancelled)return;
+      send('redirect_abandoned',{ms_on_page:Date.now()-startedAt});
+    });
+
     // Resolve the visitor's store, then forward.
     if(GEO){
       var cached=null;
@@ -409,20 +433,19 @@
     // Visible countdown so nothing happens without warning.
     // Timed off the wall clock, not off tick count: browsers throttle timers to
     // ~1/second in background tabs, which would otherwise stretch a 2s wait to 20s.
-    var startedAt=Date.now();
     var tick=setInterval(function(){
       elapsed=Date.now()-startedAt;
       if(cancelled){clearInterval(tick);return;}
       var pct=Math.min(100,(elapsed/DELAY)*100);
       if(barEl)barEl.style.width=pct+'%';
       if(countEl)countEl.textContent=Math.max(1,Math.ceil((DELAY-elapsed)/1000));
-      // Log the forward while the page is still alive. Normally we wait for the
-      // store to be known so it's recorded accurately; if the lookup is dragging,
-      // send anyway rather than risk losing the event to the unload.
-      if(geoDone&&elapsed>=DELAY*0.4)sendClick();
-      else if(elapsed>=DELAY*0.7)sendClick();
-      // Wait for geo, but never past the lookup cap.
-      if(elapsed>=DELAY&&(geoDone||elapsed>=LOOKUP_CAP+DELAY)){clearInterval(tick);go();}
+      // Queue the forward event as early as we can — the longer it sits in the
+      // dataLayer before we navigate, the likelier it is to actually be sent.
+      if(geoDone&&elapsed>=250)sendClick();
+      else if(elapsed>=DELAY*0.6)sendClick();
+      // Forward once the countdown is up. If analytics is still loading, allow a
+      // short grace period so the queued hit isn't thrown away by the navigation.
+      if(elapsed>=DELAY&&(gaReady()||elapsed>=DELAY+GA_GRACE)){clearInterval(tick);go();}
     },100);
   })();
 
