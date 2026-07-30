@@ -137,11 +137,11 @@
     background:linear-gradient(180deg, rgba(13,11,18,.80), rgba(13,11,18,.90))}
   .series-block > *{position:relative;z-index:1}
   .series-block:last-child{margin-bottom:0}
-  .sb-velmoor{background-image:url('atmosphere/velmoor.jpg')}
-  .sb-duskhollow{background-image:url('atmosphere/duskhollow.jpg')}
-  .sb-quinn{background-image:url('atmosphere/quinn.jpg');background-position:center 72%}
-  .sb-pyrrhic{background-image:url('atmosphere/pyrrhic.jpg')}
-  section.about{position:relative;overflow:hidden;background:#100c17 url('atmosphere/about.jpg') center/cover}
+  .sb-velmoor{}
+  .sb-duskhollow{}
+  .sb-quinn{background-position:center 72%}
+  .sb-pyrrhic{}
+  section.about{position:relative;overflow:hidden;background:#100c17;background-size:cover;background-position:center}
   section.about::before{content:"";position:absolute;inset:0;z-index:0;
     background:linear-gradient(180deg, rgba(13,11,18,.86), rgba(13,11,18,.90))}
   section.about .wrap{position:relative;z-index:1}
@@ -286,7 +286,7 @@
 
 <!-- ============ HERO ============ -->
 <header class="hero">
-  <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="metadata" poster="atmosphere/hero-rain.jpg">
+  <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="none" poster="atmosphere/hero-rain.jpg">
     <source src="atmosphere/hero-rain.mp4" type="video/mp4">
   </video>
   <div class="atmo-still atmo-fallback" style="background-image:url('atmosphere/hero-rain.jpg')"></div>
@@ -305,12 +305,12 @@
 
 <!-- ============ FEATURED (new release) ============ -->
 <section class="has-atmo">
-  <div class="atmo-still" style="background-image:url('atmosphere/featured-spines.jpg')"></div>
+  <div class="atmo-still" data-bg="atmosphere/featured-spines.jpg"></div>
   <div class="atmo-scrim"></div>
   <div class="wrap">
     <div class="featured">
       <a class="cover has-img" href="https://www.amazon.com/dp/B0H5GBYZPB" target="_blank" rel="noopener">
-        <img src="covers/marginalia.jpg" alt="Marginalia cover">
+        <img src="covers/marginalia.jpg" alt="Marginalia cover" decoding="async">
       </a>
       <div>
         <div class="series">Now Available · Quinn Adler Thrillers</div>
@@ -324,15 +324,15 @@
 
 <!-- ============ FREE PREQUEL ============ -->
 <section id="freebook" class="has-atmo">
-  <video class="atmo-video" autoplay muted loop playsinline webkit-playsinline preload="metadata" poster="atmosphere/freebook-macro.jpg">
+  <video class="atmo-video" autoplay muted loop playsinline webkit-playsinline preload="none" poster="atmosphere/freebook-macro.jpg">
     <source src="atmosphere/freebook-macro.mp4" type="video/mp4">
   </video>
-  <div class="atmo-still atmo-fallback" style="background-image:url('atmosphere/freebook-macro.jpg')"></div>
+  <div class="atmo-still atmo-fallback" data-bg="atmosphere/freebook-macro.jpg"></div>
   <div class="atmo-scrim"></div>
   <div class="wrap">
     <div class="featured">
       <div class="cover has-img">
-        <img src="covers/episode-zero.jpg" alt="Episode Zero: The Case That Started It All — a free Adler Files prequel by Maren Blackthorn">
+        <img src="covers/episode-zero.jpg" alt="Episode Zero: The Case That Started It All — a free Adler Files prequel by Maren Blackthorn" decoding="async">
       </div>
       <div>
         <div class="series">Free Prequel · Quinn Adler Thrillers</div>
@@ -350,7 +350,7 @@
 
 <!-- ============ READ THE OPENING (sample) ============ -->
 <section id="sample" class="has-atmo">
-  <div class="atmo-still" style="background-image:url('atmosphere/sample-desk.jpg')"></div>
+  <div class="atmo-still" data-bg="atmosphere/sample-desk.jpg"></div>
   <div class="atmo-scrim"></div>
   <div class="wrap">
     <div class="eye-divider" aria-hidden="true">
@@ -400,10 +400,10 @@
 
 <!-- ============ QUIZ ============ -->
 <section id="quiz" class="has-atmo">
-  <video class="atmo-video" autoplay muted loop playsinline webkit-playsinline preload="metadata" poster="atmosphere/quiz-shelves.jpg">
+  <video class="atmo-video" autoplay muted loop playsinline webkit-playsinline preload="none" poster="atmosphere/quiz-shelves.jpg">
     <source src="atmosphere/quiz-shelves.mp4" type="video/mp4">
   </video>
-  <div class="atmo-still atmo-fallback" style="background-image:url('atmosphere/quiz-shelves.jpg')"></div>
+  <div class="atmo-still atmo-fallback" data-bg="atmosphere/quiz-shelves.jpg"></div>
   <div class="atmo-scrim"></div>
   <div class="wrap">
     <div class="eye-divider" aria-hidden="true">
@@ -420,7 +420,7 @@
         <div id="quizSteps"></div>
         <div class="quiz-result" id="quizResult">
           <div class="verdict" id="qVerdict"></div>
-          <img id="qCover" src="" alt="">
+          <img id="qCover" src="" alt="" loading="lazy" decoding="async">
           <h3 id="qTitle"></h3>
           <p id="qDesc"></p>
           <div class="dl-row" id="qCta" style="justify-content:center"></div>
@@ -441,14 +441,14 @@
     </div>
 
     <!-- QUINN ADLER -->
-    <div class="series-block sb-quinn">
+    <div class="series-block sb-quinn" data-bg="atmosphere/quinn.jpg">
       <div class="series-title">The Quinn Adler Thrillers</div>
       <div class="series-sub">A true-crime podcaster hunts a hidden network that leaves its murder confessions in the margins of library books. Book one is available now — and the prequel short story is free.</div>
       <div class="grid">
 
         <article class="book">
           <a class="cover has-img" href="#freebook">
-            <img src="covers/episode-zero.jpg" alt="Episode Zero: The Case That Started It All cover">
+            <img src="covers/episode-zero.jpg" alt="Episode Zero: The Case That Started It All cover" loading="lazy" decoding="async">
           </a>
           <h4>Episode Zero</h4>
           <div class="meta">Quinn Adler Thrillers · Free prequel short story</div>
@@ -458,7 +458,7 @@
 
         <article class="book">
           <a class="cover has-img" href="https://www.amazon.com/dp/B0H5GBYZPB" target="_blank" rel="noopener">
-            <img src="covers/marginalia.jpg" alt="Marginalia cover">
+            <img src="covers/marginalia.jpg" alt="Marginalia cover" loading="lazy" decoding="async">
           </a>
           <h4>Marginalia</h4>
           <div class="meta">Quinn Adler Thrillers · Book 1</div>
@@ -468,7 +468,7 @@
 
         <article class="book">
           <div class="cover has-img">
-            <img src="covers/out-of-print.jpg" alt="Out of Print cover">
+            <img src="covers/out-of-print.jpg" alt="Out of Print cover" loading="lazy" decoding="async">
           </div>
           <h4>Out of Print</h4>
           <div class="meta">Quinn Adler Thrillers · Book 2</div>
@@ -480,14 +480,14 @@
     </div>
 
     <!-- VELMOOR -->
-    <div class="series-block sb-velmoor">
+    <div class="series-block sb-velmoor" data-bg="atmosphere/velmoor.jpg">
       <div class="series-title">The Velmoor Chronicles</div>
       <div class="series-sub">A scholarship student enters an academy that has been quietly draining its own for two centuries.</div>
       <div class="grid">
 
         <article class="book">
           <a class="cover has-img" href="https://www.amazon.com/dp/B0DLT3JYT1" target="_blank" rel="noopener">
-            <img src="covers/gatekeepers.jpg" alt="The Gatekeepers: Ash and Ink cover">
+            <img src="covers/gatekeepers.jpg" alt="The Gatekeepers: Ash and Ink cover" loading="lazy" decoding="async">
           </a>
           <h4>The Gatekeepers: Ash and Ink</h4>
           <div class="meta">Velmoor Chronicles · Book 1</div>
@@ -497,7 +497,7 @@
 
         <article class="book">
           <a class="cover has-img" href="https://www.amazon.com/dp/B0GX2ZTFY6" target="_blank" rel="noopener">
-            <img src="covers/weight-of-the-yield.jpg" alt="The Weight of the Yield cover">
+            <img src="covers/weight-of-the-yield.jpg" alt="The Weight of the Yield cover" loading="lazy" decoding="async">
           </a>
           <h4>The Weight of the Yield</h4>
           <div class="meta">Velmoor Chronicles · Book 2</div>
@@ -507,7 +507,7 @@
 
         <article class="book">
           <a class="cover has-img" href="https://www.amazon.com/dp/B0GX2WQGHR" target="_blank" rel="noopener">
-            <img src="covers/architecture-of-rot.jpg" alt="Architecture of Rot cover">
+            <img src="covers/architecture-of-rot.jpg" alt="Architecture of Rot cover" loading="lazy" decoding="async">
           </a>
           <h4>Architecture of Rot</h4>
           <div class="meta">Velmoor Chronicles · Book 3</div>
@@ -517,7 +517,7 @@
 
         <article class="book">
           <a class="cover has-img" href="https://www.amazon.com/dp/B0GX2ZWN3G" target="_blank" rel="noopener">
-            <img src="covers/founding-name.jpg" alt="The Founding Name cover">
+            <img src="covers/founding-name.jpg" alt="The Founding Name cover" loading="lazy" decoding="async">
           </a>
           <h4>The Founding Name</h4>
           <div class="meta">Velmoor Chronicles · Book 4</div>
@@ -527,7 +527,7 @@
 
         <article class="book">
           <a class="cover has-img" href="https://www.amazon.com/dp/B0H2TVPSNH" target="_blank" rel="noopener">
-            <img src="covers/what-velmoor-chooses.jpg" alt="What Velmoor Chooses cover">
+            <img src="covers/what-velmoor-chooses.jpg" alt="What Velmoor Chooses cover" loading="lazy" decoding="async">
           </a>
           <h4>What Velmoor Chooses</h4>
           <div class="meta">Velmoor Chronicles · Book 5</div>
@@ -539,14 +539,14 @@
     </div>
 
     <!-- DUSKHOLLOW -->
-    <div class="series-block sb-duskhollow">
+    <div class="series-block sb-duskhollow" data-bg="atmosphere/duskhollow.jpg">
       <div class="series-title">The Duskhollow Chronicles</div>
       <div class="series-sub">Another outsider, into a school keeping a record that was never meant to be read — expanding from one institution to a network of seven.</div>
       <div class="grid">
 
         <article class="book">
           <a class="cover has-img" href="https://www.amazon.com/dp/B0GWZWVHN1" target="_blank" rel="noopener">
-            <img src="covers/the-other-student.jpg" alt="The Other Student cover">
+            <img src="covers/the-other-student.jpg" alt="The Other Student cover" loading="lazy" decoding="async">
           </a>
           <h4>The Other Student</h4>
           <div class="meta">Duskhollow Chronicles · Book 1</div>
@@ -556,7 +556,7 @@
 
         <article class="book">
           <a class="cover has-img" href="https://www.amazon.com/dp/B0GX3BCSYN" target="_blank" rel="noopener">
-            <img src="covers/marginalia-war.jpg" alt="The Marginalia War cover">
+            <img src="covers/marginalia-war.jpg" alt="The Marginalia War cover" loading="lazy" decoding="async">
           </a>
           <h4>The Marginalia War</h4>
           <div class="meta">Duskhollow Chronicles · Book 2</div>
@@ -566,7 +566,7 @@
 
         <article class="book">
           <a class="cover has-img" href="https://www.amazon.com/dp/B0GX2SSSLM" target="_blank" rel="noopener">
-            <img src="covers/open-channel.jpg" alt="The Open Channel cover">
+            <img src="covers/open-channel.jpg" alt="The Open Channel cover" loading="lazy" decoding="async">
           </a>
           <h4>The Open Channel</h4>
           <div class="meta">Duskhollow Chronicles · Book 3</div>
@@ -577,7 +577,7 @@
         <!-- CONFIRM: is B0H1V5XGYM "What the Seal Kept" (Book 4)? -->
         <article class="book">
           <a class="cover has-img" href="https://www.amazon.com/dp/B0H1V5XGYM" target="_blank" rel="noopener">
-            <img src="covers/what-the-seal-kept.jpg" alt="What the Seal Kept cover">
+            <img src="covers/what-the-seal-kept.jpg" alt="What the Seal Kept cover" loading="lazy" decoding="async">
           </a>
           <h4>What the Seal Kept</h4>
           <div class="meta">Duskhollow Chronicles · Book 4</div>
@@ -587,7 +587,7 @@
 
         <article class="book">
           <a class="cover has-img" href="https://www.amazon.com/dp/B0H23WMQ7V" target="_blank" rel="noopener">
-            <img src="covers/the-last-archivist.jpg" alt="The Last Archivist cover">
+            <img src="covers/the-last-archivist.jpg" alt="The Last Archivist cover" loading="lazy" decoding="async">
           </a>
           <h4>The Last Archivist</h4>
           <div class="meta">Duskhollow Chronicles · Book 5</div>
@@ -599,14 +599,14 @@
     </div>
 
     <!-- STANDALONE -->
-    <div class="series-block sb-pyrrhic">
+    <div class="series-block sb-pyrrhic" data-bg="atmosphere/pyrrhic.jpg">
       <div class="series-title">Standalone</div>
       <div class="series-sub">A self-contained gothic romantasy — for readers who want the ache to last.</div>
       <div class="grid">
 
         <article class="book">
           <a class="cover has-img" href="https://www.amazon.com/dp/B0FGB9LVQK" target="_blank" rel="noopener">
-            <img src="covers/pyrrhic-triumph.jpg" alt="The Pyrrhic Triumph cover">
+            <img src="covers/pyrrhic-triumph.jpg" alt="The Pyrrhic Triumph cover" loading="lazy" decoding="async">
           </a>
           <h4>The Pyrrhic Triumph</h4>
           <div class="meta">A Dark Romantasy Novel</div>
@@ -625,7 +625,7 @@
 </section>
 
 <!-- ============ ABOUT ============ -->
-<section class="about">
+<section class="about" data-bg="atmosphere/about.jpg">
   <div class="wrap" style="max-width:720px;text-align:center">
     <div class="eyebrow" style="color:var(--accent)">About the Author</div>
     <h2 style="font-family:var(--serif);font-weight:500;font-size:clamp(2rem,5vw,2.8rem);margin:14px 0 22px">Hi, I'm Maren</h2>
@@ -680,6 +680,30 @@
 </footer>
 
 <script>
+  // ---- Lazy section backdrops ------------------------------------------
+  // The atmosphere images total ~1.1MB and every one of them sits below the
+  // fold, yet they were all being fetched before the page could render. Each
+  // element now carries its URL in data-bg and only gets it once it is close to
+  // being scrolled into view. Browsers without IntersectionObserver just load
+  // them all immediately, exactly as before.
+  (function(){
+    var els=[].slice.call(document.querySelectorAll('[data-bg]'));
+    if(!els.length)return;
+    function apply(el){
+      var url=el.getAttribute('data-bg');
+      if(!url)return;
+      el.style.backgroundImage="url('"+url+"')";
+      el.removeAttribute('data-bg');
+    }
+    if(!('IntersectionObserver' in window)){els.forEach(apply);return;}
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){apply(e.target);io.unobserve(e.target);}
+      });
+    },{rootMargin:'400px'}); // start fetching just before it comes into view
+    els.forEach(function(el){io.observe(el);});
+  })();
+
   document.getElementById('yr').textContent=new Date().getFullYear();
 
   // ============ Hero video: respect reduced-motion ============
