@@ -28,6 +28,37 @@
 <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
 <link rel="dns-prefetch" href="https://api.country.is">
 
+<script>
+
+  // ---- Ad attribution, computed before analytics loads ------------------
+  // This runs FIRST so the values can be handed to gtag's config call and ride
+  // out on the page_view hit. GA4 sends page_view promptly but batches later
+  // events, and this page forwards to Amazon in ~2s — so a separately-sent
+  // event is routinely killed by the navigation. page_view always survives,
+  // therefore the book and campaign data travels on page_view.
+  (function(){
+    function q(name){
+      var m=new RegExp('[?&]'+name+'=([^&#]*)').exec(location.search);
+      return m?decodeURIComponent(m[1].replace(/\+/g,' ')):'';
+    }
+    var refHost='';
+    try{refHost=document.referrer?new URL(document.referrer).hostname.replace(/^www\./,''):'';}catch(e){}
+    // Tidy the platforms' link-shim domains (l.instagram.com, lm.facebook.com…).
+    ['tiktok','instagram','facebook','youtube','pinterest','reddit','threads'].some(function(n){
+      if(refHost.indexOf(n)!==-1){refHost=n;return true;}
+    });
+    window.__mbAttr={
+      book_title:"Marginalia",
+      book_slug:"marginalia",
+      ad_source:q('utm_source')||refHost||'direct',
+      ad_medium:q('utm_medium')||'(none)',
+      ad_campaign:q('utm_campaign')||'(none)',
+      ad_content:q('utm_content')||'(none)'
+    };
+  })();
+
+</script>
+
 <!-- Google Analytics 4 -->
 <!-- onerror lets the redirect skip its wait-for-analytics grace period when a
      content blocker has killed this request — no point waiting for a hit that
@@ -37,8 +68,11 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  // Add ?debug=1 to any book URL to make the hit show up in GA4 DebugView.
-  gtag('config', 'G-FLDVN4QRPW', {debug_mode: /[?&]debug=1/.test(location.search)});
+  // The book and campaign fields are merged into the config so they are carried
+  // by page_view — the one hit that reliably survives this page forwarding.
+  var mbCfg = {debug_mode: /[?&]debug=1/.test(location.search)};
+  for (var k in window.__mbAttr) mbCfg[k] = window.__mbAttr[k];
+  gtag('config', 'G-FLDVN4QRPW', mbCfg);
 </script>
 
 <!-- ORDER MATTERS. This runs before any stylesheet is referenced. A browser will
@@ -73,31 +107,15 @@
     function el(id){return document.getElementById(id);}
     var chosenDomain=null;
 
-    // ---- Ad attribution --------------------------------------------------
-    // Pull utm_* off the URL so TikTok / Instagram / individual creatives can
-    // be told apart in GA4. Falls back to the referring domain when the ad
-    // platform's in-app browser strips the query string.
-    function q(name){
-      var m=new RegExp('[?&]'+name+'=([^&#]*)').exec(location.search);
-      return m?decodeURIComponent(m[1].replace(/\+/g,' ')):'';
-    }
-    var refHost='';
-    try{refHost=document.referrer?new URL(document.referrer).hostname.replace(/^www\./,''):'';}catch(e){}
-    // Tidy the platforms' link-shim domains (l.instagram.com, lm.facebook.com…)
-    // into plain names so untagged traffic still groups sensibly.
-    ['tiktok','instagram','facebook','youtube','pinterest','reddit','threads'].some(function(n){
-      if(refHost.indexOf(n)!==-1){refHost=n;return true;}
-    });
+    // Attribution was computed earlier (see the block above the gtag config) and
+    // is already riding out on page_view. Reused here for the extra events, which
+    // are best-effort: they may not survive the navigation.
     function attribution(){
-      return {
-        book_title:"Marginalia",
-        book_slug:"marginalia",
-        ad_source:q('utm_source')||refHost||'direct',
-        ad_medium:q('utm_medium')||'(none)',
-        ad_campaign:q('utm_campaign')||'(none)',
-        ad_content:q('utm_content')||'(none)',
-        store:store
-      };
+      var base=window.__mbAttr||{};
+      var p={};
+      for(var k in base)p[k]=base[k];
+      p.store=store;
+      return p;
     }
     function send(name,extra){
       if(typeof gtag!=='function')return;
