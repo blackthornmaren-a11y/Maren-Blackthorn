@@ -58,7 +58,7 @@
     // Deliberately shorter than DELAY: the country lookup must finish (or give up)
     // before the forward is due, otherwise slow-lookup readers wait twice as long.
     var LOOKUP_CAP=Math.min(1200,Math.round(DELAY*0.6));
-    var GA_GRACE=500;             // extra ms we'll wait for analytics to finish loading
+    var GA_GRACE=900;             // hard ceiling on waiting for the hit to be sent
 
     // 'store' starts unresolved rather than defaulting to Amazon US — book_page_view
     // fires before the country lookup returns, and labelling those hits "Amazon US"
@@ -148,11 +148,23 @@
     // A hit fired during unload is routinely dropped, which undercounts the
     // forward; sending it early gives GA4 the rest of the countdown to deliver.
     // The few readers who then cancel are recorded by redirect_cancelled.
-    var clickSent=false;
+    // Delivery confirmation, not just "the tag loaded". gtag.js sends page_view
+    // first and flushes queued custom events in a LATER request — so a page that
+    // navigates in between lands page_view and loses book_page_view. Waiting for
+    // this callback ties the forward to the hit actually going out. Because the
+    // dataLayer queue is ordered, confirming amazon_click confirms book_page_view too.
+    var clickSent=false, clickConfirmed=false;
     function sendClick(){
       if(clickSent||cancelled)return;
       clickSent=true;
-      send('amazon_click',{link_url:dest,source:'auto_redirect'});
+      if(typeof gtag!=='function'||window.__gaBlocked){clickConfirmed=true;return;}
+      var p=attribution();
+      p.link_url=dest;
+      p.source='auto_redirect';
+      p.transport_type='beacon';
+      p.event_callback=function(){clickConfirmed=true;};
+      p.event_timeout=1500;
+      gtag('event','amazon_click',p);
     }
 
     function go(){
@@ -284,9 +296,10 @@
       // dataLayer before we navigate, the likelier it is to actually be sent.
       if(geoDone&&elapsed>=250)sendClick();
       else if(elapsed>=DELAY*0.6)sendClick();
-      // Forward once the countdown is up. If analytics is still loading, allow a
-      // short grace period so the queued hit isn't thrown away by the navigation.
-      if(elapsed>=DELAY&&(gaReady()||elapsed>=DELAY+GA_GRACE)){clearInterval(tick);go();}
+      // Forward once the countdown is up AND the hit is confirmed sent. The grace
+      // period is the hard ceiling so a blocked or dead analytics endpoint can
+      // never strand a reader on this page.
+      if(elapsed>=DELAY&&(clickConfirmed||elapsed>=DELAY+GA_GRACE)){clearInterval(tick);go();}
     },100);
   })();
 
