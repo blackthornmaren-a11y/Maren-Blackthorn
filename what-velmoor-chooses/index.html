@@ -6,6 +6,10 @@
 <title>What Velmoor Chooses — The Velmoor Chronicles | Maren Blackthorn</title>
 <meta name="description" content="Two centuries of secrets collapse into a single, final choice.">
 <meta name="author" content="Maren Blackthorn">
+<!-- These are ad destinations that forward to Amazon, not content pages. Telling
+     Google not to index them avoids any "sneaky redirect" judgement against the
+     domain; 'follow' still lets link equity pass through to the homepage. -->
+<meta name="robots" content="noindex, follow">
 <link rel="canonical" href="https://marenblackthorn.com/what-velmoor-chooses/">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://marenblackthorn.com/what-velmoor-chooses/">
@@ -190,28 +194,80 @@
     // separates "left too early" from "we forwarded but lost the event". Note these
     // outcomes do NOT sum to book_page_view: tapping Buy fires both a cancellation
     // (reason=manual_buy) and an amazon_click.
-    window.addEventListener('pagehide',function(){
-      if(fired||cancelled)return;
+    var abandonSent=false;
+    function reportAbandon(){
+      if(fired||cancelled||abandonSent)return;
+      abandonSent=true;
       send('redirect_abandoned',{ms_on_page:Date.now()-startedAt});
+    }
+    window.addEventListener('pagehide',reportAbandon);
+    // iOS Safari fires pagehide unreliably, and most of this traffic is iPhone —
+    // visibilitychange is the dependable signal there.
+    document.addEventListener('visibilitychange',function(){
+      if(document.visibilityState==='hidden')reportAbandon();
     });
 
-    // Resolve the visitor's store, then forward.
+    // ---- Resolving the visitor's store ----------------------------------
+    // Three sources, cheapest first. The timezone guess is instant and needs no
+    // network, so api.country.is is no longer on the critical path — if it's slow,
+    // rate-limited or down, readers still reach their own store.
+    var TZ={'Europe/London':'GB','Europe/Dublin':'IE','Europe/Berlin':'DE','Europe/Vienna':'AT',
+      'Europe/Zurich':'CH','Europe/Paris':'FR','Europe/Brussels':'BE','Europe/Luxembourg':'LU',
+      'Europe/Rome':'IT','Europe/Madrid':'ES','Europe/Lisbon':'PT','Europe/Amsterdam':'NL',
+      'Asia/Tokyo':'JP','Asia/Kolkata':'IN','Asia/Calcutta':'IN',
+      'America/Toronto':'CA','America/Vancouver':'CA','America/Edmonton':'CA','America/Winnipeg':'CA',
+      'America/Halifax':'CA','America/St_Johns':'CA','America/Regina':'CA',
+      'America/Sao_Paulo':'BR','America/Bahia':'BR','America/Fortaleza':'BR','America/Recife':'BR',
+      'America/Mexico_City':'MX','America/Monterrey':'MX','America/Tijuana':'MX','America/Cancun':'MX',
+      'Australia/Sydney':'AU','Australia/Melbourne':'AU','Australia/Brisbane':'AU',
+      'Australia/Perth':'AU','Australia/Adelaide':'AU','Australia/Hobart':'AU',
+      'Pacific/Auckland':'NZ',
+      'America/New_York':'US','America/Chicago':'US','America/Denver':'US','America/Phoenix':'US',
+      'America/Los_Angeles':'US','America/Anchorage':'US','Pacific/Honolulu':'US','America/Detroit':'US'};
+    function tzCountry(){
+      try{return TZ[Intl.DateTimeFormat().resolvedOptions().timeZone]||'';}catch(e){return '';}
+    }
+    var CACHE_DAYS=30;
+    function readCache(){
+      try{
+        var raw=localStorage.getItem('mb_country');
+        if(!raw)return '';
+        // Older builds stored a bare country code with no timestamp — ignore those
+        // so a stale guess can't follow someone around indefinitely.
+        if(raw.charAt(0)!=='{')return '';
+        var o=JSON.parse(raw);
+        if(!o.c||!o.t)return '';
+        if(Date.now()-o.t>CACHE_DAYS*864e5)return '';
+        return o.c;
+      }catch(e){return '';}
+    }
+    function writeCache(c){
+      try{localStorage.setItem('mb_country',JSON.stringify({c:c,t:Date.now()}));}catch(e){}
+    }
+
     if(GEO){
-      var cached=null;
-      try{cached=localStorage.getItem('mb_country');}catch(err){}
+      var cached=readCache();
       if(cached){setStore(cached);geoDone=true;}
       else{
+        var guess=tzCountry();
+        if(guess){setStore(guess);geoDone=true;}   // good enough to forward on
         var ctrl=new AbortController();
         setTimeout(function(){ctrl.abort();},LOOKUP_CAP);
         fetch('https://api.country.is/',{signal:ctrl.signal})
           .then(function(r){return r.json();})
           .then(function(d){
             var c=(d.country||'').toUpperCase();
-            try{localStorage.setItem('mb_country',c);}catch(err){}
-            setStore(c);
+            if(!c)return;
+            writeCache(c);
+            if(c!==guess)setStore(c);              // refine the guess if it differs
           })
-          .catch(function(){/* fall back to amazon.com */})
-          .then(function(){geoDone=true;});
+          .catch(function(){/* timezone guess, or amazon.com, still stands */})
+          .then(function(){
+            // Nothing resolved at all — say so plainly rather than leaving the
+            // store dimension reading '(resolving)' for a reader who went to .com.
+            if(store.charAt(0)==='(')store='Amazon US (fallback)';
+            geoDone=true;
+          });
       }
     }
 
@@ -300,10 +356,9 @@
   nav, header, section, footer{position:relative;z-index:1}
 
   /* Book hero */
+  /* Backdrop is a gradient set inline per series — no image request. */
   header.bookhero{position:relative;overflow:hidden;padding:74px 0 78px;border-bottom:1px solid var(--line);
-    background-size:cover;background-position:center;background-color:#100c17}
-  header.bookhero::before{content:"";position:absolute;inset:0;z-index:0;
-    background:linear-gradient(180deg, rgba(13,11,18,.82), rgba(13,11,18,.93))}
+    background-color:#0d0b12}
   header.bookhero .wrap{position:relative;z-index:1}
   .bh{display:grid;grid-template-columns:300px 1fr;gap:52px;align-items:center}
   /* height:auto is load-bearing — without it the width/height attributes
@@ -393,7 +448,7 @@
   </div>
 </nav>
 
-<header class="bookhero" style="background-image:url('/atmosphere/velmoor.jpg');background-position:center">
+<header class="bookhero" style="background-image:radial-gradient(980px 520px at 80% -10%, rgba(201,162,39,.20), transparent 60%),radial-gradient(720px 420px at 4% 110%, rgba(122,92,255,.10), transparent 56%),linear-gradient(180deg,#17121a,#0d0b12)">
   <div class="wrap">
     <div class="bh">
       <img class="bh-cover" src="/covers/what-velmoor-chooses.jpg" alt="What Velmoor Chooses — book cover" width="500" height="750" fetchpriority="high">

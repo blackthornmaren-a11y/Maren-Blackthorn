@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page Not Found — Maren Blackthorn</title>
+<meta name="robots" content="noindex, follow">
+<meta name="description" content="That page doesn't exist. Browse Maren Blackthorn's dark academia romantasy and thriller books.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap">
+<noscript><link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap"></noscript>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FLDVN4QRPW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FLDVN4QRPW');
+  // Records what people were actually looking for, so recurring typos are visible.
+  gtag('event', 'page_not_found', {attempted_path: location.pathname});
+</script>
+<style>
+  :root{--bg:#0d0b12;--bg-2:#141019;--panel:#1a1522;--ink:#ece7f2;--muted:#a99fbb;
+    --accent:#b8860b;--accent-2:#7a5cff;--line:rgba(184,134,11,.25);
+    --serif:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --sans:'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);background:rgba(13,11,18,.72);border-bottom:1px solid rgba(255,255,255,.05)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
+  nav .brand{font-family:var(--serif);font-size:1.25rem;letter-spacing:.04em}
+  nav .links{display:flex;gap:26px;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase}
+  nav .links a:hover{color:var(--accent)}
+  @media(max-width:640px){nav .links{display:none}}
+  .eyebrow{letter-spacing:.32em;text-transform:uppercase;font-size:.72rem;color:var(--accent);font-weight:500;margin-bottom:18px}
+  .btn{display:inline-block;font-size:.95rem;font-weight:500;letter-spacing:.02em;padding:15px 30px;border-radius:2px;transition:transform .15s ease, box-shadow .25s ease}
+  .btn-primary{background:linear-gradient(180deg,#caa028,#9a7008);color:#1a1206;border:1px solid #caa028}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(184,134,11,.28)}
+  .btn-ghost{border:1px solid var(--line);color:var(--ink);background:transparent}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+  section{padding:80px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:radial-gradient(120% 90% at 50% -5%, transparent 55%, rgba(0,0,0,.5) 100%),
+      radial-gradient(55% 45% at 80% 6%, rgba(201,162,39,.06), transparent 60%);}
+  nav, header, section, footer{position:relative;z-index:1}
+
+  /* Book hero */
+  /* Backdrop is a gradient set inline per series — no image request. */
+  header.bookhero{position:relative;overflow:hidden;padding:74px 0 78px;border-bottom:1px solid var(--line);
+    background-color:#0d0b12}
+  header.bookhero .wrap{position:relative;z-index:1}
+  .bh{display:grid;grid-template-columns:300px 1fr;gap:52px;align-items:center}
+  /* height:auto is load-bearing — without it the width/height attributes
+     stretch the cover to a fixed pixel height. */
+  .bh-cover{width:100%;height:auto;border-radius:6px;border:1px solid var(--line);
+    box-shadow:0 26px 60px rgba(0,0,0,.6);display:block}
+  .crumb{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
+  .crumb a:hover{color:var(--accent)}
+  .bh h1{font-family:var(--serif);font-weight:500;font-size:clamp(2.4rem,6vw,3.9rem);line-height:1.03;margin-bottom:10px}
+  .bh .sub{font-family:var(--serif);font-style:italic;font-size:1.35rem;color:var(--muted);margin-bottom:14px}
+  .bh .series{color:var(--accent);letter-spacing:.18em;text-transform:uppercase;font-size:.72rem;margin-bottom:20px}
+  .bh .hook{font-family:var(--serif);font-style:italic;font-size:1.32rem;line-height:1.45;color:var(--ink);margin-bottom:20px;max-width:52ch}
+  .bh .blurb{color:var(--muted);font-size:1.04rem;margin-bottom:30px;max-width:58ch}
+  .buy-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+  .store-note{margin-top:16px;font-size:.82rem;color:var(--muted)}
+  .store-note b{color:var(--accent);font-weight:500}
+  .store-note a{text-decoration:underline;text-underline-offset:3px}
+  .store-note a:hover{color:var(--accent)}
+
+  /* Auto-forward notice */
+  .redirect-note{margin-top:22px;max-width:430px;padding:14px 18px;border:1px solid var(--line);
+    border-radius:4px;background:rgba(26,21,34,.55);font-size:.85rem;color:var(--muted);
+    transition:opacity .3s ease}
+  .redirect-note.off{opacity:0;pointer-events:none;height:0;padding:0;margin:0;border-width:0;overflow:hidden}
+  .redirect-note b{color:var(--accent);font-weight:500}
+  .rd-bar{height:2px;background:rgba(255,255,255,.09);border-radius:2px;margin-top:11px;overflow:hidden}
+  .rd-bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,#9a7008,#caa028)}
+  .rd-stay{background:none;border:none;color:var(--muted);font-family:inherit;font-size:.85rem;
+    text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:0;margin-left:6px}
+  .rd-stay:hover{color:var(--accent)}
+  @media(max-width:760px){.redirect-note{margin-left:auto;margin-right:auto}}
+  @media(max-width:760px){
+    .bh{grid-template-columns:1fr;gap:32px;text-align:center}
+    .bh-cover{max-width:230px;margin:0 auto}
+    .bh .hook,.bh .blurb{margin-left:auto;margin-right:auto}
+    .buy-row{justify-content:center}
+  }
+
+  /* More in series */
+  .sec-head{text-align:center;max-width:640px;margin:0 auto 44px}
+  .sec-head h2{font-family:var(--serif);font-weight:500;font-size:clamp(1.8rem,4vw,2.5rem);line-height:1.05;margin-bottom:14px}
+  .sec-head p{color:var(--muted);font-size:1rem}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:24px}
+  .book{display:flex;flex-direction:column}
+  .cover{position:relative;aspect-ratio:2/3;border-radius:4px;overflow:hidden;border:1px solid var(--line);
+    box-shadow:0 18px 40px rgba(0,0,0,.45);transition:transform .2s ease, box-shadow .2s ease;display:block}
+  .cover img{width:100%;height:100%;object-fit:cover;transition:transform .3s ease}
+  .book:hover .cover{transform:translateY(-4px);box-shadow:0 26px 55px rgba(0,0,0,.6), 0 0 0 1px rgba(201,162,39,.4), 0 0 34px rgba(201,162,39,.18)}
+  .book:hover .cover img{transform:scale(1.03)}
+  .book.current .cover{box-shadow:0 0 0 1px var(--accent), 0 18px 40px rgba(0,0,0,.45)}
+  .book h4{font-family:var(--serif);font-weight:500;font-size:1.05rem;margin:12px 0 2px;line-height:1.2}
+  .book .meta{color:var(--muted);font-size:.78rem}
+  .book .now{color:var(--accent);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;margin-top:4px}
+
+  /* Signup */
+  .signup{text-align:center;background:radial-gradient(800px 400px at 50% -20%, rgba(122,92,255,.16), transparent 60%),var(--bg-2)}
+  .signup-card{max-width:620px;margin:0 auto;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:40px 36px}
+  .signup-card h2{font-family:var(--serif);font-weight:500;font-size:2rem;margin-bottom:12px}
+  .signup-card p{color:var(--muted);margin-bottom:26px}
+  .fallback-form{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  .fallback-form input{flex:1;min-width:210px;padding:15px 18px;border-radius:2px;background:#0e0a14;border:1px solid var(--line);color:var(--ink);font-size:1rem}
+  .fallback-form input:focus{outline:none;border-color:var(--accent)}
+  .fallback-form button{cursor:pointer}
+  .ml-success{display:none;font-family:var(--serif);font-style:italic;font-size:1.25rem;color:var(--accent)}
+  .note{margin-top:18px;font-size:.78rem;color:var(--muted)}
+  .free-strip{background:var(--bg-2);text-align:center}
+  .free-strip .inner{max-width:640px;margin:0 auto}
+  .free-strip h2{font-family:var(--serif);font-weight:500;font-size:1.9rem;margin-bottom:12px}
+  .free-strip p{color:var(--muted);margin-bottom:24px}
+  footer{padding:54px 0;text-align:center;color:var(--muted)}
+  footer .name{font-family:var(--serif);font-size:1.4rem;color:var(--ink);margin-bottom:10px}
+  footer .social{display:flex;gap:22px;justify-content:center;margin:18px 0;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;flex-wrap:wrap}
+  footer .social a:hover{color:var(--accent)}
+  footer .fine{font-size:.78rem;margin-top:18px;opacity:.7}
+
+  .nf{padding:96px 0 70px;text-align:center;
+    background-image:radial-gradient(1000px 520px at 70% -12%, rgba(122,92,255,.18), transparent 62%),
+      radial-gradient(760px 440px at 8% 112%, rgba(184,134,11,.10), transparent 58%),
+      linear-gradient(180deg,#15111d,#0d0b12);border-bottom:1px solid var(--line)}
+  .nf .code{font-family:var(--serif);font-size:clamp(4rem,14vw,8rem);line-height:.9;color:var(--accent);opacity:.85}
+  .nf h1{font-family:var(--serif);font-weight:500;font-size:clamp(1.8rem,5vw,2.8rem);margin:10px 0 14px}
+  .nf p{color:var(--muted);max-width:46ch;margin:0 auto 28px;font-size:1.05rem}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="/">Maren Blackthorn</a>
+    <div class="links">
+      <a href="/#books">All Books</a>
+      <a href="/episode-zero/">Free Prequel</a>
+      <a href="/#signup">Mailing List</a>
+    </div>
+  </div>
+</nav>
+
+<header class="nf">
+  <div class="wrap">
+    <div class="code">404</div>
+    <h1>This page slipped out of the record</h1>
+    <p>The link may be mistyped or out of date. Everything that does exist is below.</p>
+    <a href="/" class="btn btn-primary">Back to the homepage</a>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">The Library</div>
+      <h2>All the Books</h2>
+      <p>Two five-book gothic romantasy arcs, a standalone, and a thriller series.</p>
+    </div>
+    <div class="grid">
+        <article class="book">
+          <a class="cover" href="/episode-zero/"><img src="/covers/episode-zero.jpg" alt="Episode Zero cover" loading="lazy"></a>
+          <h4><a href="/episode-zero/">Episode Zero</a></h4>
+          <div class="meta">The Quinn Adler Thrillers · Free prequel short story</div>
+        </article>
+        <article class="book">
+          <a class="cover" href="/marginalia/"><img src="/covers/marginalia.jpg" alt="Marginalia cover" loading="lazy"></a>
+          <h4><a href="/marginalia/">Marginalia</a></h4>
+          <div class="meta">The Quinn Adler Thrillers · Book 1</div>
+        </article>
+        <article class="book">
+          <a class="cover" href="/gatekeepers/"><img src="/covers/gatekeepers.jpg" alt="The Gatekeepers: Ash and Ink cover" loading="lazy"></a>
+          <h4><a href="/gatekeepers/">The Gatekeepers: Ash and Ink</a></h4>
+          <div class="meta">The Velmoor Chronicles · Book 1</div>
+        </article>
+        <article class="book">
+          <a class="cover" href="/weight-of-the-yield/"><img src="/covers/weight-of-the-yield.jpg" alt="The Weight of the Yield cover" loading="lazy"></a>
+          <h4><a href="/weight-of-the-yield/">The Weight of the Yield</a></h4>
+          <div class="meta">The Velmoor Chronicles · Book 2</div>
+        </article>
+        <article class="book">
+          <a class="cover" href="/architecture-of-rot/"><img src="/covers/architecture-of-rot.jpg" alt="Architecture of Rot cover" loading="lazy"></a>
+          <h4><a href="/architecture-of-rot/">Architecture of Rot</a></h4>
+          <div class="meta">The Velmoor Chronicles · Book 3</div>
+        </article>
+        <article class="book">
+          <a class="cover" href="/founding-name/"><img src="/covers/founding-name.jpg" alt="The Founding Name cover" loading="lazy"></a>
+          <h4><a href="/founding-name/">The Founding Name</a></h4>
+          <div class="meta">The Velmoor Chronicles · Book 4</div>
+        </article>
+        <article class="book">
+          <a class="cover" href="/what-velmoor-chooses/"><img src="/covers/what-velmoor-chooses.jpg" alt="What Velmoor Chooses cover" loading="lazy"></a>
+          <h4><a href="/what-velmoor-chooses/">What Velmoor Chooses</a></h4>
+          <div class="meta">The Velmoor Chronicles · Book 5</div>
+        </article>
+        <article class="book">
+          <a class="cover" href="/the-other-student/"><img src="/covers/the-other-student.jpg" alt="The Other Student cover" loading="lazy"></a>
+          <h4><a href="/the-other-student/">The Other Student</a></h4>
+          <div class="meta">The Duskhollow Chronicles · Book 1</div>
+        </article>
+        <article class="book">
+          <a class="cover" href="/marginalia-war/"><img src="/covers/marginalia-war.jpg" alt="The Marginalia War cover" loading="lazy"></a>
+          <h4><a href="/marginalia-war/">The Marginalia War</a></h4>
+          <div class="meta">The Duskhollow Chronicles · Book 2</div>
+        </article>
+        <article class="book">
+          <a class="cover" href="/open-channel/"><img src="/covers/open-channel.jpg" alt="Open Channel cover" loading="lazy"></a>
+          <h4><a href="/open-channel/">Open Channel</a></h4>
+          <div class="meta">The Duskhollow Chronicles · Book 3</div>
+        </article>
+        <article class="book">
+          <a class="cover" href="/what-the-seal-kept/"><img src="/covers/what-the-seal-kept.jpg" alt="What the Seal Kept cover" loading="lazy"></a>
+          <h4><a href="/what-the-seal-kept/">What the Seal Kept</a></h4>
+          <div class="meta">The Duskhollow Chronicles · Book 4</div>
+        </article>
+        <article class="book">
+          <a class="cover" href="/the-last-archivist/"><img src="/covers/the-last-archivist.jpg" alt="The Last Archivist cover" loading="lazy"></a>
+          <h4><a href="/the-last-archivist/">The Last Archivist</a></h4>
+          <div class="meta">The Duskhollow Chronicles · Book 5</div>
+        </article>
+        <article class="book">
+          <a class="cover" href="/pyrrhic-triumph/"><img src="/covers/pyrrhic-triumph.jpg" alt="The Pyrrhic Triumph cover" loading="lazy"></a>
+          <h4><a href="/pyrrhic-triumph/">The Pyrrhic Triumph</a></h4>
+          <div class="meta">A Dark Romantasy Novel</div>
+        </article>
+    </div>
+  </div>
+</section>
+
+<section id="signup" class="signup">
+  <div class="wrap">
+    <div class="signup-card">
+      <div class="eyebrow">The Inner Circle</div>
+      <h2>Join the Mailing List</h2>
+      <p>New releases, early chapters, and the occasional secret from the archives — sent now and then, never spam.</p>
+      <form class="fallback-form ml-form"
+            action="https://assets.mailerlite.com/jsonp/2476050/forms/191524104783791458/subscribe"
+            method="post" target="ml_iframe">
+        <input type="email" name="fields[email]" placeholder="your@email.com" autocomplete="email" required>
+        <input type="hidden" name="ml-submit" value="1">
+        <input type="hidden" name="anticsrf" value="true">
+        <button type="submit" class="btn btn-primary">Subscribe</button>
+      </form>
+      <div class="ml-success">You're in — welcome to the archives.</div>
+      <iframe name="ml_iframe" style="display:none" title="signup"></iframe>
+      <div class="note">Your email stays private. Unsubscribe anytime.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="name">Maren Blackthorn</div>
+    <div class="social">
+      <a href="/#books">Books</a>
+      <a href="/episode-zero/">Free Prequel</a>
+      <a href="/#signup">Mailing List</a>
+      <a href="https://www.amazon.com/stores/Maren-Blackthorn/author/B0GWW4KSJZ" class="no-geo" target="_blank" rel="noopener">Amazon Author Page</a>
+    </div>
+    <div class="fine">&copy; <span id="yr"></span> Maren Blackthorn. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+</body>
+</html>
