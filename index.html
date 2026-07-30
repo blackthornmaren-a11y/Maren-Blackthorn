@@ -702,6 +702,28 @@
       });
     },{rootMargin:'400px'}); // start fetching just before it comes into view
     els.forEach(function(el){io.observe(el);});
+
+    // Safety net. IntersectionObserver does not fire in a backgrounded or
+    // prerendered tab, so a reader arriving via a link that was preloaded — or
+    // in an in-app browser that opens the page off-screen — could otherwise
+    // scroll onto sections that never got their backdrop. This sweeps manually
+    // on scroll and when the page becomes visible, and costs nothing until then.
+    function sweep(){
+      var pending=[].slice.call(document.querySelectorAll('[data-bg]'));
+      if(!pending.length){
+        window.removeEventListener('scroll',sweep);
+        return;
+      }
+      var limit=window.innerHeight+400;
+      pending.forEach(function(el){
+        var top=el.getBoundingClientRect().top;
+        if(top<limit){apply(el);io.unobserve(el);}
+      });
+    }
+    window.addEventListener('scroll',sweep,{passive:true});
+    document.addEventListener('visibilitychange',function(){
+      if(document.visibilityState==='visible')sweep();
+    });
   })();
 
   document.getElementById('yr').textContent=new Date().getFullYear();
