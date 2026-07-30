@@ -23,7 +23,6 @@
 <link rel="preconnect" href="https://www.googletagmanager.com">
 <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
 <link rel="dns-prefetch" href="https://api.country.is">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <!-- Google Analytics 4 -->
 <!-- onerror lets the redirect skip its wait-for-analytics grace period when a
@@ -37,6 +36,212 @@
   // Add ?debug=1 to any book URL to make the hit show up in GA4 DebugView.
   gtag('config', 'G-FLDVN4QRPW', {debug_mode: /[?&]debug=1/.test(location.search)});
 </script>
+
+<!-- ORDER MATTERS. This runs before any stylesheet is referenced. A browser will
+     not execute an inline script while a stylesheet is still pending, so with this
+     at the foot of the body a slow Google Fonts response stopped the forward from
+     ever running — which is exactly what happened. -->
+<script>
+
+  // ---- Local Amazon store routing + auto-forward -----------------------
+  // Same ASIN resolves on every Amazon marketplace, so we only swap the domain.
+  // The page shows the book for a beat, then forwards to the right store.
+  (function(){
+    var MAP={"US":["amazon.com","Amazon US"],"GB":["amazon.co.uk","Amazon UK"],"IE":["amazon.co.uk","Amazon UK"],"CA":["amazon.ca","Amazon Canada"],"AU":["amazon.com.au","Amazon Australia"],"NZ":["amazon.com.au","Amazon Australia"],"DE":["amazon.de","Amazon Germany"],"AT":["amazon.de","Amazon Germany"],"CH":["amazon.de","Amazon Germany"],"FR":["amazon.fr","Amazon France"],"BE":["amazon.fr","Amazon France"],"LU":["amazon.fr","Amazon France"],"IT":["amazon.it","Amazon Italy"],"ES":["amazon.es","Amazon Spain"],"PT":["amazon.es","Amazon Spain"],"NL":["amazon.nl","Amazon Netherlands"],"JP":["amazon.co.jp","Amazon Japan"],"IN":["amazon.in","Amazon India"],"BR":["amazon.com.br","Amazon Brazil"],"MX":["amazon.com.mx","Amazon Mexico"]};
+    var DEST="https://www.amazon.com/dp/B0GWZWVHN1";            // amazon.com URL, or BookFunnel for the freebie
+    var GEO=true;              // false for non-Amazon destinations
+    var DELAY=2000;          // ms the reader sees the page before forwarding
+    // Deliberately shorter than DELAY: the country lookup must finish (or give up)
+    // before the forward is due, otherwise slow-lookup readers wait twice as long.
+    var LOOKUP_CAP=Math.min(1200,Math.round(DELAY*0.6));
+    var GA_GRACE=500;             // extra ms we'll wait for analytics to finish loading
+
+    // 'store' starts unresolved rather than defaulting to Amazon US — book_page_view
+    // fires before the country lookup returns, and labelling those hits "Amazon US"
+    // would make the GA4 store dimension read as almost entirely US traffic.
+    var dest=DEST, cancelled=false, fired=false, geoDone=!GEO, elapsed=0;
+    var store=GEO?'(resolving)':'(not applicable)';
+    var startedAt=Date.now();
+    // This block runs in <head>, before the body exists, so elements are looked up
+    // lazily rather than cached. It lives there because an inline script cannot
+    // execute while a stylesheet is still loading — with this at the foot of the
+    // body, a slow Google Fonts response stopped the redirect from running at all.
+    function el(id){return document.getElementById(id);}
+    var chosenDomain=null;
+
+    // ---- Ad attribution --------------------------------------------------
+    // Pull utm_* off the URL so TikTok / Instagram / individual creatives can
+    // be told apart in GA4. Falls back to the referring domain when the ad
+    // platform's in-app browser strips the query string.
+    function q(name){
+      var m=new RegExp('[?&]'+name+'=([^&#]*)').exec(location.search);
+      return m?decodeURIComponent(m[1].replace(/\+/g,' ')):'';
+    }
+    var refHost='';
+    try{refHost=document.referrer?new URL(document.referrer).hostname.replace(/^www\./,''):'';}catch(e){}
+    // Tidy the platforms' link-shim domains (l.instagram.com, lm.facebook.com…)
+    // into plain names so untagged traffic still groups sensibly.
+    ['tiktok','instagram','facebook','youtube','pinterest','reddit','threads'].some(function(n){
+      if(refHost.indexOf(n)!==-1){refHost=n;return true;}
+    });
+    function attribution(){
+      return {
+        book_title:"The Other Student",
+        book_slug:"the-other-student",
+        ad_source:q('utm_source')||refHost||'direct',
+        ad_medium:q('utm_medium')||'(none)',
+        ad_campaign:q('utm_campaign')||'(none)',
+        ad_content:q('utm_content')||'(none)',
+        store:store
+      };
+    }
+    function send(name,extra){
+      if(typeof gtag!=='function')return;
+      var p=attribution();
+      for(var k in extra)p[k]=extra[k];
+      // sendBeacon survives the page being torn down mid-request.
+      p.transport_type='beacon';
+      gtag('event',name,p);
+    }
+    // gtag.js has actually executed (rather than merely being queued in dataLayer).
+    function gaReady(){return !!(window.google_tag_manager||window.__gaBlocked);}
+
+    // Landing recorded up front — compare against amazon_click to see
+    // how many people bail before the forward completes.
+    send('book_page_view');
+
+    // Point the on-page links at the local store. Safe to call before the body
+    // exists — it simply finds nothing and gets re-run once the DOM is ready.
+    function paintStore(){
+      var nameEl=el('storeName');
+      if(nameEl&&store.charAt(0)!=='(')nameEl.textContent=store;
+      if(!chosenDomain||chosenDomain==='amazon.com')return;
+      document.querySelectorAll('a[href*="amazon.com/"]:not(.no-geo)').forEach(function(a){
+        a.href=a.href.replace('://www.amazon.com/','://www.'+chosenDomain+'/')
+                     .replace('://amazon.com/','://www.'+chosenDomain+'/');
+      });
+    }
+    function setStore(code){
+      var e=MAP[(code||'').toUpperCase()];
+      // No Kindle store in this country — amazon.com is the working fallback.
+      if(!e){store='Amazon US (fallback)';return;}
+      chosenDomain=e[0];store=e[1];
+      if(chosenDomain!=='amazon.com')
+        dest=dest.replace('://www.amazon.com/','://www.'+chosenDomain+'/');
+      paintStore();
+    }
+
+    function cancel(reason,eventName){
+      if(cancelled||fired)return;
+      cancelled=true;
+      var n=el('redirectNote');
+      if(n)n.classList.add('off');
+      send(eventName||'redirect_cancelled',{reason:reason});
+    }
+    window.mbCancelRedirect=cancel;
+
+    // Sent partway through the countdown rather than at the moment we navigate.
+    // A hit fired during unload is routinely dropped, which undercounts the
+    // forward; sending it early gives GA4 the rest of the countdown to deliver.
+    // The few readers who then cancel are recorded by redirect_cancelled.
+    var clickSent=false;
+    function sendClick(){
+      if(clickSent||cancelled)return;
+      clickSent=true;
+      send('amazon_click',{link_url:dest,source:'auto_redirect'});
+    }
+
+    function go(){
+      if(cancelled||fired)return;
+      fired=true;
+      sendClick();
+      // replace() keeps this page out of history, so Back from Amazon
+      // doesn't bounce the reader straight back into the redirect.
+      location.replace(dest);
+    }
+
+    // Escape hatches: ?stay=1 to preview, Esc key, or the Stay link.
+    if(/[?&]stay=1/.test(location.search)){cancel('query');}
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')cancel('escape');});
+    // Bound once the body exists; also the moment to apply the store to the links.
+    document.addEventListener('DOMContentLoaded',function(){
+      paintStore();
+      var stayBtn=el('rdStay');
+      if(stayBtn)stayBtn.addEventListener('click',function(e){e.preventDefault();cancel('stay_link');});
+    });
+    // A deliberate click means they're not just passing through. Two caveats:
+    //  - Taps in the first moments are usually carried over from the tap that
+    //    opened the page (in-app browsers do this), not a real choice.
+    //  - Tapping the Buy button IS a conversion, so log it separately rather than
+    //    lumping it in with people who opted out of being forwarded.
+    document.addEventListener('click',function(e){
+      if(elapsed<600)return;
+      var t=e.target.closest?e.target.closest('a,button,input'):null;
+      if(!t||t.id==='rdStay')return;
+      var toStore=t.href&&/amazon\.|bookfunnel\.com/.test(t.href);
+      cancel(toStore?'manual_buy':'interaction');
+    },true);
+    // Returning via the Back button (bfcache) must not re-trigger the forward.
+    // Its own event name: someone coming back from the store is not a failure,
+    // and counting it as a cancellation makes the opt-out rate look worse than it is.
+    window.addEventListener('pageshow',function(e){if(e.persisted)cancel('back_button','returned_to_page');});
+
+    // Reader closed the tab or swiped back before the forward ran — this is what
+    // separates "left too early" from "we forwarded but lost the event". Note these
+    // outcomes do NOT sum to book_page_view: tapping Buy fires both a cancellation
+    // (reason=manual_buy) and an amazon_click.
+    window.addEventListener('pagehide',function(){
+      if(fired||cancelled)return;
+      send('redirect_abandoned',{ms_on_page:Date.now()-startedAt});
+    });
+
+    // Resolve the visitor's store, then forward.
+    if(GEO){
+      var cached=null;
+      try{cached=localStorage.getItem('mb_country');}catch(err){}
+      if(cached){setStore(cached);geoDone=true;}
+      else{
+        var ctrl=new AbortController();
+        setTimeout(function(){ctrl.abort();},LOOKUP_CAP);
+        fetch('https://api.country.is/',{signal:ctrl.signal})
+          .then(function(r){return r.json();})
+          .then(function(d){
+            var c=(d.country||'').toUpperCase();
+            try{localStorage.setItem('mb_country',c);}catch(err){}
+            setStore(c);
+          })
+          .catch(function(){/* fall back to amazon.com */})
+          .then(function(){geoDone=true;});
+      }
+    }
+
+    // Visible countdown so nothing happens without warning.
+    // Timed off the wall clock, not off tick count: browsers throttle timers to
+    // ~1/second in background tabs, which would otherwise stretch a 2s wait to 20s.
+    var tick=setInterval(function(){
+      elapsed=Date.now()-startedAt;
+      if(cancelled){clearInterval(tick);return;}
+      var pct=Math.min(100,(elapsed/DELAY)*100);
+      var bar=el('rdBar'); if(bar)bar.style.width=pct+'%';
+      var cnt=el('rdCount'); if(cnt)cnt.textContent=Math.max(1,Math.ceil((DELAY-elapsed)/1000));
+      // Queue the forward event as early as we can — the longer it sits in the
+      // dataLayer before we navigate, the likelier it is to actually be sent.
+      if(geoDone&&elapsed>=250)sendClick();
+      else if(elapsed>=DELAY*0.6)sendClick();
+      // Forward once the countdown is up. If analytics is still loading, allow a
+      // short grace period so the queued hit isn't thrown away by the navigation.
+      if(elapsed>=DELAY&&(gaReady()||elapsed>=DELAY+GA_GRACE)){clearInterval(tick);go();}
+    },100);
+  })();
+
+</script>
+
+<!-- Fonts fetched without blocking: media="print" means the browser won't wait on
+     it, then onload promotes it to a live stylesheet. Georgia stands in meanwhile. -->
+<link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap">
+<noscript><link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap"></noscript>
 
 <script type="application/ld+json">
 {
@@ -281,173 +486,6 @@
 </footer>
 
 <script>
-
-  // ---- Local Amazon store routing + auto-forward -----------------------
-  // Same ASIN resolves on every Amazon marketplace, so we only swap the domain.
-  // The page shows the book for a beat, then forwards to the right store.
-  (function(){
-    var MAP={"US":["amazon.com","Amazon US"],"GB":["amazon.co.uk","Amazon UK"],"IE":["amazon.co.uk","Amazon UK"],"CA":["amazon.ca","Amazon Canada"],"AU":["amazon.com.au","Amazon Australia"],"NZ":["amazon.com.au","Amazon Australia"],"DE":["amazon.de","Amazon Germany"],"AT":["amazon.de","Amazon Germany"],"CH":["amazon.de","Amazon Germany"],"FR":["amazon.fr","Amazon France"],"BE":["amazon.fr","Amazon France"],"LU":["amazon.fr","Amazon France"],"IT":["amazon.it","Amazon Italy"],"ES":["amazon.es","Amazon Spain"],"PT":["amazon.es","Amazon Spain"],"NL":["amazon.nl","Amazon Netherlands"],"JP":["amazon.co.jp","Amazon Japan"],"IN":["amazon.in","Amazon India"],"BR":["amazon.com.br","Amazon Brazil"],"MX":["amazon.com.mx","Amazon Mexico"]};
-    var DEST="https://www.amazon.com/dp/B0GWZWVHN1";            // amazon.com URL, or BookFunnel for the freebie
-    var GEO=true;              // false for non-Amazon destinations
-    var DELAY=2000;          // ms the reader sees the page before forwarding
-    // Deliberately shorter than DELAY: the country lookup must finish (or give up)
-    // before the forward is due, otherwise slow-lookup readers wait twice as long.
-    var LOOKUP_CAP=Math.min(1200,Math.round(DELAY*0.6));
-    var GA_GRACE=500;             // extra ms we'll wait for analytics to finish loading
-
-    // 'store' starts unresolved rather than defaulting to Amazon US — book_page_view
-    // fires before the country lookup returns, and labelling those hits "Amazon US"
-    // would make the GA4 store dimension read as almost entirely US traffic.
-    var dest=DEST, cancelled=false, fired=false, geoDone=!GEO, elapsed=0;
-    var store=GEO?'(resolving)':'(not applicable)';
-    var startedAt=Date.now();
-    var countEl=document.getElementById('rdCount');
-    var barEl=document.getElementById('rdBar');
-    var noteEl=document.getElementById('redirectNote');
-
-    // ---- Ad attribution --------------------------------------------------
-    // Pull utm_* off the URL so TikTok / Instagram / individual creatives can
-    // be told apart in GA4. Falls back to the referring domain when the ad
-    // platform's in-app browser strips the query string.
-    function q(name){
-      var m=new RegExp('[?&]'+name+'=([^&#]*)').exec(location.search);
-      return m?decodeURIComponent(m[1].replace(/\+/g,' ')):'';
-    }
-    var refHost='';
-    try{refHost=document.referrer?new URL(document.referrer).hostname.replace(/^www\./,''):'';}catch(e){}
-    // Tidy the platforms' link-shim domains (l.instagram.com, lm.facebook.com…)
-    // into plain names so untagged traffic still groups sensibly.
-    ['tiktok','instagram','facebook','youtube','pinterest','reddit','threads'].some(function(n){
-      if(refHost.indexOf(n)!==-1){refHost=n;return true;}
-    });
-    function attribution(){
-      return {
-        book_title:"The Other Student",
-        book_slug:"the-other-student",
-        ad_source:q('utm_source')||refHost||'direct',
-        ad_medium:q('utm_medium')||'(none)',
-        ad_campaign:q('utm_campaign')||'(none)',
-        ad_content:q('utm_content')||'(none)',
-        store:store
-      };
-    }
-    function send(name,extra){
-      if(typeof gtag!=='function')return;
-      var p=attribution();
-      for(var k in extra)p[k]=extra[k];
-      // sendBeacon survives the page being torn down mid-request.
-      p.transport_type='beacon';
-      gtag('event',name,p);
-    }
-    // gtag.js has actually executed (rather than merely being queued in dataLayer).
-    function gaReady(){return !!(window.google_tag_manager||window.__gaBlocked);}
-
-    // Landing recorded up front — compare against amazon_click to see
-    // how many people bail before the forward completes.
-    send('book_page_view');
-
-    function setStore(code){
-      var e=MAP[(code||'').toUpperCase()];
-      // No Kindle store in this country — amazon.com is the working fallback.
-      if(!e){store='Amazon US (fallback)';return;}
-      var domain=e[0];store=e[1];
-      var nameEl=document.getElementById('storeName');
-      if(nameEl)nameEl.textContent=store;
-      if(domain==='amazon.com')return;
-      dest=dest.replace('://www.amazon.com/','://www.'+domain+'/');
-      document.querySelectorAll('a[href*="amazon.com/"]:not(.no-geo)').forEach(function(a){
-        a.href=a.href.replace('://www.amazon.com/','://www.'+domain+'/')
-                     .replace('://amazon.com/','://www.'+domain+'/');
-      });
-    }
-
-    function cancel(reason){
-      if(cancelled||fired)return;
-      cancelled=true;
-      if(noteEl)noteEl.classList.add('off');
-      send('redirect_cancelled',{reason:reason});
-    }
-    window.mbCancelRedirect=cancel;
-
-    // Sent partway through the countdown rather than at the moment we navigate.
-    // A hit fired during unload is routinely dropped, which undercounts the
-    // forward; sending it early gives GA4 the rest of the countdown to deliver.
-    // The few readers who then cancel are recorded by redirect_cancelled.
-    var clickSent=false;
-    function sendClick(){
-      if(clickSent||cancelled)return;
-      clickSent=true;
-      send('amazon_click',{link_url:dest,source:'auto_redirect'});
-    }
-
-    function go(){
-      if(cancelled||fired)return;
-      fired=true;
-      sendClick();
-      // replace() keeps this page out of history, so Back from Amazon
-      // doesn't bounce the reader straight back into the redirect.
-      location.replace(dest);
-    }
-
-    // Escape hatches: ?stay=1 to preview, Esc key, or the Stay link.
-    if(/[?&]stay=1/.test(location.search)){cancel('query');}
-    document.addEventListener('keydown',function(e){if(e.key==='Escape')cancel('escape');});
-    var stayBtn=document.getElementById('rdStay');
-    if(stayBtn)stayBtn.addEventListener('click',function(e){e.preventDefault();cancel('stay_link');});
-    // Any deliberate click on something else means they're not just passing through.
-    document.addEventListener('click',function(e){
-      if(e.target.closest('a,button,input')&&!e.target.closest('#rdStay'))cancel('interaction');
-    },true);
-    // Returning via the Back button (bfcache) must not re-trigger the forward.
-    window.addEventListener('pageshow',function(e){if(e.persisted)cancel('back_button');});
-
-    // Reader closed the tab or swiped back before the forward ran. This is what
-    // separates "left too early" from "we forwarded but lost the event", so the
-    // three outcomes below should add up to the book_page_view count:
-    //   amazon_click + redirect_cancelled + redirect_abandoned = book_page_view
-    window.addEventListener('pagehide',function(){
-      if(fired||cancelled)return;
-      send('redirect_abandoned',{ms_on_page:Date.now()-startedAt});
-    });
-
-    // Resolve the visitor's store, then forward.
-    if(GEO){
-      var cached=null;
-      try{cached=localStorage.getItem('mb_country');}catch(err){}
-      if(cached){setStore(cached);geoDone=true;}
-      else{
-        var ctrl=new AbortController();
-        setTimeout(function(){ctrl.abort();},LOOKUP_CAP);
-        fetch('https://api.country.is/',{signal:ctrl.signal})
-          .then(function(r){return r.json();})
-          .then(function(d){
-            var c=(d.country||'').toUpperCase();
-            try{localStorage.setItem('mb_country',c);}catch(err){}
-            setStore(c);
-          })
-          .catch(function(){/* fall back to amazon.com */})
-          .then(function(){geoDone=true;});
-      }
-    }
-
-    // Visible countdown so nothing happens without warning.
-    // Timed off the wall clock, not off tick count: browsers throttle timers to
-    // ~1/second in background tabs, which would otherwise stretch a 2s wait to 20s.
-    var tick=setInterval(function(){
-      elapsed=Date.now()-startedAt;
-      if(cancelled){clearInterval(tick);return;}
-      var pct=Math.min(100,(elapsed/DELAY)*100);
-      if(barEl)barEl.style.width=pct+'%';
-      if(countEl)countEl.textContent=Math.max(1,Math.ceil((DELAY-elapsed)/1000));
-      // Queue the forward event as early as we can — the longer it sits in the
-      // dataLayer before we navigate, the likelier it is to actually be sent.
-      if(geoDone&&elapsed>=250)sendClick();
-      else if(elapsed>=DELAY*0.6)sendClick();
-      // Forward once the countdown is up. If analytics is still loading, allow a
-      // short grace period so the queued hit isn't thrown away by the navigation.
-      if(elapsed>=DELAY&&(gaReady()||elapsed>=DELAY+GA_GRACE)){clearInterval(tick);go();}
-    },100);
-  })();
 
   // ---- GA4: label Amazon click-throughs by book -----------------------
   (function(){
