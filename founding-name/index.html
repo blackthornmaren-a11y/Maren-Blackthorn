@@ -178,7 +178,10 @@
       if(typeof gtag!=='function'||window.__gaBlocked){clickConfirmed=true;return;}
       var p=attribution();
       p.link_url=dest;
-      p.source='auto_redirect';
+      // NOT 'source' — that is a reserved GA4 parameter that overrides traffic
+      // attribution, and using it made "auto_redirect" show up as a traffic
+      // source in the acquisition reports.
+      p.click_source='auto_redirect';
       p.transport_type='beacon';
       p.event_callback=function(){clickConfirmed=true;};
       p.event_timeout=1500;
@@ -580,7 +583,7 @@
     document.querySelectorAll('a[href*="amazon."]').forEach(function(a){
       a.addEventListener('click',function(){
         if(typeof gtag==='function'){
-          gtag('event','amazon_click',{book_title:"The Founding Name",link_url:a.href,source:'book_page'});
+          gtag('event','amazon_click',{book_title:"The Founding Name",link_url:a.href,click_source:'book_page'});
         }
       });
     });

@@ -833,7 +833,9 @@
         if(typeof gtag==='function'){
           // source lets these be told apart from the book landing pages, which
           // send the same event name with source auto_redirect / book_page.
-          gtag('event','amazon_click',{book_title:title,link_url:a.href,source:'homepage'});
+          // click_source, not source — 'source' is reserved by GA4 for traffic
+          // attribution and using it corrupts the acquisition reports.
+          gtag('event','amazon_click',{book_title:title,link_url:a.href,click_source:'homepage'});
         }
       });
     });
