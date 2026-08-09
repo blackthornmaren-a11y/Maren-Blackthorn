@@ -285,9 +285,9 @@
 
 <div class="announce">
   <div class="wrap">
-    <span class="tag">Coming Soon</span>
+    <span class="tag" id="anTag">Preorder</span>
     <p><em>Out of Print</em> — Quinn Adler Book 2 — arrives <b>September 18, 2026</b><span id="anCount"></span></p>
-    <a class="an-cta" href="#signup">Get release-day notice →</a>
+    <a class="an-cta" href="https://www.amazon.com/dp/B0HDLBTKJR" target="_blank" rel="noopener">Preorder on Amazon →</a>
   </div>
 </div>
 
@@ -461,7 +461,7 @@
     <!-- QUINN ADLER -->
     <div class="series-block sb-quinn" data-bg="atmosphere/quinn.jpg">
       <div class="series-title">The Quinn Adler Thrillers</div>
-      <div class="series-sub">A true-crime podcaster hunts a hidden network that leaves its murder confessions in the margins of library books. Book one is available now — and the prequel short story is free.</div>
+      <div class="series-sub">A true-crime podcaster hunts a hidden network that leaves its murder confessions in the margins of library books. Book one is available now, book two is up for preorder — and the prequel short story is free.</div>
       <div class="grid">
 
         <article class="book">
@@ -485,13 +485,13 @@
         </article>
 
         <article class="book">
-          <div class="cover has-img">
+          <a class="cover has-img" href="https://www.amazon.com/dp/B0HDLBTKJR" target="_blank" rel="noopener">
             <img src="covers/out-of-print.jpg" alt="Out of Print cover" loading="lazy" decoding="async">
-          </div>
+          </a>
           <h4>Out of Print</h4>
-          <div class="meta">Quinn Adler Thrillers · Book 2</div>
-          <p class="hook">The next Quinn Adler thriller. Releasing September 18, 2026.</p>
-          <a class="buy" href="#signup">Notify Me on Release →</a>
+          <div class="meta">Quinn Adler Thrillers · Book 2 · Sept 18, 2026</div>
+          <p class="hook">The next Quinn Adler thriller. Available for preorder now — delivered to your Kindle on release day.</p>
+          <a class="buy" href="https://www.amazon.com/dp/B0HDLBTKJR" target="_blank" rel="noopener">Preorder on Amazon →</a>
         </article>
 
       </div>
@@ -692,9 +692,18 @@
     var release=new Date(2026,8,18); /* Sept 18, 2026 local time */
     var today=new Date(); today.setHours(0,0,0,0);
     var days=Math.round((release-today)/86400000);
-    if(days>1) el.textContent=' — '+days+' days away';
-    else if(days===1) el.textContent=' — tomorrow';
-    else if(days===0) el.textContent=' — out today';
+    var tag=document.getElementById('anTag');
+    var cta=document.querySelector('.announce .an-cta');
+    if(days>1){ el.textContent=' — '+days+' days away'; }
+    else if(days===1){ el.textContent=' — tomorrow'; }
+    else if(days===0){ el.textContent=' — out today'; }
+    else {
+      /* Released: flip preorder language to buy language */
+      el.textContent='';
+      if(tag) tag.textContent='Out Now';
+      if(cta) cta.textContent='Buy on Amazon →';
+      document.querySelectorAll('a.buy[href*="B0HDLBTKJR"]').forEach(function(a){ a.textContent='Buy on Amazon →'; });
+    }
   })();
 
   // ============ Hero video: respect reduced-motion ============
