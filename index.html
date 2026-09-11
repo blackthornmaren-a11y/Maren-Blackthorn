@@ -157,6 +157,9 @@
   section.about .wrap{position:relative;z-index:1}
   .series-title{font-family:var(--serif);font-size:1.8rem;font-weight:500;margin-bottom:6px}
   .series-sub{color:var(--muted);margin-bottom:30px;font-size:.98rem;max-width:70ch}
+  .series-link{display:inline-flex;align-items:center;gap:6px;margin:-16px 0 28px;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);border-bottom:1px solid var(--line);padding-bottom:3px;transition:gap .15s ease,color .15s ease}
+  .series-link:hover{gap:12px;color:#e0b84a}
+  .cta-pair{display:flex;gap:12px;flex-wrap:wrap}
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:28px}
   .sb-duskhollow{}
   .sb-velmoor .grid,.sb-duskhollow .grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:20px}
@@ -206,6 +209,7 @@
   @media(max-width:680px){
     .featured{grid-template-columns:1fr;text-align:center}
     .featured .cover{max-width:240px;margin:0 auto}
+    .cta-pair{justify-content:center}
     .hero-inner{padding:70px 0}
   }
   @media(max-width:900px){ .sb-velmoor .grid,.sb-duskhollow .grid{grid-template-columns:repeat(3,1fr)} }
@@ -335,7 +339,10 @@
         <div class="series">Now Available · Quinn Adler Thrillers</div>
         <h3>Marginalia</h3>
         <p>A true-crime-obsessed grad student finds murder confessions hidden in the margins of library books — then they start predicting crimes that haven't happened yet. Book one of a five-book dark-academia thriller series — available now.</p>
-        <a href="https://www.amazon.com/dp/B0H5GBYZPB" target="_blank" rel="noopener" class="btn btn-primary">Buy Now on Amazon</a>
+        <div class="cta-pair">
+          <a href="https://www.amazon.com/dp/B0H5GBYZPB" target="_blank" rel="noopener" class="btn btn-primary">Buy Now on Amazon</a>
+          <a href="/quinn-adler/" class="btn btn-ghost">Explore the Series</a>
+        </div>
       </div>
     </div>
   </div>
@@ -463,6 +470,7 @@
     <div class="series-block sb-quinn" data-bg="atmosphere/quinn.jpg">
       <div class="series-title">The Quinn Adler Thrillers</div>
       <div class="series-sub">A true-crime podcaster hunts a hidden network that leaves its murder confessions in the margins of library books. Book one is available now, book two is up for preorder — and the prequel short story is free.</div>
+      <a class="series-link" href="/quinn-adler/">Explore the series page <span aria-hidden="true">→</span></a>
       <div class="grid">
 
         <article class="book">
