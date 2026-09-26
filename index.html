@@ -469,7 +469,7 @@
     <!-- QUINN ADLER -->
     <div class="series-block sb-quinn" data-bg="atmosphere/quinn.jpg">
       <div class="series-title">The Quinn Adler Thrillers</div>
-      <div class="series-sub">A true-crime podcaster hunts a hidden network that leaves its murder confessions in the margins of library books. Book one is available now, book two is up for preorder — and the prequel short story is free.</div>
+      <div class="series-sub">A true-crime podcaster hunts a hidden network that leaves its murder confessions in the margins of library books. Book one and book two are available now — and the prequel short story is free.</div>
       <a class="series-link" href="/quinn-adler/">Explore the series page <span aria-hidden="true">→</span></a>
       <div class="grid">
 
@@ -498,8 +498,8 @@
             <img src="covers/out-of-print.jpg" alt="Out of Print cover" loading="lazy" decoding="async">
           </a>
           <h4>Out of Print</h4>
-          <div class="meta">Quinn Adler Thrillers · Book 2 · Sept 18, 2026</div>
-          <p class="hook">The next Quinn Adler thriller. Available for preorder now — delivered to your Kindle on release day.</p>
+          <div class="meta">Quinn Adler Thrillers · Book 2</div>
+          <p class="hook">The next Quinn Adler thriller — out now.</p>
           <a class="buy" href="https://www.amazon.com/dp/B0HDLBTKJR" target="_blank" rel="noopener">Preorder on Amazon →</a>
         </article>
 
@@ -510,6 +510,7 @@
     <div class="series-block sb-velmoor" data-bg="atmosphere/velmoor.jpg">
       <div class="series-title">The Velmoor Chronicles</div>
       <div class="series-sub">A scholarship student enters an academy that has been quietly draining its own for two centuries.</div>
+      <a class="series-link" href="/velmoor/">Explore the series page <span aria-hidden="true">→</span></a>
       <div class="grid">
 
         <article class="book">
@@ -569,6 +570,7 @@
     <div class="series-block sb-duskhollow" data-bg="atmosphere/duskhollow.jpg">
       <div class="series-title">The Duskhollow Chronicles</div>
       <div class="series-sub">Another outsider, into a school keeping a record that was never meant to be read — expanding from one institution to a network of seven.</div>
+      <a class="series-link" href="/duskhollow/">Explore the series page <span aria-hidden="true">→</span></a>
       <div class="grid">
 
         <article class="book">
@@ -768,6 +770,8 @@
     else {
       /* Released: flip preorder language to buy language */
       el.textContent='';
+      var line=document.querySelector('.announce p');
+      if(line) line.innerHTML='<em>Out of Print<\/em> \u2014 Quinn Adler Book 2 \u2014 <b>out now<\/b>';
       if(tag) tag.textContent='Out Now';
       if(cta) cta.textContent='Buy on Amazon →';
       document.querySelectorAll('a.buy[href*="B0HDLBTKJR"]').forEach(function(a){ a.textContent='Buy on Amazon →'; });

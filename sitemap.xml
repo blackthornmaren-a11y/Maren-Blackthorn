@@ -11,6 +11,16 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://marenblackthorn.com/duskhollow/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://marenblackthorn.com/velmoor/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://marenblackthorn.com/privacy/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
