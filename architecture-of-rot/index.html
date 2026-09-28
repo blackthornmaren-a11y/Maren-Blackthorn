@@ -28,6 +28,7 @@
 <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
 <link rel="dns-prefetch" href="https://api.country.is">
 <script>window.MB_AMZ={"amazon.com":{"B0GWW4KSJZ":"4EACFA4B9B7922F42539E2624434356F","B0GX2WQGHR":"FB61DDCAF15211AA53165C8AF2D18D09"},"amazon.co.uk":{"B0GWW4KSJZ":"094440B88E93B1E9CDEFF652FC9B76D9","B0GX2WQGHR":"5CFE334EF3C09F5805C9E372A636A3B1"},"amazon.ca":{"B0GWW4KSJZ":"74BA1E088B09FA08E49B6665B2CC97D9","B0GX2WQGHR":"85F9621FA01679F8136CFE814CBA09B9"}};window.mbAmz=function(u,d){var b=String(u).split("?")[0];var m=b.match(/\/(?:dp|gp\/product|author)\/([A-Z0-9]{10})/);if(!m)return b;var h=(window.MB_AMZ[d]||{})[m[1]];return h?b+"?maas=maas_adg_"+h+"_afap_abs&ref_=aa_maas&tag=maas":b;};</script>
+<script>window.MB_SERIES_MAP={"B0DLT3JYT1":"Velmoor","B0GX2ZTFY6":"Velmoor","B0GX2WQGHR":"Velmoor","B0GX2ZWN3G":"Velmoor","B0H2TVPSNH":"Velmoor","B0GWZWVHN1":"Duskhollow","B0GX3BCSYN":"Duskhollow","B0GX2SSSLM":"Duskhollow","B0H1V5XGYM":"Duskhollow","B0H23WMQ7V":"Duskhollow","B0H5GBYZPB":"Quinn Adler","B0HDLBTKJR":"Quinn Adler","B0FGB9LVQK":"Standalone","B0GWW4KSJZ":"Author page"};window.MB_SERIES="Velmoor";window.mbSeries=function(u){var m=String(u||"").match(/\/(?:dp|gp\/product|author)\/([A-Z0-9]{10})/);return (m&&window.MB_SERIES_MAP[m[1]])||window.MB_SERIES||"Unknown";};</script>
 
 <script>
 
@@ -186,6 +187,7 @@
       p.transport_type='beacon';
       p.event_callback=function(){clickConfirmed=true;};
       p.event_timeout=1500;
+      p.series=window.mbSeries(dest);
       gtag('event','amazon_click',p);
     }
 
@@ -584,13 +586,13 @@
     document.querySelectorAll('a[href*="amazon."]').forEach(function(a){
       a.addEventListener('click',function(){
         if(typeof gtag==='function'){
-          gtag('event','amazon_click',{book_title:"Architecture of Rot",link_url:a.href,click_source:'book_page'});
+          gtag('event','amazon_click',{book_title:"Architecture of Rot",link_url:a.href,click_source:'book_page',series:window.mbSeries(a.href)});
         }
       });
     });
     document.querySelectorAll('.bf-link').forEach(function(a){
       a.addEventListener('click',function(){
-        if(typeof gtag==='function'){gtag('event','get_free_book',{book:'episode_zero',via:'bookfunnel'});}
+        if(typeof gtag==='function'){gtag('event','get_free_book',{series:'Quinn Adler',book:'episode_zero',via:'bookfunnel'});}
       });
     });
   })();

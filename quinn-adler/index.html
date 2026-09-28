@@ -27,6 +27,7 @@
 <link rel="preconnect" href="https://www.googletagmanager.com">
 <link rel="dns-prefetch" href="https://api.country.is">
 <script>window.MB_AMZ={"amazon.com":{"B0GWW4KSJZ":"4EACFA4B9B7922F42539E2624434356F","B0H5GBYZPB":"246DB6998A298DE3698580AB44844212","B0HDLBTKJR":"83206AD9397DE2390DAF00036F38D191"},"amazon.co.uk":{"B0GWW4KSJZ":"094440B88E93B1E9CDEFF652FC9B76D9","B0H5GBYZPB":"9268EC553CC0FFF232D6FDBFECFB9777","B0HDLBTKJR":"95F220627EFB875273E768633BADA86C"},"amazon.ca":{"B0GWW4KSJZ":"74BA1E088B09FA08E49B6665B2CC97D9","B0H5GBYZPB":"47D8B6EE51EC6458D0097F8F0FD7DE50","B0HDLBTKJR":"A0E32DE15F2F87DC3749FAF3528F129A"}};window.mbAmz=function(u,d){var b=String(u).split("?")[0];var m=b.match(/\/(?:dp|gp\/product|author)\/([A-Z0-9]{10})/);if(!m)return b;var h=(window.MB_AMZ[d]||{})[m[1]];return h?b+"?maas=maas_adg_"+h+"_afap_abs&ref_=aa_maas&tag=maas":b;};</script>
+<script>window.MB_SERIES_MAP={"B0DLT3JYT1":"Velmoor","B0GX2ZTFY6":"Velmoor","B0GX2WQGHR":"Velmoor","B0GX2ZWN3G":"Velmoor","B0H2TVPSNH":"Velmoor","B0GWZWVHN1":"Duskhollow","B0GX3BCSYN":"Duskhollow","B0GX2SSSLM":"Duskhollow","B0H1V5XGYM":"Duskhollow","B0H23WMQ7V":"Duskhollow","B0H5GBYZPB":"Quinn Adler","B0HDLBTKJR":"Quinn Adler","B0FGB9LVQK":"Standalone","B0GWW4KSJZ":"Author page"};window.MB_SERIES="Quinn Adler";window.mbSeries=function(u){var m=String(u||"").match(/\/(?:dp|gp\/product|author)\/([A-Z0-9]{10})/);return (m&&window.MB_SERIES_MAP[m[1]])||window.MB_SERIES||"Unknown";};</script>
 <!-- Non-blocking font load, same pattern as the homepage. -->
 <link rel="stylesheet" media="print" onload="this.media='all';this.onload=null"
       href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&display=swap">
@@ -697,13 +698,13 @@
     document.querySelectorAll('a[href*="amazon."]').forEach(function(a){
       a.addEventListener('click',function(){
         if(typeof gtag==='function'){
-          gtag('event','amazon_click',{book_title:a.getAttribute('data-book')||'Amazon link',link_url:a.href,click_source:'series_page'});
+          gtag('event','amazon_click',{book_title:a.getAttribute('data-book')||'Amazon link',link_url:a.href,click_source:'quinn_adler_page',series:window.mbSeries(a.href)});
         }
       });
     });
     document.querySelectorAll('a[href*="bookfunnel.com"]').forEach(function(a){
       a.addEventListener('click',function(){
-        if(typeof gtag==='function'){ gtag('event','get_free_book',{book:'episode_zero',via:'bookfunnel',click_source:'series_page'}); }
+        if(typeof gtag==='function'){ gtag('event','get_free_book',{series:'Quinn Adler',book:'episode_zero',via:'bookfunnel',click_source:'quinn_adler_page'}); }
       });
     });
   })();
@@ -733,7 +734,7 @@
       f.addEventListener('submit',function(){
         var email=f.querySelector('input[type=email]');
         if(!email||!email.checkValidity())return;
-        if(typeof gtag==='function'){ gtag('event','sign_up',{method:'mailerlite',click_source:'series_page'}); }
+        if(typeof gtag==='function'){ gtag('event','sign_up',{method:'mailerlite',click_source:'quinn_adler_page'}); }
         setTimeout(function(){
           f.style.display='none';
           var p=f.parentNode, s=p.querySelector('.ml-success'), n=p.querySelector('.note');
