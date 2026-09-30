@@ -4,21 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Duskhollow Chronicles — A Dark Academia Gothic Romantasy Series | Maren Blackthorn</title>
-<meta name="description" content="A scholarship student arrives at an academy built over a living, hungry magic — and learns it has bought its safety with a student sacrifice every generation. The complete five-book dark academia gothic romantasy series by Maren Blackthorn.">
+<meta name="description" content="A scholarship student arrives at an academy built over a living, hungry magic — and learns it has bought its safety with a student sacrifice every generation. The complete five-book dark academia gothic romantasy series by Maren Blackthorn. Start free with the prequel, Eleven Pages — no signup.">
 <meta name="author" content="Maren Blackthorn">
 <link rel="canonical" href="https://marenblackthorn.com/duskhollow/">
 
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://marenblackthorn.com/duskhollow/">
 <meta property="og:title" content="The Duskhollow Chronicles — Maren Blackthorn">
-<meta property="og:description" content="Speak nothing to it. It will speak first. A five-book dark academia gothic romantasy — start with The Other Student.">
+<meta property="og:description" content="Speak nothing to it. It will speak first. A five-book dark academia gothic romantasy — and a free prequel, Eleven Pages, to start on.">
 <meta property="og:image" content="https://marenblackthorn.com/duskhollow/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="The Duskhollow Chronicles by Maren Blackthorn — all five books">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The Duskhollow Chronicles — Maren Blackthorn">
-<meta name="twitter:description" content="Speak nothing to it. It will speak first. A five-book dark academia gothic romantasy — start with The Other Student.">
+<meta name="twitter:description" content="Speak nothing to it. It will speak first. A five-book dark academia gothic romantasy — and a free prequel, Eleven Pages, to start on.">
 <meta name="twitter:image" content="https://marenblackthorn.com/duskhollow/og.jpg">
 <meta name="theme-color" content="#080b0e">
 
@@ -53,8 +53,9 @@
   "url": "https://marenblackthorn.com/duskhollow/",
   "author": { "@type": "Person", "name": "Maren Blackthorn", "url": "https://marenblackthorn.com/" },
   "genre": ["Fantasy romance", "Dark academia", "Gothic fiction"],
-  "numberOfItems": 5,
+  "numberOfItems": 6,
   "hasPart": [
+    { "@type": "Book", "name": "Eleven Pages", "position": 0, "bookFormat": "https://schema.org/EBook", "isAccessibleForFree": true, "url": "https://dl.bookfunnel.com/jnr47st662" },
     { "@type": "Book", "name": "The Other Student", "position": 1, "bookFormat": "https://schema.org/EBook", "url": "https://www.amazon.com/dp/B0GWZWVHN1" },
     { "@type": "Book", "name": "The Marginalia War", "position": 2, "bookFormat": "https://schema.org/EBook", "url": "https://www.amazon.com/dp/B0GX3BCSYN" },
     { "@type": "Book", "name": "The Open Channel", "position": 3, "bookFormat": "https://schema.org/EBook", "url": "https://www.amazon.com/dp/B0GX2SSSLM" },
@@ -291,6 +292,46 @@
   @media(max-width:820px){.dock{display:flex}}
 
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+  /* Free prequel */
+  #free{position:relative;overflow:hidden;background:var(--bg-2)}
+  #free::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(740px 420px at 20% 50%,rgba(201,162,39,.13),transparent 64%)}
+  .free-grid{position:relative;display:grid;grid-template-columns:264px 1fr;gap:56px;align-items:center;max-width:980px;margin:0 auto}
+  .free-grid .cov{display:block;border-radius:2px;overflow:hidden;background:#05070a;
+    border:1px solid var(--line-gold);box-shadow:0 30px 60px rgba(0,0,0,.6);transform:rotate(-2deg);transition:transform .45s ease}
+  .free-grid .cov:hover{transform:rotate(-2deg) translateY(-4px)}
+  .free-grid .cov img{width:100%;height:auto;display:block}
+  .free-grid h2{font-size:clamp(2rem,4.4vw,2.9rem);margin:14px 0 16px}
+  .free-grid h2 em{font-style:normal;color:var(--gold-lit)}
+  .free-grid .lede{font-family:var(--serif);font-style:italic;font-size:1.3rem;line-height:1.4;color:var(--text);margin-bottom:14px}
+  .free-grid p{color:var(--muted);margin-bottom:14px;max-width:56ch}
+  .checks{list-style:none;display:flex;flex-wrap:wrap;gap:8px 20px;margin:20px 0 26px;
+    font-family:var(--sans);font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--text)}
+  .checks li::before{content:"\2726\00a0";color:var(--gold)}
+  .fine{font-size:.78rem;color:var(--faint);margin-top:16px}
+  @media(max-width:760px){
+    .free-grid{grid-template-columns:1fr;gap:28px;text-align:center}
+    .free-grid .cov{width:168px;margin:0 auto}
+    .free-grid p{margin-left:auto;margin-right:auto}
+    .checks{justify-content:center}
+    .free-grid .btn-row{justify-content:center}
+  }
+
+  /* Volume zero strip, above the reading order */
+  .vol-zero{display:grid;grid-template-columns:76px 1fr auto;gap:22px;align-items:center;
+    margin-bottom:34px;padding:16px 20px;border-radius:4px;color:inherit;
+    border:1px solid var(--line-gold);
+    background:linear-gradient(90deg,rgba(201,162,39,.10),rgba(17,24,32,.35) 58%);
+    transition:border-color .3s ease,transform .3s ease}
+  .vol-zero:hover{border-color:var(--gold-lit);transform:translateY(-2px)}
+  .vol-zero img{width:100%;height:auto;display:block;border-radius:2px;box-shadow:0 10px 22px rgba(0,0,0,.5)}
+  .vol-zero .num{font-family:var(--display);font-weight:600;font-size:.72rem;letter-spacing:.2em;color:var(--gold-lit);margin-bottom:6px}
+  .vol-zero h3{font-family:var(--display);font-weight:600;font-size:1rem;letter-spacing:.04em;text-transform:uppercase;margin-bottom:6px}
+  .vol-zero p{color:var(--muted);font-size:.9rem;max-width:62ch}
+  @media(max-width:700px){
+    .vol-zero{grid-template-columns:64px 1fr;gap:16px}
+    .vol-zero .btn{grid-column:1/-1;width:100%;margin-top:4px}
+  }
 </style>
 </head>
 <body>
@@ -319,6 +360,7 @@
     <div class="links">
       <a href="#reviews">Reviews</a>
       <a href="#books">Reading order</a>
+      <a href="#free">Free prequel</a>
       <a href="#opening">The opening</a>
       <a href="#world">The academy</a>
       <a class="join" href="#signup">Join the list</a>
@@ -336,6 +378,7 @@
       <p class="pitch">Elowen Faust signs her name in unnatural ink and becomes the outsider at an academy built over a living, hungry magic. For centuries, Duskhollow has kept that magic sealed the only way it knows how — one student, every generation.</p>
       <div class="btn-row">
         <a class="btn btn-gold" href="https://www.amazon.com/dp/B0GWZWVHN1?maas=maas_adg_A43EA89006DBACFD5CBDA05379380278_afap_abs&ref_=aa_maas&tag=maas" data-book="The Other Student" target="_blank" rel="noopener">Start with Book One</a>
+        <a class="btn btn-line" href="#free">Read the prequel free</a>
         <a class="btn btn-line" href="#books">See all five books</a>
       </div>
       <p class="facts"><b>Five books</b> · complete series · slow-burn forbidden romance</p>
@@ -401,6 +444,31 @@
   </div>
 </section>
 
+<!-- ============ FREE PREQUEL ============ -->
+<section id="free">
+  <div class="wrap">
+    <div class="free-grid">
+      <a class="cov" href="https://dl.bookfunnel.com/jnr47st662" target="_blank" rel="noopener" aria-label="Download Eleven Pages free">
+        <img src="../covers/eleven-pages.jpg" alt="Eleven Pages — a Duskhollow Chronicles prequel by Maren Blackthorn" loading="lazy" decoding="async" width="420" height="634">
+      </a>
+      <div>
+        <span class="label gold">Free prequel · No signup</span>
+        <h2 class="display">Eleven Pages is <em>free</em></h2>
+        <p class="lede">Forty-three years of reading diaries. Eleven pages cut out of the middle.</p>
+        <p>Fourteen months before she gets off the train at Duskhollow, Elowen Faust is seventeen and cataloguing a dead woman&rsquo;s library for probate. The ledgers are complete — except for eleven leaves, cut cleanly out of one year, a long time ago, by the woman who wrote them. A short story, read in one sitting. It works before the series or after it, and it gives nothing away.</p>
+        <ul class="checks">
+          <li>Kindle</li><li>Apple Books</li><li>Kobo</li><li>Phone or tablet</li><li>EPUB / PDF</li>
+        </ul>
+        <div class="btn-row">
+          <a class="btn btn-gold" href="https://dl.bookfunnel.com/jnr47st662" target="_blank" rel="noopener">Get Eleven Pages — free</a>
+          <a class="btn btn-line" href="#books">Start with Book One</a>
+        </div>
+        <p class="fine">Delivered by BookFunnel. No email needed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ READING ORDER ============ -->
 <section id="books">
   <div class="wrap">
@@ -409,6 +477,16 @@
       <h2 class="display">Reading order</h2>
       <p>One school, then seven. Read them in order — the record only makes sense forward.</p>
     </div>
+
+      <a class="vol-zero" href="#free">
+        <img src="../covers/eleven-pages-sm.jpg" alt="Eleven Pages cover" loading="lazy" decoding="async" width="150" height="226">
+        <div>
+          <div class="num">Volume 0 · Free</div>
+          <h3>Eleven Pages</h3>
+          <p>A prequel short story, fourteen months before Book One. Free, no signup — and it gives nothing away.</p>
+        </div>
+        <span class="btn btn-line">Read it free</span>
+      </a>
 
     <div class="volumes">
       <article class="vol first">
@@ -608,6 +686,11 @@
         if(typeof gtag==='function'){
           gtag('event','amazon_click',{book_title:a.getAttribute('data-book')||'Amazon link',link_url:a.href,click_source:'duskhollow_page',series:window.mbSeries(a.href)});
         }
+      });
+    });
+    document.querySelectorAll('a[href*="bookfunnel.com"]').forEach(function(a){
+      a.addEventListener('click',function(){
+        if(typeof gtag==='function'){ gtag('event','get_free_book',{series:'Duskhollow',book:'eleven_pages',via:'bookfunnel',click_source:'duskhollow_page'}); }
       });
     });
   })();
