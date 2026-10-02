@@ -107,6 +107,8 @@
   .btn-gold{background:linear-gradient(180deg,#d9b43f,#a98214);color:#1a1405;border-color:#d9b43f}
   .btn-gold:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(201,162,39,.3)}
   .btn-line{background:rgba(8,11,14,.4);color:var(--text);border-color:var(--line-gold)}
+  .btn-free{background:rgba(201,162,39,.14);color:var(--gold-lit);border-color:var(--gold-lit)}
+  .btn-free:hover{background:rgba(201,162,39,.26);color:#fff;border-color:#fff;transform:translateY(-2px)}
   .btn-line:hover{border-color:var(--gold-lit);color:var(--gold-lit);transform:translateY(-2px)}
   .btn-row{display:flex;flex-wrap:wrap;gap:12px}
 
@@ -156,13 +158,9 @@
   .relic::before{content:"";position:absolute;inset:-18% -22%;background:radial-gradient(closest-side,rgba(201,162,39,.30),transparent 72%);pointer-events:none}
   .relic a{position:relative;display:block;border-radius:3px;overflow:hidden;box-shadow:0 36px 70px rgba(0,0,0,.72),0 0 0 1px rgba(201,162,39,.22);transition:transform .4s ease}
   .relic a:hover{transform:translateY(-6px)}
-  .relic .seal{position:absolute;left:-26px;bottom:26px;z-index:2;width:92px;height:92px;border-radius:50%;
-    background:radial-gradient(circle at 34% 30%,#8f1f22,#5c1114 70%);box-shadow:0 12px 26px rgba(0,0,0,.6);
-    display:flex;align-items:center;justify-content:center;color:rgba(255,228,190,.85);font-family:var(--display);font-size:.56rem;letter-spacing:.14em;text-align:center;line-height:1.35;padding:10px;text-transform:uppercase}
   @media(max-width:900px){
     .hero-grid{grid-template-columns:1fr;gap:26px;min-height:0;padding-block:38px 58px}
     .relic{order:-1;max-width:230px;margin:0 auto}
-    .relic .seal{left:-18px;bottom:14px;width:74px;height:74px;font-size:.48rem}
     header.hero::before{background:linear-gradient(180deg,rgba(8,11,14,.72),rgba(8,11,14,.92) 46%,rgba(8,11,14,.97))}
   }
 
@@ -345,9 +343,9 @@
 
 <div class="announce">
   <div class="wrap">
-    <span class="tag">Complete series</span>
-    <p>All five volumes of <em>The Duskhollow Chronicles</em> are available now</p>
-    <a href="https://www.amazon.com/dp/B0GWZWVHN1?maas=maas_adg_A43EA89006DBACFD5CBDA05379380278_afap_abs&ref_=aa_maas&tag=maas" data-book="The Other Student" target="_blank" rel="noopener">Begin with Book One →</a>
+    <span class="tag">Free prequel</span>
+    <p>All five volumes are out now — and the prequel, <em>Eleven Pages</em>, is free</p>
+    <a href="#free">Get it free →</a>
   </div>
 </div>
 
@@ -358,9 +356,9 @@
       <span>← All books</span>
     </a>
     <div class="links">
+      <a href="#free">Free prequel</a>
       <a href="#reviews">Reviews</a>
       <a href="#books">Reading order</a>
-      <a href="#free">Free prequel</a>
       <a href="#opening">The opening</a>
       <a href="#world">The academy</a>
       <a class="join" href="#signup">Join the list</a>
@@ -378,7 +376,7 @@
       <p class="pitch">Elowen Faust signs her name in unnatural ink and becomes the outsider at an academy built over a living, hungry magic. For centuries, Duskhollow has kept that magic sealed the only way it knows how — one student, every generation.</p>
       <div class="btn-row">
         <a class="btn btn-gold" href="https://www.amazon.com/dp/B0GWZWVHN1?maas=maas_adg_A43EA89006DBACFD5CBDA05379380278_afap_abs&ref_=aa_maas&tag=maas" data-book="The Other Student" target="_blank" rel="noopener">Start with Book One</a>
-        <a class="btn btn-line" href="#free">Read the prequel free</a>
+        <a class="btn btn-free" href="#free">Read the prequel — free</a>
         <a class="btn btn-line" href="#books">See all five books</a>
       </div>
       <p class="facts"><b>Five books</b> · complete series · slow-burn forbidden romance</p>
@@ -392,10 +390,34 @@
       <a href="https://www.amazon.com/dp/B0GWZWVHN1?maas=maas_adg_A43EA89006DBACFD5CBDA05379380278_afap_abs&ref_=aa_maas&tag=maas" data-book="The Other Student" target="_blank" rel="noopener" aria-label="The Other Student on Amazon">
         <img src="../covers/the-other-student.jpg" alt="The Other Student — The Duskhollow Chronicles Book 1, by Maren Blackthorn" width="500" height="745" decoding="async" fetchpriority="high">
       </a>
-      <span class="seal" aria-hidden="true">The<br>Archivist<br>Order</span>
     </div>
   </div>
 </header>
+
+<!-- ============ FREE PREQUEL ============ -->
+<section id="free">
+  <div class="wrap">
+    <div class="free-grid">
+      <a class="cov" href="https://dl.bookfunnel.com/jnr47st662" target="_blank" rel="noopener" aria-label="Download Eleven Pages free">
+        <img src="../covers/eleven-pages.jpg" alt="Eleven Pages — a Duskhollow Chronicles prequel by Maren Blackthorn" loading="lazy" decoding="async" width="420" height="634">
+      </a>
+      <div>
+        <span class="label gold">Free prequel · No signup</span>
+        <h2 class="display">Eleven Pages is <em>free</em></h2>
+        <p class="lede">Forty-three years of reading diaries. Eleven pages cut out of the middle.</p>
+        <p>Fourteen months before she gets off the train at Duskhollow, Elowen Faust is seventeen and cataloguing a dead woman&rsquo;s library for probate. The ledgers are complete — except for eleven leaves, cut cleanly out of one year, a long time ago, by the woman who wrote them. A short story, read in one sitting. It works before the series or after it, and it gives nothing away.</p>
+        <ul class="checks">
+          <li>Kindle</li><li>Apple Books</li><li>Kobo</li><li>Phone or tablet</li><li>EPUB / PDF</li>
+        </ul>
+        <div class="btn-row">
+          <a class="btn btn-gold" href="https://dl.bookfunnel.com/jnr47st662" target="_blank" rel="noopener">Get Eleven Pages — free</a>
+          <a class="btn btn-line" href="#books">Start with Book One</a>
+        </div>
+        <p class="fine">Delivered by BookFunnel. No email needed.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ============ REVIEWS ============ -->
 <section id="reviews">
@@ -440,31 +462,6 @@
     <div class="reviews-foot">
       <a class="btn btn-line" href="https://www.amazon.com/product-reviews/B0GWZWVHN1" data-book="The Other Student (reviews)" target="_blank" rel="noopener">Read every review on Amazon →</a>
       <p>Excerpts from customer reviews of <em>The Other Student</em> on Amazon.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ============ FREE PREQUEL ============ -->
-<section id="free">
-  <div class="wrap">
-    <div class="free-grid">
-      <a class="cov" href="https://dl.bookfunnel.com/jnr47st662" target="_blank" rel="noopener" aria-label="Download Eleven Pages free">
-        <img src="../covers/eleven-pages.jpg" alt="Eleven Pages — a Duskhollow Chronicles prequel by Maren Blackthorn" loading="lazy" decoding="async" width="420" height="634">
-      </a>
-      <div>
-        <span class="label gold">Free prequel · No signup</span>
-        <h2 class="display">Eleven Pages is <em>free</em></h2>
-        <p class="lede">Forty-three years of reading diaries. Eleven pages cut out of the middle.</p>
-        <p>Fourteen months before she gets off the train at Duskhollow, Elowen Faust is seventeen and cataloguing a dead woman&rsquo;s library for probate. The ledgers are complete — except for eleven leaves, cut cleanly out of one year, a long time ago, by the woman who wrote them. A short story, read in one sitting. It works before the series or after it, and it gives nothing away.</p>
-        <ul class="checks">
-          <li>Kindle</li><li>Apple Books</li><li>Kobo</li><li>Phone or tablet</li><li>EPUB / PDF</li>
-        </ul>
-        <div class="btn-row">
-          <a class="btn btn-gold" href="https://dl.bookfunnel.com/jnr47st662" target="_blank" rel="noopener">Get Eleven Pages — free</a>
-          <a class="btn btn-line" href="#books">Start with Book One</a>
-        </div>
-        <p class="fine">Delivered by BookFunnel. No email needed.</p>
-      </div>
     </div>
   </div>
 </section>
@@ -663,7 +660,7 @@
 <!-- Phone-only bar that appears once the hero scrolls away -->
 <div class="dock" id="dock" aria-hidden="true">
   <a class="btn btn-gold" href="https://www.amazon.com/dp/B0GWZWVHN1?maas=maas_adg_A43EA89006DBACFD5CBDA05379380278_afap_abs&ref_=aa_maas&tag=maas" data-book="The Other Student" target="_blank" rel="noopener" tabindex="-1">Start book one</a>
-  <a class="btn btn-line" href="#books" tabindex="-1">All five books</a>
+  <a class="btn btn-free" href="#free" tabindex="-1">Free prequel</a>
 </div>
 
 <script>
