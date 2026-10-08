@@ -687,7 +687,7 @@
     });
     document.querySelectorAll('a[href*="bookfunnel.com"]').forEach(function(a){
       a.addEventListener('click',function(){
-        if(typeof gtag==='function'){ gtag('event','get_free_book',{series:'Duskhollow',book:'eleven_pages',via:'bookfunnel',click_source:'duskhollow_page'}); }
+        if(typeof gtag==='function'){ gtag('event','get_free_book',{series:'Duskhollow',book:'eleven_pages',book_title:'Eleven Pages',via:'bookfunnel',click_source:'duskhollow_page',link_url:a.href,transport_type:'beacon'}); }
       });
     });
   })();

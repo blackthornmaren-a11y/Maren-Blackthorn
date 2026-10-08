@@ -188,7 +188,16 @@
       p.event_callback=function(){clickConfirmed=true;};
       p.event_timeout=1500;
       p.series=window.mbSeries(dest);
-      gtag('event','amazon_click',p);
+      // A BookFunnel destination (the free prequel) is a free download, not a sale.
+      var bf=dest.match(/bookfunnel\.com\/([A-Za-z0-9]+)/);
+      if(bf){
+        var FREE={'pwyi86wypg':['Quinn Adler','episode_zero','Episode Zero'],'jnr47st662':['Duskhollow','eleven_pages','Eleven Pages'],'9un8k9vwvh':['Velmoor','turning_of_the_ground','The Turning of the Ground']};
+        var fi=FREE[bf[1]]||[p.series,'unknown',p.book_title];
+        p.series=fi[0];p.book=fi[1];p.book_title=fi[2];p.via='bookfunnel';
+        gtag('event','get_free_book',p);
+      }else{
+        gtag('event','amazon_click',p);
+      }
     }
 
     function go(){
@@ -569,9 +578,11 @@
         }
       });
     });
-    document.querySelectorAll('.bf-link').forEach(function(a){
+    document.querySelectorAll('a[href*="bookfunnel.com"]').forEach(function(a){
       a.addEventListener('click',function(){
-        if(typeof gtag==='function'){gtag('event','get_free_book',{series:'Quinn Adler',book:'episode_zero',via:'bookfunnel'});}
+        var FREE={'pwyi86wypg':['Quinn Adler','episode_zero','Episode Zero'],'jnr47st662':['Duskhollow','eleven_pages','Eleven Pages'],'9un8k9vwvh':['Velmoor','turning_of_the_ground','The Turning of the Ground']};
+        var m=a.href.match(/bookfunnel\.com\/([A-Za-z0-9]+)/), fi=(m&&FREE[m[1]])||['Unknown','unknown','Unknown'];
+        if(typeof gtag==='function'){gtag('event','get_free_book',{series:fi[0],book:fi[1],book_title:fi[2],via:'bookfunnel',click_source:'book_page',link_url:a.href,transport_type:'beacon'});}
       });
     });
   })();
@@ -582,11 +593,11 @@
       f.addEventListener('submit',function(){
         var email=f.querySelector('input[type=email]');
         if(!email||!email.checkValidity())return;
+        if(typeof gtag==='function'){gtag('event','sign_up',{method:'mailerlite',click_source:'book_page'});}
         setTimeout(function(){
           f.style.display='none';
           var ok=f.parentNode.querySelector('.ml-success');
           if(ok)ok.style.display='block';
-          if(typeof gtag==='function'){gtag('event','signup',{method:'mailerlite'});}
         },600);
       });
     });

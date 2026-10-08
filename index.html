@@ -1057,20 +1057,24 @@
   })();
 
   // Track Amazon click-throughs in GA4, labeled by book title.
+  // Delegated to the document so links added after load (the quiz result's
+  // buttons are injected by showResult) are counted too.
   (function(){
-    document.querySelectorAll('a[href*="amazon."]').forEach(function(a){
-      a.addEventListener('click',function(){
-        var card=a.closest('.book')||a.closest('.featured');
-        var title=(card&&card.querySelector('h4,h3')?card.querySelector('h4,h3').textContent:'').trim()
-                  ||(a.querySelector('img')?a.querySelector('img').alt:'Amazon link');
-        if(typeof gtag==='function'){
-          // source lets these be told apart from the book landing pages, which
-          // send the same event name with source auto_redirect / book_page.
-          // click_source, not source — 'source' is reserved by GA4 for traffic
-          // attribution and using it corrupts the acquisition reports.
-          gtag('event','amazon_click',{book_title:title,link_url:a.href,click_source:'homepage',series:window.mbSeries(a.href)});
-        }
-      });
+    document.addEventListener('click',function(e){
+      var a=e.target.closest?e.target.closest('a[href*="amazon."]'):null;
+      if(!a)return;
+      var quiz=a.closest('.quiz-result');
+      var card=a.closest('.book')||a.closest('.featured')||quiz;
+      var h=card&&card.querySelector('h4,h3');
+      // The quiz heading is the series name, so take the book from the button
+      // text instead ("Start with The Gatekeepers →" → "The Gatekeepers").
+      var title=(quiz?a.textContent.replace(/^(Start with|Buy|Read)\s+/,'').replace(/\s*→\s*$/,''):(h?h.textContent:'')).trim()
+                ||(a.querySelector('img')?a.querySelector('img').alt:'Amazon link');
+      if(typeof gtag==='function'){
+        // click_source, not source — 'source' is reserved by GA4 for traffic
+        // attribution and using it corrupts the acquisition reports.
+        gtag('event','amazon_click',{book_title:title,link_url:a.href,click_source:quiz?'homepage_quiz':'homepage',series:window.mbSeries(a.href),transport_type:'beacon'});
+      }
     });
   })();
 
@@ -1081,17 +1085,21 @@
     }
   })();
 
-  // Track free-book (BookFunnel) clicks in GA4.
+  // Track free-book (BookFunnel) clicks in GA4. Delegated, like the Amazon
+  // tracker, so the quiz result's "Free prequel" button is counted.
   (function(){
-    var FREE={'pwyi86wypg':{series:'Quinn Adler',book:'episode_zero'},
-              'jnr47st662':{series:'Duskhollow',book:'eleven_pages'},
-              '9un8k9vwvh':{series:'Velmoor',book:'turning_of_the_ground'}};
-    document.querySelectorAll('a[href*="bookfunnel.com"]').forEach(function(a){
-      a.addEventListener('click',function(){
-        var m=a.href.match(/bookfunnel\.com\/([A-Za-z0-9]+)/);
-        var info=(m&&FREE[m[1]])||{series:'Unknown',book:'unknown'};
-        if(typeof gtag==='function'){ gtag('event','get_free_book',{series:info.series,book:info.book,via:'bookfunnel'}); }
-      });
+    var FREE={'pwyi86wypg':{series:'Quinn Adler',book:'episode_zero',title:'Episode Zero'},
+              'jnr47st662':{series:'Duskhollow',book:'eleven_pages',title:'Eleven Pages'},
+              '9un8k9vwvh':{series:'Velmoor',book:'turning_of_the_ground',title:'The Turning of the Ground'}};
+    document.addEventListener('click',function(e){
+      var a=e.target.closest?e.target.closest('a[href*="bookfunnel.com"]'):null;
+      if(!a)return;
+      var m=a.href.match(/bookfunnel\.com\/([A-Za-z0-9]+)/);
+      var info=(m&&FREE[m[1]])||{series:'Unknown',book:'unknown',title:'Unknown'};
+      if(typeof gtag==='function'){
+        gtag('event','get_free_book',{series:info.series,book:info.book,book_title:info.title,via:'bookfunnel',
+          click_source:a.closest('.quiz-result')?'homepage_quiz':'homepage',link_url:a.href,transport_type:'beacon'});
+      }
     });
   })();
 
@@ -1134,6 +1142,7 @@
       f.addEventListener('submit',function(){
         var email=f.querySelector('input[type=email]');
         if(!email||!email.checkValidity())return; // let browser show validation
+        if(typeof gtag==='function'){ gtag('event','sign_up',{method:'mailerlite',click_source:'homepage'}); }
         setTimeout(function(){
           f.style.display='none';
           var p=f.parentNode;
