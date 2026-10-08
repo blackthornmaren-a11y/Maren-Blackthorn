@@ -670,7 +670,7 @@
     });
     document.querySelectorAll('a[href*="bookfunnel.com"]').forEach(function(a){
       a.addEventListener('click',function(){
-        if(typeof gtag==='function'){ gtag('event','get_free_book',{series:'Velmoor',book:'turning_of_the_ground',book_title:'The Turning of the Ground',via:'bookfunnel',click_source:'velmoor_page',link_url:a.href,transport_type:'beacon'}); }
+        if(typeof gtag==='function'){ gtag('event','get_free_book',{series:'Velmoor',book:'turning_of_the_ground',via:'bookfunnel',click_source:'velmoor_page'}); }
       });
     });
   })();
