@@ -55,6 +55,7 @@
   "genre": ["Fantasy romance", "Dark academia", "Gothic fiction"],
   "numberOfItems": 5,
   "hasPart": [
+    { "@type": "Book", "name": "The Turning of the Ground", "position": 0, "bookFormat": "https://schema.org/EBook", "isAccessibleForFree": true, "url": "https://dl.bookfunnel.com/9un8k9vwvh" },
     { "@type": "Book", "name": "The Gatekeepers: Ash and Ink", "position": 1, "bookFormat": "https://schema.org/EBook", "url": "https://www.amazon.com/dp/B0DLT3JYT1" },
     { "@type": "Book", "name": "The Weight of the Yield", "position": 2, "bookFormat": "https://schema.org/EBook", "url": "https://www.amazon.com/dp/B0GX2ZTFY6" },
     { "@type": "Book", "name": "Architecture of Rot", "position": 3, "bookFormat": "https://schema.org/EBook", "url": "https://www.amazon.com/dp/B0GX2WQGHR" },
@@ -111,6 +112,8 @@
   .btn-ink{background:#26201a;color:#f3ead6;border-color:#26201a}
   .btn-ink:hover{background:#150f0b;transform:translateY(-2px)}
   .btn-row{display:flex;flex-wrap:wrap;gap:12px}
+  .btn-free{background:rgba(200,164,90,.14);color:var(--gold-lit);border-color:var(--gold-lit)}
+  .btn-free:hover{background:rgba(200,164,90,.26);color:#fff;border-color:#fff;transform:translateY(-2px)}
 
   /* Announcement bar */
   .announce{background:linear-gradient(90deg,rgba(139,111,214,.2),rgba(200,164,90,.16));border-bottom:1px solid var(--line-gold)}
@@ -283,6 +286,31 @@
   .foot small{color:var(--faint);font-size:.76rem}
   @media(min-width:821px){footer{padding-bottom:66px}}
 
+  /* Free prequel */
+  #free{position:relative;overflow:hidden;background:var(--bg-2)}
+  #free::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(740px 420px at 20% 50%,rgba(232,168,92,.12),transparent 64%)}
+  .free-grid{position:relative;display:grid;grid-template-columns:264px 1fr;gap:56px;align-items:center;max-width:980px;margin:0 auto}
+  .free-grid .cov{display:block;border-radius:2px;overflow:hidden;background:#05070a;
+    border:1px solid var(--line-gold);box-shadow:0 30px 60px rgba(0,0,0,.6);transform:rotate(-2deg);transition:transform .45s ease}
+  .free-grid .cov:hover{transform:rotate(-2deg) translateY(-4px)}
+  .free-grid .cov img{width:100%;height:auto;display:block}
+  .free-grid h2{font-size:clamp(2rem,4.4vw,2.9rem);margin:14px 0 16px}
+  .free-grid h2 em{color:var(--gold-lit)}
+  .free-grid .lede{font-family:var(--serif);font-style:italic;font-size:1.3rem;line-height:1.4;color:var(--text);margin-bottom:14px}
+  .free-grid p{color:var(--muted);margin-bottom:14px;max-width:56ch}
+  .checks{list-style:none;display:flex;flex-wrap:wrap;gap:8px 20px;margin:20px 0 26px;
+    font-family:var(--sans);font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--text)}
+  .checks li::before{content:"\2726\00a0";color:var(--gold)}
+  .fine{font-size:.78rem;color:var(--faint);margin-top:16px}
+  @media(max-width:760px){
+    .free-grid{grid-template-columns:1fr;gap:28px;text-align:center}
+    .free-grid .cov{width:168px;margin:0 auto}
+    .free-grid p{margin-left:auto;margin-right:auto}
+    .checks{justify-content:center}
+    .free-grid .btn-row{justify-content:center}
+  }
+
   /* Phone dock */
   .dock{position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(13,10,20,.95);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid var(--line-gold);transform:translateY(110%);transition:transform .3s ease}
   .dock .btn{flex:1;padding:13px 8px;font-size:.7rem;letter-spacing:.12em}
@@ -304,9 +332,9 @@
 
 <div class="announce">
   <div class="wrap">
-    <span class="tag">Complete series</span>
-    <p>All five books of <em>The Velmoor Chronicles</em> are available now</p>
-    <a href="https://www.amazon.com/dp/B0DLT3JYT1?maas=maas_adg_210CEB7097053726DE416CAD0BCD6924_afap_abs&ref_=aa_maas&tag=maas" data-book="The Gatekeepers" target="_blank" rel="noopener">Begin with Book One →</a>
+    <span class="tag">Prequel</span>
+    <p>Start the series with <em>The Turning of the Ground</em>, a free short story from long before the gates</p>
+    <a href="https://dl.bookfunnel.com/9un8k9vwvh" target="_blank" rel="noopener">Get it free →</a>
   </div>
 </div>
 
@@ -317,6 +345,7 @@
       <span>← All books</span>
     </a>
     <div class="links">
+      <a href="#free">Free prequel</a>
       <a href="#reviews">Reviews</a>
       <a href="#books">Reading order</a>
       <a href="#opening">The opening</a>
@@ -336,9 +365,9 @@
       <p class="pitch">Seraphine Vale arrives at Velmoor on foot while the others come by carriage — a scholarship girl with ink-stained fingers, done being told where she doesn't belong. The most prestigious magical academy in the world is all candlelight and centuries of tradition. It has also been feeding on its best students for two hundred years.</p>
       <div class="btn-row">
         <a class="btn btn-gold" href="https://www.amazon.com/dp/B0DLT3JYT1?maas=maas_adg_210CEB7097053726DE416CAD0BCD6924_afap_abs&ref_=aa_maas&tag=maas" data-book="The Gatekeepers" target="_blank" rel="noopener">Start with Book One</a>
-        <a class="btn btn-line" href="#books">See all five books</a>
+        <a class="btn btn-free" href="#free">Read the prequel — free</a>
       </div>
-      <p class="facts"><b>Five books</b> · complete series · slow-burn enemies to lovers</p>
+      <p class="facts"><b>Five books</b> · complete series · free prequel · slow-burn enemies to lovers</p>
       <div class="hero-proof">
         <span class="stars" role="img" aria-label="Rated 5 out of 5 stars">★★★★★</span>
         <q>Velmoor Academy is mysterious, beautiful, and deeply unsettling.</q>
@@ -354,6 +383,32 @@
     </div>
   </div>
 </header>
+
+<!-- ============ FREE PREQUEL ============ -->
+<section id="free">
+  <div class="wrap">
+    <div class="free-grid">
+      <a class="cov" href="https://dl.bookfunnel.com/9un8k9vwvh" target="_blank" rel="noopener" aria-label="Download The Turning of the Ground free">
+        <img src="../covers/turning-of-the-ground.jpg" alt="The Turning of the Ground — a Velmoor Chronicles prequel by Maren Blackthorn" loading="lazy" decoding="async" width="420" height="562">
+      </a>
+      <div>
+        <span class="label gold">Free prequel · No signup</span>
+        <h2 class="display">The Turning of the Ground is <em>free</em></h2>
+        <p class="lede">A patch of ground the size of a grave — and a house that keeps its shutters closed on it.</p>
+        <p>The post came with a cottage, and the cottage was the only reason Nessa Harrow took it. Velmoor asks nothing of a woman who would rather not be asked anything — until she finds the one bed in its grounds that will not stay filled. She levels it at dusk; by dawn the earth has turned itself out again, with no print in the dew and no tool but her own.</p>
+        <p>Set long before a scholarship student ever walks through the academy&rsquo;s iron gates. A short story, read in one sitting. It works before the series or after it, and it gives nothing away.</p>
+        <ul class="checks">
+          <li>Kindle</li><li>Apple Books</li><li>Kobo</li><li>Phone or tablet</li><li>Read in your browser</li>
+        </ul>
+        <div class="btn-row">
+          <a class="btn btn-gold" href="https://dl.bookfunnel.com/9un8k9vwvh" target="_blank" rel="noopener">Get it free</a>
+          <a class="btn btn-line" href="#books">Start with Book One</a>
+        </div>
+        <p class="fine">Delivered by BookFunnel. No email needed.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ============ REVIEWS ============ -->
 <section id="reviews">
@@ -408,7 +463,7 @@
     <div class="sec-head">
       <span class="label gold">The chronicle</span>
       <h2 class="display">Reading order</h2>
-      <p>Five books, one arc: the bargain found, the bargain broken, and everything that comes after.</p>
+      <p>Five books, one arc: the bargain found, the bargain broken, and everything that comes after. <a href="#free" style="color:var(--gold-lit);border-bottom:1px solid var(--line-gold)">The prequel is free</a>, and can be read first or last.</p>
     </div>
 
     <div class="volumes">
@@ -588,7 +643,7 @@
 <!-- Phone-only bar that appears once the hero scrolls away -->
 <div class="dock" id="dock" aria-hidden="true">
   <a class="btn btn-gold" href="https://www.amazon.com/dp/B0DLT3JYT1?maas=maas_adg_210CEB7097053726DE416CAD0BCD6924_afap_abs&ref_=aa_maas&tag=maas" data-book="The Gatekeepers" target="_blank" rel="noopener" tabindex="-1">Start book one</a>
-  <a class="btn btn-line" href="#books" tabindex="-1">All five books</a>
+  <a class="btn btn-free" href="#free" tabindex="-1">Free prequel</a>
 </div>
 
 <script>
@@ -611,6 +666,11 @@
         if(typeof gtag==='function'){
           gtag('event','amazon_click',{book_title:a.getAttribute('data-book')||'Amazon link',link_url:a.href,click_source:'velmoor_page',series:window.mbSeries(a.href)});
         }
+      });
+    });
+    document.querySelectorAll('a[href*="bookfunnel.com"]').forEach(function(a){
+      a.addEventListener('click',function(){
+        if(typeof gtag==='function'){ gtag('event','get_free_book',{series:'Velmoor',book:'turning_of_the_ground',via:'bookfunnel',click_source:'velmoor_page'}); }
       });
     });
   })();
