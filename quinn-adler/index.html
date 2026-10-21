@@ -329,6 +329,15 @@
   @media(max-width:760px){.dock{display:flex}}
 
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+
+  /* Phone: one big Marginalia cover at the top, like the Duskhollow page (21 Oct 2026) */
+  @media(max-width:900px){
+    .fan{aspect-ratio:auto;max-width:230px;margin:0 auto 16px}
+    .fan::before{content:"";position:absolute;inset:-18% -24%;background:radial-gradient(closest-side,rgba(216,40,28,.22),transparent 72%);pointer-events:none}
+    .fan .f0,.fan .f2{display:none}
+    .fan .f1{position:relative;left:auto;top:auto;width:100%;display:block}
+    .fan .f1:hover{transform:none}
+  }
 </style>
 </head>
 <body>
