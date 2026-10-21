@@ -396,6 +396,18 @@
   .keep .ku{margin-top:12px}
   @media(prefers-reduced-motion:reduce){.pencil span{clip-path:none}}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+
+  /* Phone: Marginalia cover at the top of the hero, like the Duskhollow page (21 Oct 2026) */
+  .m-cover{display:none}
+  @media(max-width:900px){
+    .m-cover{display:block;position:relative;max-width:230px;width:100%;margin:0 auto 4px}
+    .m-cover::before{content:"";position:absolute;inset:-18% -24%;background:radial-gradient(closest-side,rgba(216,40,28,.22),transparent 72%);pointer-events:none}
+    .m-cover a{position:relative;display:block;border-radius:3px;overflow:hidden;box-shadow:0 36px 70px rgba(0,0,0,.72),0 0 0 1px rgba(255,255,255,.08)}
+    .m-cover img{display:block;width:100%;height:auto}
+    .hero-b{gap:22px}
+    .leaf-cover{display:none}
+    .leaf-wrap{padding-bottom:10px}
+  }
 </style>
 </head>
 <body>
@@ -424,6 +436,7 @@
 <!-- ============ HERO ============ -->
 <header class="hero">
   <div class="wrap hero-b">
+    <div class="m-cover"><a href="https://www.amazon.com/dp/B0H5GBYZPB?maas=maas_adg_246DB6998A298DE3698580AB44844212_afap_abs&ref_=aa_maas&tag=maas" data-book="Marginalia" target="_blank" rel="noopener" aria-label="Marginalia on Amazon"><img src="../covers/marginalia.jpg" alt="Marginalia — cover" width="500" height="750" decoding="async" fetchpriority="high"></a></div>
     <div>
       <div class="rec label red"><i aria-hidden="true"></i>Book 1 · The Quinn Adler Thrillers</div>
       <h1 class="display">Margin<span>alia</span></h1>
